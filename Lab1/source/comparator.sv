@@ -12,9 +12,9 @@ module comparator
 (
 	input wire [15:0] a,
 	input wire [15:0] b,
-	output reg GT,
-	output reg LT,
-	output reg EQ
+	output reg gt,
+	output reg lt,
+	output reg eq
 );
 
 	reg gte;
@@ -31,19 +31,19 @@ module comparator
 		end
 		
 		if (! (lte == 1'b1)) begin
-			GT = 1'b1;
-			LT = 1'b0;
-			EQ = 1'b0;
+			gt = 1'b1;
+			lt = 1'b0;
+			eq = 1'b0;
 		end
 		else if (! (gte == 1)) begin
-			GT = 1'b0;
-			LT = 1'b1;
-			EQ = 1'b0;
+			gt = 1'b0;
+			lt = 1'b1;
+			eq = 1'b0;
 		end
 		else begin
-			GT = 1'b0;
-			LT = 1'b0;
-			EQ = 1'b1;
+			gt = 1'b0;
+			lt = 1'b0;
+			eq = 1'b1;
 		end
 	end
 endmodule 
