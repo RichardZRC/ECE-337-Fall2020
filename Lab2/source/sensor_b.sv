@@ -1,6 +1,6 @@
 module sensor_b (
     input wire [3:0] sensors,
-    output reg error;
+    output reg error
 );
 
     always_comb begin 
