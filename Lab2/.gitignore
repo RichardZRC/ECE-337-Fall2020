@@ -21,3 +21,10 @@ covhtmlreport/
 #*#
 *.wlf
 do_mapping.tcl
+
+# Work directory files
+*.qdb
+*.qpg
+*.qtl
+_info
+_vmake
