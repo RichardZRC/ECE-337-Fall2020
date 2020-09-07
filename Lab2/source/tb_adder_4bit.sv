@@ -3,7 +3,7 @@
 
 `timescale 1ns / 100ps
 
-module tb_adder_1bit
+module tb_adder_4bit
 ();
 	// Define local parameters used by the test bench
 	localparam NUM_INPUT_BITS			= 4;
@@ -39,8 +39,8 @@ module tb_adder_1bit
 	adder_4bit DUT(.a(tb_a), .b(tb_b), .carry_in(tb_carry_in), .sum(tb_sum), .overflow(tb_overflow));
 	
 	// Connect individual test input bits to a vector for easier testing
-	assign tb_a					= tb_test_inputs[TEST_A_START_BIT : TEST_A_END_BIT];
-	assign tb_b					= tb_test_inputs[TEST_B_START_BIT : TEST_B_END_BIT];
+	assign tb_a					= tb_test_inputs[TEST_A_END_BIT : TEST_A_START_BIT];
+	assign tb_b					= tb_test_inputs[TEST_B_END_BIT : TEST_B_START_BIT];
 	assign tb_carry_in	= tb_test_inputs[TEST_CARRY_IN_BIT];
 	
 	// Test bench process
