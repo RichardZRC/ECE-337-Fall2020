@@ -11,7 +11,7 @@ module tb_adder_8bit
 	localparam MAX_OUTPUT_BIT			= NUM_OUTPUT_BITS - 1;
 	localparam NUM_TEST_BITS 			= (NUM_INPUT_BITS * 2) + 1;
 	localparam MAX_TEST_BIT				= NUM_TEST_BITS - 1;
-	localparam NUM_TEST_CASES 		= 400;
+	localparam NUM_TEST_CASES 		= 2 ** NUM_TEST_BITS;
 	localparam MAX_TEST_VALUE 		= NUM_TEST_CASES - 1;
 	localparam TEST_A_START_BIT					= 0;
     localparam TEST_A_END_BIT               = 7;
@@ -23,10 +23,10 @@ module tb_adder_8bit
 	localparam TEST_DELAY					= 10;
 	
 	// Declare Design Under Test (DUT) portmap signals
-	wire	[3:0] tb_a;
-	wire	[3:0] tb_b;
+	wire	[7:0] tb_a;
+	wire	[7:0] tb_b;
 	wire	tb_carry_in;
-	wire	[3:0]tb_sum;
+	wire	[7:0]tb_sum;
 	// wire	tb_carry_out;
     wire    tb_overflow;
 	
