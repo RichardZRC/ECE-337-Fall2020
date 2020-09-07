@@ -73,7 +73,7 @@ module tb_adder_1bit
 			end
 			
 			// Check the DUT's Carry Out output value
-			if(tb_expected_outputs[TEST_CARRY_OUT_BIT] == tb_carry_out)
+			if(tb_expected_outputs[TEST_CARRY_OUT_BIT] == tb_carry_out) 
 			begin
 				$info("Correct Carry Out value for test case %d!", tb_test_case);
 			end
