@@ -7,6 +7,6 @@ module adder_1bit (
 );
 
     assign sum = carry_in ^ (a ^ b);
-    assign cout = ((! carry_in) & b & a) | (carry_in & (b | a));
+    assign carry_out = ((! carry_in) & b & a) | (carry_in & (b | a));
 
 endmodule
