@@ -3,7 +3,7 @@
 
 `timescale 1ns / 100ps
 
-module tb_adder_1bit
+module tb_adder_4bit
 ();
 	// Define local parameters used by the test bench
 	localparam NUM_INPUT_BITS			= 4;
@@ -28,7 +28,7 @@ module tb_adder_1bit
 	wire	tb_carry_in;
 	wire	[3:0]tb_sum;
 	// wire	tb_carry_out;
-    wire    tb_overflow
+    wire    tb_overflow;
 	
 	// Declare test bench signals
 	integer tb_test_case;
@@ -36,11 +36,11 @@ module tb_adder_1bit
 	reg [MAX_OUTPUT_BIT:0] tb_expected_outputs;
 	
 	// DUT port map
-	adder_1bit DUT(.a(tb_a), .b(tb_b), .carry_in(tb_carry_in), .sum(tb_sum), .carry_out(tb_overflow));
+	adder_4bit DUT(.a(tb_a), .b(tb_b), .carry_in(tb_carry_in), .sum(tb_sum), .overflow(tb_overflow));
 	
 	// Connect individual test input bits to a vector for easier testing
-	assign tb_a					= tb_test_inputs[TEST_A_START_BIT : TEST_A_END_BIT];
-	assign tb_b					= tb_test_inputs[TEST_B_START_BIT : TEST_B_END_BIT];
+	assign tb_a					= tb_test_inputs[TEST_A_END_BIT : TEST_A_START_BIT];
+	assign tb_b					= tb_test_inputs[TEST_B_END_BIT : TEST_B_START_BIT];
 	assign tb_carry_in	= tb_test_inputs[TEST_CARRY_IN_BIT];
 	
 	// Test bench process
