@@ -28,7 +28,7 @@ module tb_adder_1bit
 	wire	tb_carry_in;
 	wire	[3:0]tb_sum;
 	// wire	tb_carry_out;
-    wire    tb_overflow
+    wire    tb_overflow;
 	
 	// Declare test bench signals
 	integer tb_test_case;
@@ -36,7 +36,7 @@ module tb_adder_1bit
 	reg [MAX_OUTPUT_BIT:0] tb_expected_outputs;
 	
 	// DUT port map
-	adder_1bit DUT(.a(tb_a), .b(tb_b), .carry_in(tb_carry_in), .sum(tb_sum), .carry_out(tb_overflow));
+	adder_4bit DUT(.a(tb_a), .b(tb_b), .carry_in(tb_carry_in), .sum(tb_sum), .overflow(tb_overflow));
 	
 	// Connect individual test input bits to a vector for easier testing
 	assign tb_a					= tb_test_inputs[TEST_A_START_BIT : TEST_A_END_BIT];
