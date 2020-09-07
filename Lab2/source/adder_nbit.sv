@@ -1,13 +1,13 @@
 module adder_nbit 
 #(
-    parameter BIT_WIDTH = 4;
+    parameter BIT_WIDTH = 4
 )
 (
     input wire [BIT_WIDTH - 1 : 0] a,
     input wire [BIT_WIDTH - 1 : 0] b,
     input wire carry_in,
     output wire [BIT_WIDTH - 1 : 0] sum,
-    output wire overflow;
+    output wire overflow
 );
 
     wire [BIT_WIDTH:0] carrys;

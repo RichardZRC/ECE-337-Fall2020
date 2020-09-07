@@ -3,7 +3,7 @@
 
 `timescale 1ns / 100ps
 
-module tb_adder_4bit
+module tb_adder_nbit
 ();
 	// Define local parameters used by the test bench
 	localparam NUM_INPUT_BITS			= 4;
