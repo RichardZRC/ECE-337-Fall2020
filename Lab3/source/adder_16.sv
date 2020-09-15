@@ -12,7 +12,6 @@ module adder_16
 	output wire [15:0] sum,
 	output wire overflow
 );
-	assign sum = ((a + b + carry_in) % (2 **16));
-	assign overflow = ((a + b + carry_in) / (2 ** 16));
+	adder_nbit #(.BIT_WIDTH(16)) A1 (.a(a), .b(b), .carry_in(carry_in), .sum(sum), .overflow(overflow));
 
 endmodule
