@@ -277,7 +277,7 @@ DEP_SUB_FILES :=
 
 # Set the default value of the main source file to an empty string since it will be
 # overwritten by each rule where it is used anyways
-MAIN_FILE := adder_16.sv
+MAIN_FILE := adder_16bit.sv
 
 # Set the module's name to always be the same as the basename of the file
 # (a.k.a. the file name without the file extension)
@@ -352,7 +352,7 @@ report_power -hier >> reports/$(MOD_NAME).rep
 
 # Step 5: Output final VHDL and Verilog files
 write_file -format verilog -hierarchy -output "mapped/$(MOD_NAME).v"
-echo "\nScript Done\n"
+echo "\nScript Done\n"d
 echo "\nChecking Design\n"
 check_design
 quit
