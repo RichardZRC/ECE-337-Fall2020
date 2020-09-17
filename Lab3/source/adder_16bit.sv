@@ -5,7 +5,7 @@
 // Description: 16 bit adder design wrapper for synthesis optimization seciton of Lab 2
 `timescale 1ns / 100ps
 
-module adder_16
+module adder_16bit
 (
 	input wire [15:0] a,
 	input wire [15:0] b,
