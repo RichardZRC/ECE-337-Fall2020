@@ -53,7 +53,7 @@ adder_16bit DUT (.a(tb_a), .b(tb_b), .carry_in(tb_carry_in), .sum(tb_sum), .over
 initial begin
   // Create the test-vector array with enough slots for test cases
   // STUDENT TODO: Update the array declaration to have enough slots
-  tb_test_cases = new[5];
+  tb_test_cases = new[7];
 
   // First Test Case/Test-Vector
   tb_test_cases[0].test_name = "Zeros Check";
@@ -82,6 +82,15 @@ initial begin
   tb_test_cases[4].test_b    = 16'h0002;
   tb_test_cases[4].test_cin  = 1'b0;
 
+  tb_test_cases[5].test_name = "additional test case 1";
+  tb_test_cases[5].test_a    = 16'hAAAA;
+  tb_test_cases[5].test_b    = 16'h5555;
+  tb_test_cases[5].test_cin  = 1'b0;
+
+  tb_test_cases[6].test_name = "additional test case 2";
+  tb_test_cases[6].test_a    = 16'hAAAA;
+  tb_test_cases[6].test_b    = 16'h5555;
+  tb_test_cases[6].test_cin  = 1'b1;
 end
 
 // Handle expected results bit-slice mappings
