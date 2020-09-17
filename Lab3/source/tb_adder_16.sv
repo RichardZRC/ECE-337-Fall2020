@@ -75,12 +75,12 @@ initial begin
   tb_test_cases[0].test_name = "A large B large";
   tb_test_cases[0].test_a    = 16'hAAAA;
   tb_test_cases[0].test_b    = 16'hBBBB;
-  tb_test_cases[0].test_cin  = 1'b0;
+  tb_test_cases[0].test_cin  = 1'b1;
 
   tb_test_cases[0].test_name = "A small B small";
   tb_test_cases[0].test_a    = 16'h0001;
   tb_test_cases[0].test_b    = 16'h0002;
-  tb_test_cases[0].test_cin  = 1'b0;
+  tb_test_cases[0].test_cin  = 1'b1;
 
 end
 
