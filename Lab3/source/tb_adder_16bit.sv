@@ -92,12 +92,12 @@ initial begin
   tb_test_cases[6].test_b    = 16'h5555;
   tb_test_cases[6].test_cin  = 1'b1;
 
-  tb_test_cases[7].test_name = "additional test case 2";
+  tb_test_cases[7].test_name = "additional test case 3";
   tb_test_cases[7].test_a    = 16'h5555;
   tb_test_cases[7].test_b    = 16'hAAAA;
   tb_test_cases[7].test_cin  = 1'b1;
 
-  tb_test_cases[8].test_name = "additional test case 2";
+  tb_test_cases[8].test_name = "additional test case 4";
   tb_test_cases[8].test_a    = 16'h5555;
   tb_test_cases[8].test_b    = 16'hAAAA;
   tb_test_cases[8].test_cin  = 1'b1;
