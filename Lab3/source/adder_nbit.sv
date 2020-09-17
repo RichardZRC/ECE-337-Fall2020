@@ -1,3 +1,5 @@
+`timescale 1ns / 100ps
+
 module adder_nbit 
 #(
     parameter BIT_WIDTH = 4
@@ -22,6 +24,10 @@ module adder_nbit
         end
     endgenerate
 
+    always @ (a, b, carry_in) begin
+        #(2) assert (((a + b + carry_in) % (2 ** BIT_WIDTH)) == sum)
+        else $error("the sum of n-bit adder is not correct!");
+    end
     assign overflow = carrys[BIT_WIDTH];
 
 endmodule
