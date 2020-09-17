@@ -63,14 +63,14 @@ initial begin
 
   // STUDENT TODO: Add your additional test cases here after increasing the array size
   tb_test_cases[1].test_name = "A large B small";
-  tb_test_cases[1].test_a    = 16'hAAAA;
-  tb_test_cases[1].test_b    = 16'h0001;
+  tb_test_cases[1].test_a    = 16'hFF00;
+  tb_test_cases[1].test_b    = 16'h00FF;
   tb_test_cases[1].test_cin  = 1'b0;
 
   tb_test_cases[2].test_name = "A small B large";
-  tb_test_cases[2].test_a    = 16'h0002;
-  tb_test_cases[2].test_b    = 16'hBBBB;
-  tb_test_cases[2].test_cin  = 1'b0;
+  tb_test_cases[2].test_a    = 16'h00FF;
+  tb_test_cases[2].test_b    = 16'hFF00;
+  tb_test_cases[2].test_cin  = 1'b1;
 
   tb_test_cases[3].test_name = "A large B large";
   tb_test_cases[3].test_a    = 16'hAAAA;
@@ -80,7 +80,7 @@ initial begin
   tb_test_cases[4].test_name = "A small B small";
   tb_test_cases[4].test_a    = 16'h0001;
   tb_test_cases[4].test_b    = 16'h0002;
-  tb_test_cases[4].test_cin  = 1'b1;
+  tb_test_cases[4].test_cin  = 1'b0;
 
 end
 
