@@ -277,7 +277,7 @@ DEP_SUB_FILES :=
 
 # Set the default value of the main source file to an empty string since it will be
 # overwritten by each rule where it is used anyways
-MAIN_FILE := adder_16bit.sv
+MAIN_FILE := adder_16.sv
 
 # Set the module's name to always be the same as the basename of the file
 # (a.k.a. the file name without the file extension)
@@ -335,20 +335,20 @@ elaborate $(MOD_NAME) -lib WORK
 uniquify
 # Step 2: Set design constraints
 # Uncomment below to set timing, area, power, etc. constraints
-# set_max_delay 5.7 -from "b[0]" -to "sum[15]"
-# set_structure true -design adder_16bit -boolean true -boolean_effort medium
+set_max_delay 5.7 -from "b[0]" -to "sum[15]"
+set_structure true -design adder_16 -boolean true -boolean_effort medium
 # set_max_area <area>
 # set_max_total_power <power> mW
 $(if $(and $(CLOCK_NAME), $(CLOCK_PERIOD)), create_clock "$(CLOCK_NAME)" -name "$(CLOCK_NAME)" -period $(CLOCK_PERIOD))
 
 # Step 3: Compile the design
-# compile -map_effort high -boundary_optimization
-compile -map_effort medium
+compile -map_effort high -boundary_optimization
+# compile -map_effort medium
 
 # Step 4: Output reports
-report_timing -path full -delay max -max_paths 1 -nworst 1 > reports/$(MOD_NAME).rep
-report_area >> reports/$(MOD_NAME).rep
-report_power -hier >> reports/$(MOD_NAME).rep
+report_timing -path full -delay max -max_paths 1 -nworst 1 > reports/$(MOD_NAME)_1.rep
+report_area >> reports/$(MOD_NAME)_1.rep
+report_power -hier >> reports/$(MOD_NAME)_1.rep
 
 # Step 5: Output final VHDL and Verilog files
 write_file -format verilog -hierarchy -output "mapped/$(MOD_NAME).v"

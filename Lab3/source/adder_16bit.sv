@@ -17,6 +17,6 @@ module adder_16bit
 
 	always @ (a, b, carry_in) begin
 		#(2) assert (((a + b + carry_in) % (2 ** 16)) == sum)
-		else $error("the sum of 16-bit adder is not correct!")
+		else $error("the sum of 16-bit adder is not correct!");
 	end
 endmodule
