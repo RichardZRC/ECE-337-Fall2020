@@ -1,8 +1,8 @@
 module sync_high (
-input reg clk;
-    input reg n_rst;
-    input reg async_in;
-    output reg sync_out;
+input reg clk,
+    input reg n_rst,
+    input reg async_in,
+    output reg sync_out
 );
 
     reg sync_temp;
