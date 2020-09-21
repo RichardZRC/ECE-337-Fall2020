@@ -9,6 +9,7 @@ module sync_low (
     always_ff @ (posedge clk, negedge n_rst) begin
         if (1'b0 == n_rst) begin
             sync_out <= 1'b0;
+            sync_temp <= 1'b0;
         end
         else begin
             sync_temp <= async_in;
