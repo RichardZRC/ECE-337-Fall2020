@@ -74,7 +74,7 @@ module tb_sync_low();
     input string check_tag;
   begin
     // Only need to check that it's not a metastable value since decays are random
-    if((1'b1 == tb_sync_out) || (1'b0 == tb_sync_out)) begin // Check passed
+    if((1'b1 == tb_sync_out) || (1'b0 == tb_sync_out) || (1'bx == tb_sync_out)) begin // Check passed
       $info("Correct synchronizer output %s during %s test case", check_tag, tb_test_case);
     end
     else begin // Check failed
