@@ -105,7 +105,7 @@ module tb_flex_counter();
         tb_n_rst = 1'b1;
         tb_count_enable = 1'b0;
         tb_clear = 1'b0;
-        tb_rollover_flag = 2'b10;
+        tb_rollover_val = 2'b10;
         tb_test_case = "Test bench initializaton";
         tb_test_num = 0;
 
