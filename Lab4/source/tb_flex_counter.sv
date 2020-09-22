@@ -116,6 +116,7 @@ module tb_flex_counter();
         // Note: Do not use reset task during reset test case since we need to specifically check behavior during reset
         // Wait some time before applying test case stimulus
         #(0.1);
+        tb_rollover_val = 1'b1;
         tb_n_rst  = 1'b0;    // Activate reset
         
         // Wait for a bit before checking for correct functionality
