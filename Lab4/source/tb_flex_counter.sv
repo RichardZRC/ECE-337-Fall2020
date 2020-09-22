@@ -234,7 +234,7 @@ module tb_flex_counter();
 
         tb_clear = 1'b0;
         tb_count_enable = 1'b0;
-        tb_rollover_val = 3'd7;
+        tb_rollover_val = 3'd5;
         reset_dut();
 
         tb_count_enable = 1'b1;
@@ -287,7 +287,7 @@ module tb_flex_counter();
 
         tb_clear = 1'b0;
         tb_count_enable = 1'b0;
-        tb_rollover_val = 3'd7;
+        tb_rollover_val = 3'd6;
         reset_dut();
 
         tb_count_enable = 1'b1;
