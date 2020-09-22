@@ -220,7 +220,7 @@ module tb_flex_counter();
                 end
             end
 
-            #(CHECK_DELAY);
+            #(1);
             check_output_count_out(tb_expected_count_out, tb_continuous_counting_tag);
             check_output_rollover_flag(tb_expected_rollover_flag, tb_continuous_counting_tag);
         end
