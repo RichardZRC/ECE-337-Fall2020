@@ -61,9 +61,8 @@ module tb_flex_counter();
         end
     endtask
 
-    task check_output;
+    task check_output_count_out;
         input logic [MAX_CNT_BITS - 1 : 0] expected_count_out;
-        input logic expected_rollover_flag;
         input string check_tag;
         begin
             if (tb_count_out == expected_count_out) begin
@@ -72,7 +71,13 @@ module tb_flex_counter();
             else begin
                 $error("Incorrect count_out output %s during %s test case", check_tag, tb_test_case);
             end
+        end
+    endtask
 
+    task check_output_rollover_flag;
+        input logic expected_rollover_flag;
+        input string check_tag;
+        begin
             if (tb_rollover_flag == expected_rollover_flag) begin
                 $info("Correct rollover_flag output %s during %s test case", check_tag, tb_test_case);
             end
@@ -117,13 +122,13 @@ module tb_flex_counter();
         #(CLK_PERIOD * 0.5);
 
         // Check that internal state was correctly reset
-        check_output(1'b0, 1'b0, 
-                    "after reset applied");
+        check_output_count_out(1'b0, "after reset applied");
+        check_output_rollover_flag(1'b0, "after reset applied");
         
         // Check that the reset value is maintained during a clock cycle
         #(CLK_PERIOD);
-        check_output(1'b0, 1'b0, 
-                    "after clock cycle while in reset");
+        check_output_count_out(1'b0, "after clock cycle while in reset");
+        check_output_rollover_flag(1'b0, "after clock cycle while in reset");
         
         // Release the reset away from a clock edge
         @(posedge tb_clk);
@@ -131,10 +136,32 @@ module tb_flex_counter();
         tb_n_rst  = 1'b1;   // Deactivate the chip reset
         #0.1;
         // Check that internal state was correctly keep after reset release
-        check_output(1'b0, 1'b0, 
-                    "after reset was released");
+        check_output_count_out(1'b0, "after reset was released");
+        check_output_rollover_flag(1'b0, "after reset was released");
 
 
+        // ************************************************************************
+        // Test Case 2: Rollover for a value that is not a power of 2
+        // ************************************************************************
+        @(negedge tb_clk)
+        tb_test_case = "Rollover for a value that is not a power of 2"
+        tb_test_num = tb_test_num + 1;
+
+        tb_clear = 1'b0;
+        tb_count_enable = 1'b1;
+        tb_rollover_val = 2'd3;
+        reset_dut();
+
+        #(CLK_PERIOD * 2);
+        @(posedge tb_clk);
+        #(CHECK_DELAY);
+        check_output_count_out(2'd3, "at rollover value");
+        check_output_rollover_flag(1'b1, "at rollover value");
+
+        @(posedge tb_clk)
+        #(CHECK_DELAY)
+        check_output_count_out(1'b0, "after rollover")
+        check_output_rollover_flag(1'b0, "after rollover");
     end
 
 
