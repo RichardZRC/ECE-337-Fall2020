@@ -12,7 +12,7 @@ module flex_counter
     output reg rollover_flag;
 );
 
-    reg next_count;
+    reg [NUM_CNT_BITS - 1 : 0] next_count;
 
     always_ff @ (posedge clk, negedge n_rst) begin
         if (n_rst == 0) begin
