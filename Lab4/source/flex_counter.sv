@@ -45,7 +45,7 @@ module flex_counter
             rollover_flag_temp = 0;
         end if (count_out == (rollover_val - 1)) begin
             rollover_flag_temp = 1;
-            next_count = count + 1;
+            next_count = count_out + 1;
         end
         else begin
             next_count = count_out + 1;
