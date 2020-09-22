@@ -32,6 +32,8 @@ module flex_counter
     end
 
     always_comb begin
+        next_count = 0;
+        rollover_flag_temp = 0;
         if (clear == 1'b1) begin
             next_count = 0;
             rollover_flag_temp = 0;
