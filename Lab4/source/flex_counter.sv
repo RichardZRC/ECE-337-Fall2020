@@ -34,7 +34,7 @@ module flex_counter
             next_count = 1;
         end
         else begin
-            next_count = count + 1;
+            next_count = count_out + 1;
         end
     end
 
