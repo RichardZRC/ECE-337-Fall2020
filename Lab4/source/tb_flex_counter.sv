@@ -22,6 +22,9 @@ module tb_flex_counter();
     reg [MAX_CNT_BITS : 0] tb_rollover_val;
     reg tb_rollover_flag;
     reg tb_count_enable;
+    reg [MAX_CNT_BITS : 0] tb_expected_count_out;
+    reg tb_expected_rollover_flag;
+
 
     // Declare test bench signals
     integer tb_test_num;
@@ -155,11 +158,15 @@ module tb_flex_counter();
 
         #(CLK_PERIOD * 2);
         @(posedge tb_clk);
+        tb_expected_count_out = 2'd3;
+        tb_expected_rollover_flag = 1'b1;
         #(CHECK_DELAY);
-        check_output_count_out(2'd3, "at rollover value");
-        check_output_rollover_flag(1'b1, "at rollover value");
+        check_output_count_out(tb_expected_count_out, "at rollover value");
+        check_output_rollover_flag(tb_expected_rollover_flag, "at rollover value");
 
         @(posedge tb_clk)
+        tb_expected_count_out = 1'b0;
+        tb_expected_rollover_flag = 1'b0;
         #(CHECK_DELAY)
         check_output_count_out(1'b0, "after rollover");
         check_output_rollover_flag(1'b0, "after rollover");
