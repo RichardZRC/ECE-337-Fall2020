@@ -69,10 +69,7 @@ module tb_flex_counter();
                 $info("Correct count_out output %s during %s test case", check_tag, tb_test_case);
             end
             else begin
-                $error("******************************************************************************");
                 $error("Incorrect count_out output %s during %s test case", check_tag, tb_test_case);
-                $error("the expected count_out is %s, but the tb signal is %s", expected_count_out, tb_count_out);
-                $error("******************************************************************************");
             end
         end
     endtask
@@ -85,10 +82,7 @@ module tb_flex_counter();
                 $info("Correct rollover_flag output %s during %s test case", check_tag, tb_test_case);
             end
             else begin
-                $error("******************************************************************************");
                 $error("Incorrect rollover_flag output %s during %s test case", check_tag, tb_test_case);
-                $error("the expected rollover_flag is %s, but the tb signal is %s", expected_rollover_flag, tb_rollover_flag);
-                $error("******************************************************************************");
             end
         end
     endtask
