@@ -68,7 +68,7 @@ module tb_flex_counter();
     endtask
 
     task check_output_count_out;
-        input logic [MAX_CNT_BITS - 1 : 0] expected_count_out;
+        input logic [MAX_CNT_BITS : 0] expected_count_out;
         input string check_tag;
         begin
             if (tb_count_out == expected_count_out) begin
@@ -194,7 +194,7 @@ module tb_flex_counter();
         // Test Case 3: Continous counting
         // ************************************************************************
         @(negedge tb_clk)
-        tb_test_case = "Rollover for a value that is not a power of 2";
+        tb_test_case = "Continuous counting";
         tb_test_num = tb_test_num + 1;
 
         tb_clear = 1'b0;
@@ -224,6 +224,41 @@ module tb_flex_counter();
             check_output_count_out(tb_expected_count_out, tb_continuous_counting_tag);
             check_output_rollover_flag(tb_expected_rollover_flag, tb_continuous_counting_tag);
         end
+
+        // ************************************************************************
+        // Test Case 4: discontinous counting
+        // ************************************************************************
+        // @(negedge tb_clk)
+        // tb_test_case = "discontinuous counting";
+        // tb_test_num = tb_test_num + 1;
+
+        // tb_clear = 1'b0;
+        // tb_count_enable = 1'b0;
+        // tb_rollover_val = 3'd7;
+        // reset_dut();
+
+        // tb_count_enable = 1'b1;
+        // tb_expected_count_out = 1'b0;
+        // tb_expected_rollover_flag = 1'b0;
+
+        // for (tb_continuous_counting_num = 0; tb_continuous_counting_num < 30; tb_continuous_counting_num = tb_continuous_counting_num + 1) begin
+        //     $sformat(tb_continuous_counting_tag, "for continuous counting iteration %d", tb_continuous_counting_num);
+        //     @(posedge tb_clk);
+        //     if ((tb_expected_count_out != 0) && (tb_expected_count_out % 7 == 0)) begin
+        //         tb_expected_count_out = 1'b1; 
+        //         tb_expected_rollover_flag = 1'b0;
+        //     end
+        //     else begin
+        //         tb_expected_count_out = tb_expected_count_out + 1;
+        //         if (tb_expected_count_out % 7 == 0) begin
+        //             tb_expected_rollover_flag = 1'b1;
+        //         end
+        //     end
+
+        //     #(1);
+        //     check_output_count_out(tb_expected_count_out, tb_continuous_counting_tag);
+        //     check_output_rollover_flag(tb_expected_rollover_flag, tb_continuous_counting_tag);
+        // end
 
 
     end
