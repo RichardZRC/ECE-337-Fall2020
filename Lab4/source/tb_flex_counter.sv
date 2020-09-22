@@ -206,7 +206,7 @@ module tb_flex_counter();
         tb_expected_count_out = 1'b0;
         tb_expected_rollover_flag = 1'b0;
 
-        for (tb_continuous_counting_num = 0; tb_continuous_counting_num < 10; tb_continuous_counting_num = tb_continuous_counting_num + 1) begin
+        for (tb_continuous_counting_num = 0; tb_continuous_counting_num < 30; tb_continuous_counting_num = tb_continuous_counting_num + 1) begin
             $sformat(tb_continuous_counting_tag, "for continuous counting iteration %d", tb_continuous_counting_num);
             @(posedge tb_clk);
             if ((tb_expected_count_out != 0) && (tb_expected_count_out % 7 == 0)) begin
@@ -241,7 +241,7 @@ module tb_flex_counter();
         tb_expected_count_out = 1'b0;
         tb_expected_rollover_flag = 1'b0;
 
-        for (tb_continuous_counting_num = 0; tb_continuous_counting_num < 10; tb_continuous_counting_num = tb_continuous_counting_num + 1) begin
+        for (tb_continuous_counting_num = 0; tb_continuous_counting_num < 30; tb_continuous_counting_num = tb_continuous_counting_num + 1) begin
             $sformat(tb_continuous_counting_tag, "for discontinuous counting iteration %d", tb_continuous_counting_num);
             @(posedge tb_clk);
             if ((tb_expected_count_out != 0) && (tb_expected_count_out % 7 == 0)) begin
