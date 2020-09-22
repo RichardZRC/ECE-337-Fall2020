@@ -40,10 +40,10 @@ module flex_counter
 
     always_comb begin
         if (count_out != rollover_val) begin
-            rollover_val = 1'b0;
+            rollover_flag = 1'b0;
         end 
         else begin
-            rollover_val = 1'b1;
+            rollover_flag = 1'b1;
         end
     end
 
