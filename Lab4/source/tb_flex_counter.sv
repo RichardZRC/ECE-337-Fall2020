@@ -242,7 +242,7 @@ module tb_flex_counter();
         tb_expected_rollover_flag = 1'b0;
 
         for (tb_continuous_counting_num = 0; tb_continuous_counting_num < 10; tb_continuous_counting_num = tb_continuous_counting_num + 1) begin
-            $sformat(tb_continuous_counting_tag, "for continuous counting iteration %d", tb_continuous_counting_num);
+            $sformat(tb_continuous_counting_tag, "for discontinuous counting iteration %d", tb_continuous_counting_num);
             @(posedge tb_clk);
             if ((tb_expected_count_out != 0) && (tb_expected_count_out % 7 == 0)) begin
                 tb_expected_count_out = 1'b1; 
@@ -277,6 +277,77 @@ module tb_flex_counter();
                 check_output_rollover_flag(tb_expected_rollover_flag, tb_continuous_counting_tag);
             end
         end
+
+        // ************************************************************************
+        // Test Case 5: clearing test
+        // ************************************************************************
+        @(negedge tb_clk)
+        tb_test_case = "clearing test";
+        tb_test_num = tb_test_num + 1;
+
+        tb_clear = 1'b0;
+        tb_count_enable = 1'b0;
+        tb_rollover_val = 3'd7;
+        reset_dut();
+
+        tb_count_enable = 1'b1;
+        tb_expected_count_out = 1'b0;
+        tb_expected_rollover_flag = 1'b0;
+
+        @(posedge tb_clk);
+        tb_expected_count_out = 2'd1;
+        #(CHECK_DELAY);
+        check_output_count_out(tb_expected_count_out, "at count 1");
+
+        @(posedge tb_clk);
+        tb_expected_count_out = 2'd2;
+        #(CHECK_DELAY);
+        check_output_count_out(tb_expected_count_out, "at count 2");
+
+        @(negedge tb_clk);
+        tb_clear = 1'b1;
+        @(negedge tb_clk);
+        tb_clear = 1'b0;
+        tb_expected_count_out = 1'b0;
+        check_output_count_out(tb_expected_count_out, "at clearing");
+
+
+
+        @(negedge tb_clk)
+        tb_test_case = "clearing priority test";
+
+        tb_clear = 1'b0;
+        tb_count_enable = 1'b0;
+        tb_rollover_val = 3'd7;
+        reset_dut();
+
+        tb_count_enable = 1'b1;
+        tb_expected_count_out = 1'b0;
+        tb_expected_rollover_flag = 1'b0;
+
+        @(posedge tb_clk);
+        tb_expected_count_out = 2'd1;
+        #(CHECK_DELAY);
+        check_output_count_out(tb_expected_count_out, "at count 1");
+
+        @(posedge tb_clk);
+        tb_expected_count_out = 2'd2;
+        #(CHECK_DELAY);
+        check_output_count_out(tb_expected_count_out, "at count 2");
+
+        @(negedge tb_clk);
+        tb_count_enable = 1'b0;
+        @(posedge  tb_clk);
+        #(1);
+        check_output_count_out(tb_expected_count_out, "disabled count 1");
+        @(posedge  tb_clk);
+        #(1);
+        check_output_count_out(tb_expected_count_out, "disabled count 2");
+        @(negedge tb_clk);
+        tb_clear = 1'b1;
+        @(posedge  tb_clk);
+        #(1);
+        check_output_count_out(1'b0, "priority clearing check");
 
 
     end
