@@ -144,7 +144,7 @@ module tb_flex_counter();
         // Test Case 2: Rollover for a value that is not a power of 2
         // ************************************************************************
         @(negedge tb_clk)
-        tb_test_case = "Rollover for a value that is not a power of 2"
+        tb_test_case = "Rollover for a value that is not a power of 2";
         tb_test_num = tb_test_num + 1;
 
         tb_clear = 1'b0;
@@ -160,7 +160,7 @@ module tb_flex_counter();
 
         @(posedge tb_clk)
         #(CHECK_DELAY)
-        check_output_count_out(1'b0, "after rollover")
+        check_output_count_out(1'b0, "after rollover");
         check_output_rollover_flag(1'b0, "after rollover");
     end
 
