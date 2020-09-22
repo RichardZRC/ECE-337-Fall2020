@@ -339,6 +339,7 @@ module tb_flex_counter();
         tb_count_enable = 1'b0;
         @(posedge  tb_clk);
         #(1);
+        tb_expected_count_out = 2'd3;
         check_output_count_out(tb_expected_count_out, "disabled count 1");
         @(posedge  tb_clk);
         #(1);
