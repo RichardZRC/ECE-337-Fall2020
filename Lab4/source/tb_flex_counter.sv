@@ -26,9 +26,12 @@ module tb_flex_counter();
     reg tb_expected_rollover_flag;
 
 
+
     // Declare test bench signals
     integer tb_test_num;
     string tb_test_case;
+    integer tb_continuous_counting_num;
+    string tb_continuous_counting_tag;
 
   // Clock generation block
     always
@@ -185,6 +188,44 @@ module tb_flex_counter();
         #(CHECK_DELAY)
         check_output_count_out(1'b0, "after rollover");
         check_output_rollover_flag(1'b0, "after rollover");
+
+
+        // ************************************************************************
+        // Test Case 3: Continous counting
+        // ************************************************************************
+        @(negedge tb_clk)
+        tb_test_case = "Rollover for a value that is not a power of 2";
+        tb_test_num = tb_test_num + 1;
+
+        tb_clear = 1'b0;
+        tb_count_enable = 1'b0;
+        tb_rollover_val = 3'd7;
+        reset_dut();
+
+        tb_count_enable = 1'b1;
+        tb_expected_count_out = 1'b0;
+        tb_expected_rollover_flag = 1'b0;
+
+        for (tb_continuous_counting_num = 0; tb_continuous_counting_num < 30; tb_continuous_counting_num = tb_continuous_counting_num + 1) begin
+            $sformat(tb_continuous_counting_tag, "for continuous counting iteration %d", tb_continuous_counting_num);
+            @(posedge tb_clk);
+            if ((tb_expected_count_out != 0) && (tb_expected_count_out % 7 == 0)) begin
+                tb_expected_count_out = 1'b1; 
+                tb_expected_rollover_flag = 1'b0;
+            end
+            else begin
+                tb_expected_count_out = tb_expected_count_out + 1;
+                if (tb_expected_count_out % 7 == 0) begin
+                    tb_expected_rollover_flag = 1'b1;
+                end
+            end
+
+            #(CHECK_DELAY);
+            check_output_count_out(tb_expected_count_out, tb_continuous_counting_tag);
+            check_output_rollover_flag(tb_expected_rollover_flag, tb_continuous_counting_tag);
+        end
+
+
     end
 
 
