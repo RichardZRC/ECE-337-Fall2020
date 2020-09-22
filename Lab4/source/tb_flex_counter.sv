@@ -167,7 +167,7 @@ module tb_flex_counter();
 
         @(posedge tb_clk);
         tb_expected_count_out = 2'd1;
-        tb_expected_rollover_flag = 1'b10;
+        tb_expected_rollover_flag = 1'b0;
         #(CHECK_DELAY);
         check_output_count_out(tb_expected_count_out, "at count 1");
         check_output_rollover_flag(tb_expected_rollover_flag, "at count 1");
