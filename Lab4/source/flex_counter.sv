@@ -13,6 +13,7 @@ module flex_counter
 );
 
     reg [NUM_CNT_BITS - 1 : 0] next_count;
+    reg rollover_flag_temp;
 
     always_ff @ (posedge clk, negedge n_rst) begin
         if (n_rst == 0) begin
@@ -20,6 +21,13 @@ module flex_counter
         end
         else begin
             count_out <= next_count;
+        end
+
+        if (n_rst == 0) begin
+            rollover_flag <= 0;
+        end
+        else begin
+            rollover_flag <= rollover_flag_temp;
         end
     end
 
@@ -36,15 +44,14 @@ module flex_counter
         else begin
             next_count = count_out + 1;
         end
-    end
 
-    always_comb begin
-        if (count_out != rollover_val) begin
-            rollover_flag = 1'b0;
+        if (count_out != (rollover_val - 1)) begin
+            rollover_flag_temp = 1'b0;
         end 
         else begin
-            rollover_flag = 1'b1;
+            rollover_flag_temp = 1'b1;
         end
     end
+
 
 endmodule
