@@ -1,15 +1,15 @@
 module flex_counter
 # (
-    parameter NUM_CNT_BITS = 3;
+    parameter NUM_CNT_BITS = 3
 )
 (
     input reg clear,
     input reg n_rst,
     input reg clk,
-    input reg count_enable;
+    input reg count_enable,
     input reg [NUM_CNT_BITS - 1 : 0] rollover_val,
-    output reg [NUM_CNT_BITS - 1 : 0] count_out;
-    output reg rollover_flag;
+    output reg [NUM_CNT_BITS - 1 : 0] count_out,
+    output reg rollover_flag
 );
 
     reg [NUM_CNT_BITS - 1 : 0] next_count;
@@ -27,10 +27,10 @@ module flex_counter
         if (clear == 1'b1) begin
             next_count = 0;
         end
-        else if (count_enable = 1'b0) begin
+        else if (count_enable == 1'b0) begin
             next_count = count_out;
         end
-        else if (count == rollover_val) begin
+        else if (count_out == rollover_val) begin
             next_count = 1;
         end
         else begin
