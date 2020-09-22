@@ -34,20 +34,23 @@ module flex_counter
     always_comb begin
         if (clear == 1'b1) begin
             next_count = 0;
+            rollover_flag_temp = 0;
         end
         else if (count_enable == 1'b0) begin
             next_count = count_out;
+            rollover_flag_temp = rollover_flag;
         end
         else if (count_out == rollover_val) begin
             next_count = 1;
             rollover_flag_temp = 0;
         end if (count_out == (rollover_val - 1)) begin
             rollover_flag_temp = 1;
+            next_count = count + 1;
         end
         else begin
             next_count = count_out + 1;
+            rollover_flag_temp = 0;
         end
-
     end
 
 
