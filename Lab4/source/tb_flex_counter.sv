@@ -271,9 +271,11 @@ module tb_flex_counter();
                 tb_count_enable = 1'b1;
             end
 
-            // #(1);
-            // check_output_count_out(tb_expected_count_out, tb_continuous_counting_tag);
-            // check_output_rollover_flag(tb_expected_rollover_flag, tb_continuous_counting_tag);
+            else begin
+                #(1);
+                check_output_count_out(tb_expected_count_out, tb_continuous_counting_tag);
+                check_output_rollover_flag(tb_expected_rollover_flag, tb_continuous_counting_tag);
+            end
         end
 
 
