@@ -152,11 +152,33 @@ module tb_flex_counter();
         tb_test_num = tb_test_num + 1;
 
         tb_clear = 1'b0;
-        tb_count_enable = 1'b1;
+        tb_count_enable = 1'b0;
         tb_rollover_val = 2'd3;
         reset_dut();
 
-        #(CLK_PERIOD * 2);
+        tb_count_enable = 1'b1;
+
+        @(posedge tb_clk);
+        tb_expected_count_out = 2'd0;
+        tb_expected_rollover_flag = 1'b0;
+        #(CHECK_DELAY);
+        check_output_count_out(tb_expected_count_out, "at count 0");
+        check_output_rollover_flag(tb_expected_rollover_flag, "at count 0");
+
+        @(posedge tb_clk);
+        tb_expected_count_out = 2'd1;
+        tb_expected_rollover_flag = 1'b10;
+        #(CHECK_DELAY);
+        check_output_count_out(tb_expected_count_out, "at count 1");
+        check_output_rollover_flag(tb_expected_rollover_flag, "at count 1");
+
+        @(posedge tb_clk);
+        tb_expected_count_out = 2'd2;
+        tb_expected_rollover_flag = 1'b0;
+        #(CHECK_DELAY);
+        check_output_count_out(tb_expected_count_out, "at count 2");
+        check_output_rollover_flag(tb_expected_rollover_flag, "at count 2");
+
         @(posedge tb_clk);
         tb_expected_count_out = 2'd3;
         tb_expected_rollover_flag = 1'b1;
