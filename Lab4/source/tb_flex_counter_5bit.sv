@@ -1,6 +1,6 @@
 `timescale 1ns / 10ps
 
-module tb_flex_counter();
+module tb_flex_counter_5bit();
 
     // Define local parameters used by the test bench
     localparam  CLK_PERIOD    = 2.5;

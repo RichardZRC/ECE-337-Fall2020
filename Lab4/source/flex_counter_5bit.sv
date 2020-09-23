@@ -8,7 +8,7 @@ module flex_counter_5bit (
     output reg rollover_flag
 );
 
-    flex_counter #(.NUM_CNT_BITS) A1 (.clear(clear), .n_rst(n_rst), .clk(clk), .count_enable(count_enable),
+    flex_counter #(.NUM_CNT_BITS(5)) A1 (.clear(clear), .n_rst(n_rst), .clk(clk), .count_enable(count_enable),
      .rollover_val(rollover_val), .count_out(count_out), .rollover_flag(rollover_flag));
 
 endmodule
