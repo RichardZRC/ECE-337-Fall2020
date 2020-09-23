@@ -15,13 +15,32 @@ module flex_counter
     reg [NUM_CNT_BITS - 1 : 0] next_count;
     reg rollover_flag_temp;
 
+    // always_ff @ (posedge clk, negedge n_rst) begin
+    //     if (n_rst == 0) begin
+    //         count_out <= 0;
+    //         rollover_flag <= 0;
+    //     end
+    //     else begin
+    //         count_out <= next_count;
+    //         rollover_flag <= rollover_flag_temp;
+    //     end
+    // end
+
+    
     always_ff @ (posedge clk, negedge n_rst) begin
         if (n_rst == 0) begin
             count_out <= 0;
-            rollover_flag <= 0;
         end
         else begin
             count_out <= next_count;
+        end
+    end
+
+    always_ff @ (posedge clk, negedge n_rst) begin
+        if (n_rst == 0) begin
+            rollover_flag <= 0;
+        end
+        else begin
             rollover_flag <= rollover_flag_temp;
         end
     end
