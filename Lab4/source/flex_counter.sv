@@ -22,7 +22,9 @@ module flex_counter
         else begin
             count_out <= next_count;
         end
-
+    end
+    
+    always_ff @ (posedge clk, negedge n_rst) begin
         if (n_rst == 0) begin
             rollover_flag <= 0;
         end
@@ -32,8 +34,6 @@ module flex_counter
     end
 
     always_comb begin
-        // next_count = 0;
-        // rollover_flag_temp = 0;
         if (clear == 1'b1) begin
             next_count = 0;
             rollover_flag_temp = 0;
