@@ -31,7 +31,7 @@ module flex_pts_sr
         if (SHIFT_MSB == 1) begin
             if (load_enable == 1'b1) begin
                 next_serial = parallel_in[0];
-                next_output = parallel_in[NUM_BITS - 4 : 1];
+                next_output = parallel_in[NUM_BITS - 2 : 1];
             end else if (shift_enable == 1'b1) begin
                 next_serial = temp_output[0];
                 next_output[NUM_BITS - 4 : 0] = temp_output[NUM_BITS - 3: 1];
@@ -43,7 +43,7 @@ module flex_pts_sr
         end else begin
             if (load_enable == 1'b1) begin
                 next_serial = parallel_in[NUM_BITS - 1];
-                next_output = parallel_in[NUM_BITS - 4 : 1];
+                next_output = parallel_in[NUM_BITS - 2 : 1];
             end else if (shift_enable == 1'b1) begin
                 next_serial = temp_output[NUM_BITS - 3];
                 next_output[NUM_BITS - 3 : 1] = temp_output[NUM_BITS - 4: 0];
