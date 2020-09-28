@@ -15,7 +15,7 @@ module flex_stp_sr
 
     always_ff @(posedge clk, negedge n_rst) begin
         if (n_rst == 0) begin
-            parallel_out <= NUM_BITS'b1;
+            parallel_out <= '1;
         end else begin
             parallel_out <= next_output;
         end
