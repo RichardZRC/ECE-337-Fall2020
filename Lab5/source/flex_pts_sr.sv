@@ -23,7 +23,7 @@ module flex_pts_sr
         end else begin
             serial_out <= next_serial;
             temp_output <= next_output;
-            first_bit <= (SHIFT_MSB == 1) ? parallel_in[NUM_BITS - 1] : parallel_in[0];
+            first_bit <= (SHIFT_MSB == 1) ? parallel_in[0] : parallel_in[NUM_BITS - 1];
         end
     end
 
