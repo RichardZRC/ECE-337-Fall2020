@@ -11,10 +11,10 @@ module flex_stp_sr
     output reg [NUM_BITS - 1 : 0] parallel_out
 );
 
-    reg next_output = [NUM_BITS - 1 : 0];
+    reg [NUM_BITS - 1 : 0] next_output;
 
     always_ff @(posedge clk, negedge n_rst) begin
-        if (n_rst = 0) begin
+        if (n_rst == 0) begin
             parallel_out <= 1'b0;
         end else begin
             parallel_out <= next_output;
