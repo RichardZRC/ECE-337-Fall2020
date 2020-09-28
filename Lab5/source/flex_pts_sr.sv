@@ -1,7 +1,7 @@
 module flex_pts_sr 
 #(
     parameter NUM_BITS = 4,
-    parameter SHIFT_MSB = 1
+    parameter SHIFT_MSB = 0
 )
 (
     input reg clk,
