@@ -24,15 +24,15 @@ module flex_stp_sr
     always_comb begin
         if (SHIFT_MSB == 1) begin
             if (shift_enable == 1) begin
-                next_output[NUM_BITS - 2 : 0] = parallel_out[NUM_BITS - 1 : 1];
-                next_output[NUM_BITS - 1] = serial_in;
+                next_output[NUM_BITS - 1 : 1] = parallel_out[NUM_BITS - 2 : 0];
+                next_output[0] = serial_in;
             end else begin
                 next_output = parallel_out;
             end
         end else begin
             if (shift_enable == 1) begin
-                next_output[NUM_BITS - 1 : 1] = parallel_out[NUM_BITS - 2 : 0];
-                next_output[0] = serial_in;
+                next_output[NUM_BITS - 2 : 0] = parallel_out[NUM_BITS - 1 : 1];
+                next_output[NUM_BITS - 1] = serial_in;
             end else begin
                 next_output = parallel_out;
             end
