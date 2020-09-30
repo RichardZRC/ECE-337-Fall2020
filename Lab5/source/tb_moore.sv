@@ -166,7 +166,7 @@ module tb_moore();
         tb_test_num  = tb_test_num + 1;
         tb_test_case = "Contiguous Zero Fill";
         // Start out with inactive value and reset the DUT to isolate from prior tests
-        tb_i = '1;
+        tb_i = '0;
         reset_dut();
 
         // Define the test data stream for this test case
