@@ -1,49 +1,64 @@
-// Verilog for ECE337 Lab 1
-// The Following code is used to compare 2 16-bit quantites, a and b. The code 
-// determines whether or not:
-// a is greater than b, gt = 1, lt = 0, eq = 0
-// a is less than b, gt = 0, lt = 1, eq = 0
-// a is equal to b, gt = 0, lt = 0, eq = 1
-
-// Use a tab size of 2 spaces for best viewing results
-
-
-module comparator
-(
-	input wire [15:0] a,
-	input wire [15:0] b,
-	output reg gt,
-	output reg lt,
-	output reg eq
+module idcs (
+	input reg D_s;
+	input reg Eng01;
+	output reg Waiting,
+	output reg Counting,
+	output reg DataReady
 );
+	localparam [1:0] Idle = 2'b00;
+	localparam [1:0] Dwait = 2'b01;
+	localparam [1:0] Count = 2'b10;
+	localparam [1:0] Done = 2'b11;
 
-	reg gte;
-	reg lte;
+	reg [1:0] state, next_state;
 
-	always @ (a, b) begin: COM
-		lte = 1'b0;
-		gte = 1'b0;
-		if (! (a > b)) begin
-			lte = 1'b1;
-		end
-		if (! (b > a)) begin
-			gte = 1'b1;
-		end
-		
-		if (! (lte == 1'b1)) begin
-			gt = 1'b1;
-			lt = 1'b0;
-			eq = 1'b0;
-		end
-		else if (! (gte == 1)) begin
-			gt = 1'b0;
-			lt = 1'b1;
-			eq = 1'b0;
-		end
-		else begin
-			gt = 1'b0;
-			lt = 1'b0;
-			eq = 1'b1;
+	always_ff @ (posedge clk, negedge n_rst) begin
+		if (n_rst == 1'b0) begin
+			state <= Idle;
+		end else begin
+			state <= next_state;
 		end
 	end
-endmodule 
+
+	always_comb begin
+		case(state)
+			Waiting:begin
+				if (Eng01 == 1'b1)
+					next_state = Dwait;
+			end
+			Dwait:begin
+				if (D_s == 1'b1)
+					next_state = Count;
+			end
+			Count:begin
+				if (Eng01)
+					next_state = Dwait;
+				else if (!D_s & !Eng01)
+					next_state = Done;
+			end
+			Done:begin
+				if (Eng01)
+					next_state = Dwait;
+			end
+			default:begin
+				next_state = state;
+			end
+		endcase
+	end
+
+	always_comb begin
+		Waiting = 1'b0;
+		Counting = 1'b0;
+		DataReady = 1'b0;
+		if (state == Dwait) begin
+			Waiting = 1'b1;
+		end
+		else if (state == Count) begin
+			Counting = 1'b1;
+		end 
+		else if (state == Done) begin
+			DataReady = 1'b1;
+		end		
+	end
+
+endmodule
