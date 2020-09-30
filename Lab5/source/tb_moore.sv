@@ -96,7 +96,7 @@ module tb_moore();
         input logic [SR_MAX_BIT:0] expected_stream;
     begin
         // Coniguously stream out all of the bits in the provided input vector
-        for(tb_bit_num = 0; tb_bit_num < bit_stream.size(); tb_bit_num++) begin
+        for(tb_bit_num = 0; tb_bit_num < SR_SIZE_BIT; tb_bit_num++) begin
         // Send the current bit
             send_bit(bit_stream[tb_bit_num], expected_stream[tb_bit_num]);
             $sformat(tb_stream_check_tag, "during bit %0d", tb_bit_num);
