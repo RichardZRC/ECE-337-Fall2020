@@ -92,8 +92,8 @@ module tb_moore();
 
     // Task to contiguosly send a stream of bits through the shift register
     task send_stream;
-        input logic bit_stream [];
-        input logic expected_stream [];
+        input logic [SR_MAX_BIT:0] bit_stream;
+        input logic [SR_MAX_BIT:0] expected_stream;
     begin
         // Coniguously stream out all of the bits in the provided input vector
         for(tb_bit_num = 0; tb_bit_num < bit_stream.size(); tb_bit_num++) begin
