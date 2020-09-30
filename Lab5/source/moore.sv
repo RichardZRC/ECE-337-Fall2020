@@ -1,7 +1,7 @@
 module moore (
     input reg clk,
     input reg n_rst,
-    output reg i,
+    input reg i,
     output reg o
 );
 
