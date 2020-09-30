@@ -21,7 +21,7 @@ module tb_moore();
     logic   tb_check;
 
     // Declare the Test Bench Signals for Expected Results
-    logic                tb_expected_ouput;
+    logic                tb_expected_o;
     logic [SR_MAX_BIT:0] tb_test_data;
 
     // Declare DUT Connection Signals
