@@ -21,8 +21,8 @@ module moore (
     end
 
     always_comb begin
+        next_state = state;
         case (state)
-
             s0: begin
                 if (i == 1'b1) begin
                     next_state = s1;
