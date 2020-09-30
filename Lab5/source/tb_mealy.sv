@@ -98,7 +98,7 @@ module tb_mealy();
         for(tb_bit_num = 0; tb_bit_num < SR_MAX_BIT + 1; tb_bit_num++) begin
         // Send the current bit
             send_bit(bit_stream[SR_MAX_BIT - tb_bit_num], expected_stream[SR_MAX_BIT - tb_bit_num]);
-            #(1.5);
+            #(0.3);
             $sformat(tb_stream_check_tag, "during bit %0d", tb_bit_num);
             check_output(tb_stream_check_tag);
         end
