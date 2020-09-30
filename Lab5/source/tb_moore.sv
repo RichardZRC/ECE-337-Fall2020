@@ -9,7 +9,7 @@ module tb_moore();
     localparam  INACTIVE_VALUE     = 1'b1;
     localparam  SR_SIZE_BITS       = 4;
     localparam  SR_MAX_BIT         = SR_SIZE_BITS - 1;
-    localparam  RESET_OUTPUT_VALUE = 1'b1;
+    localparam  RESET_OUTPUT_VALUE = 1'b0;
 
     // Declare Test Case Signals
     integer tb_test_num;
@@ -98,7 +98,7 @@ module tb_moore();
         // Coniguously stream out all of the bits in the provided input vector
         for(tb_bit_num = 0; tb_bit_num < SR_MAX_BIT + 1; tb_bit_num++) begin
         // Send the current bit
-            send_bit(bit_stream[tb_bit_num], expected_stream[tb_bit_num]);
+            send_bit(bit_stream[SR_MAX_BIT - tb_bit_num], expected_stream[SR_MAX_BIT - tb_bit_num]);
             $sformat(tb_stream_check_tag, "during bit %0d", tb_bit_num);
             check_output(tb_stream_check_tag);
         end
@@ -170,7 +170,7 @@ module tb_moore();
         reset_dut();
 
         // Define the test data stream for this test case
-        tb_test_data = 4'b1011;
+        tb_test_data = 4'b1101;
 
         // Define the expected result
         tb_expected_o = RESET_OUTPUT_VALUE;
