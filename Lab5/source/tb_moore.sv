@@ -83,7 +83,6 @@ module tb_moore();
         tb_i = bit_to_send;
 
         // Wait for the value to have been shifted in on the rising clock edge
-        @(posedge tb_clk);
         tb_expected_o = expected_bit;
         #(PROPAGATION_DELAY);
 
