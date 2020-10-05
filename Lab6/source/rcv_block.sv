@@ -1,4 +1,4 @@
-module rsv_block (
+module rcv_block (
     input wire clk,
     input wire n_rst,
     input wire serial_in,
