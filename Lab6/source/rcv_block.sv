@@ -6,13 +6,16 @@ module rcv_block (
     output reg [7:0] rx_data,
     output reg data_ready,
     output reg overrun_error,
-    output reg framing_error
+    output reg framing_error,
+    // TODO: delete test signals
+    output reg shift_strobe,
+    output reg [7:0] packet_data
 );
 
     wire start_bit_detected;
     wire new_package_detected;
-    wire shift_strobe;
-    wire [7:0] packet_data;
+    // wire shift_strobe;
+    // wire [7:0] packet_data;
     wire stop_bit;
     wire sbc_enable;
     wire sbc_clear;
