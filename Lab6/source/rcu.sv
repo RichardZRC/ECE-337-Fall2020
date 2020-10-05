@@ -30,7 +30,7 @@ module rcu (
         next_state = state;
         case (state)
             Idle: begin
-                if (start_bit) begin
+                if (start_bit_detected) begin
                     next_state = ReadingBit;
                 end
             end
