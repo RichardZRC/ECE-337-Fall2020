@@ -1,7 +1,7 @@
 module rcu (
     input wire clk,
     input wire n_rst,
-    input wire start_bit detected,
+    input wire start_bit_detected,
     input wire packet_done,
     input wire framing_error,
     output reg sbc_clear,
