@@ -18,7 +18,7 @@ module timer (
 
     flex_counter 
     #(.NUM_CNT_BITS(4)) 
-    CLK_COUNTER (.clk(shift_enable), .n_rst(n_rst), .clear(1'b0), .count_enable(enable_timer), 
+    BIT_COUNTER (.clk(shift_enable), .n_rst(n_rst), .clear(1'b0), .count_enable(enable_timer), 
     .rollover_val(4'b1000), .count_out(clk_count), .rollover_flag(bit_rollover_flag));
 
     assign packet_done = bit_rollover_flag;
