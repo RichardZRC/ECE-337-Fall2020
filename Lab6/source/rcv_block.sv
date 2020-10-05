@@ -10,6 +10,7 @@ module rcv_block (
     // TODO: delete test signals
     output reg shift_strobe,
     output reg [7:0] packet_data
+    output reg [3:0] bit_count; //test signal
 );
 
     wire start_bit_detected;
@@ -22,6 +23,7 @@ module rcv_block (
     wire enable_timer;
     wire packet_done;
     wire load_buffer;
+    
 
     start_bit_det A1 (
         .clk(clk),
@@ -56,7 +58,8 @@ module rcv_block (
         .n_rst(n_rst),
         .enable_timer(enable_timer),
         .shift_enable(shift_strobe),
-        .packet_done(packet_done)
+        .packet_done(packet_done),
+        .bit_count(bit_count) //test signal
     );
 
     rcu A5 (
