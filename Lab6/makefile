@@ -268,16 +268,16 @@ tbsim_%_mapped: $(M_WORK_LIB)/% $(M_WORK_LIB)/tb_%
 
 # Set the default value of the clock name and clock period to an empty string so that clock timing will
 # only be activated in the SYN_CMDS definition if they were overwritten at invocation
-CLOCK_NAME 		:=
-CLOCK_PERIOD	:=
+CLOCK_NAME 		:= clk
+CLOCK_PERIOD	:= 2.5
 
 # Set the default value of the source files for sub modules to be an empty string so that
 # it will only be used if overwritten at invocation
-DEP_SUB_FILES :=
+DEP_SUB_FILES := flex_counter.sv flex_stp_sr.sv rcu.sv rx_data_buff.sv sr_9bit.sv start_bit_det.sv stop_bit_chk.sv timer.sv
 
 # Set the default value of the main source file to an empty string since it will be
 # overwritten by each rule where it is used anyways
-MAIN_FILE :=
+MAIN_FILE := rcv_block.sv
 
 # Set the module's name to always be the same as the basename of the file
 # (a.k.a. the file name without the file extension)
