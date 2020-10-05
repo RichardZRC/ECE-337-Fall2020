@@ -3,9 +3,9 @@ module timer (
     input wire n_rst,
     input wire enable_timer,
     output wire shift_enable,
-    output wire packet_done，
+    output wire packet_done,
     //TODO: delete test signal
-    output reg [3:0] bit_count;
+    output reg [3:0] bit_count
 );
 
     reg [3:0] clk_count;
