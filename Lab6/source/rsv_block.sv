@@ -77,7 +77,7 @@ module rsv_block (
         .rx_data(rx_data),
         .data_ready(data_ready),
         .overrun_error(overrun_error)
-    )
+    );
 
 
 
