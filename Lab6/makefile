@@ -268,8 +268,8 @@ tbsim_%_mapped: $(M_WORK_LIB)/% $(M_WORK_LIB)/tb_%
 
 # Set the default value of the clock name and clock period to an empty string so that clock timing will
 # only be activated in the SYN_CMDS definition if they were overwritten at invocation
-CLOCK_NAME 		:=
-CLOCK_PERIOD	:=
+CLOCK_NAME 		:= clk
+CLOCK_PERIOD	:= 2.5
 
 # Set the default value of the source files for sub modules to be an empty string so that
 # it will only be used if overwritten at invocation
@@ -335,7 +335,7 @@ elaborate $(MOD_NAME) -lib WORK
 uniquify
 # Step 2: Set design constraints
 # Uncomment below to set timing, area, power, etc. constraints
-# set_max_delay <delay> -from "<input>" -to "<output>"
+# set_max_delay 0.45 -from "A3/framing_error_reg" -to "framing_error"
 # set_max_area <area>
 # set_max_total_power <power> mW
 $(if $(and $(CLOCK_NAME), $(CLOCK_PERIOD)), create_clock "$(CLOCK_NAME)" -name "$(CLOCK_NAME)" -period $(CLOCK_PERIOD))
