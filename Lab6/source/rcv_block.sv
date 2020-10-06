@@ -1,5 +1,5 @@
 module rcv_block (
-    input reg clk,
+    input wire clk,
     input wire n_rst,
     input wire serial_in,
     input wire data_read,
