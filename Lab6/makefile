@@ -268,16 +268,16 @@ tbsim_%_mapped: $(M_WORK_LIB)/% $(M_WORK_LIB)/tb_%
 
 # Set the default value of the clock name and clock period to an empty string so that clock timing will
 # only be activated in the SYN_CMDS definition if they were overwritten at invocation
-CLOCK_NAME 		:= #clk
-CLOCK_PERIOD	:= #2.5
+CLOCK_NAME 		:=
+CLOCK_PERIOD	:=
 
 # Set the default value of the source files for sub modules to be an empty string so that
 # it will only be used if overwritten at invocation
-DEP_SUB_FILES := #flex_counter.sv flex_stp_sr.sv rcu.sv rx_data_buff.sv sr_9bit.sv start_bit_det.sv stop_bit_chk.sv timer.sv
+DEP_SUB_FILES :=
 
 # Set the default value of the main source file to an empty string since it will be
 # overwritten by each rule where it is used anyways
-MAIN_FILE := #rcv_block.sv
+MAIN_FILE :=
 
 # Set the module's name to always be the same as the basename of the file
 # (a.k.a. the file name without the file extension)
@@ -335,7 +335,7 @@ elaborate $(MOD_NAME) -lib WORK
 uniquify
 # Step 2: Set design constraints
 # Uncomment below to set timing, area, power, etc. constraints
-# set_max_delay 0.4 -from "A4/BIT_COUNTER/\count_out_reg[0]" -to "A4/BIT_COUNTER/\count_out_reg[3]"
+# set_max_delay <delay> -from "<input>" -to "<output>"
 # set_max_area <area>
 # set_max_total_power <power> mW
 $(if $(and $(CLOCK_NAME), $(CLOCK_PERIOD)), create_clock "$(CLOCK_NAME)" -name "$(CLOCK_NAME)" -period $(CLOCK_PERIOD))
