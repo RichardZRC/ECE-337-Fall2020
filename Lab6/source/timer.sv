@@ -19,7 +19,7 @@ module timer (
 
     assign shift_enable = (clk_count == 4'd3);
 
-    flex_counter #(.NUM_CNT_BITS(4)) BIT_COUNTER (.clk(shift_enable), .n_rst(n_rst), .clear(timer_clear), .count_enable(enable_timer), 
+    flex_counter #(.NUM_CNT_BITS(4)) BIT_COUNTER (.clk(clk), .n_rst(n_rst), .clear(timer_clear), .count_enable(shift_enable), 
     .rollover_val(4'b1010), .count_out(bit_count), .rollover_flag(bit_rollover_flag));
 
     assign packet_done = bit_rollover_flag;
