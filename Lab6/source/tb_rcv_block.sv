@@ -58,7 +58,7 @@ module tb_rcv_block();
     .rx_data(tb_rx_data),
     .data_ready(tb_data_ready),
     .overrun_error(tb_overrun_error),
-    .framing_error(tb_framing_error),
+    .framing_error(tb_framing_error)
     //test signal
     // .shift_strobe(tb_shift_strobe),
     // .packet_data(tb_packet_data),

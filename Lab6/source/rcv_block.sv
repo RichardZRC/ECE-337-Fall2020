@@ -6,7 +6,7 @@ module rcv_block (
     output reg [7:0] rx_data,
     output reg data_ready,
     output reg overrun_error,
-    output reg framing_error,
+    output reg framing_error
     // TODO: delete test signals
     // output reg shift_strobe,
     // output reg [7:0] packet_data,
