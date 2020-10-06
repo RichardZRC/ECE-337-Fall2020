@@ -44,9 +44,9 @@ module tb_rcv_block();
   reg       tb_expected_framing_error;
   reg       tb_expected_data_ready;
   reg       tb_expected_overrun;
-  reg       tb_shift_strobe;
-  reg [7:0] tb_packet_data;
-  reg [3:0] tb_bit_count; //test signal
+  // reg       tb_shift_strobe; //test signal
+  // reg [7:0] tb_packet_data; //test signal
+  // reg [3:0] tb_bit_count; //test signal
   
   // DUT portmap
   rcv_block DUT
@@ -60,9 +60,9 @@ module tb_rcv_block();
     .overrun_error(tb_overrun_error),
     .framing_error(tb_framing_error),
     //test signal
-    .shift_strobe(tb_shift_strobe),
-    .packet_data(tb_packet_data),
-    .bit_count(tb_bit_count)
+    // .shift_strobe(tb_shift_strobe),
+    // .packet_data(tb_packet_data),
+    // .bit_count(tb_bit_count)
   );
   
   // Tasks for regulating the timing of input stimulus to the design
