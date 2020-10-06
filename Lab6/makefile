@@ -335,7 +335,7 @@ elaborate $(MOD_NAME) -lib WORK
 uniquify
 # Step 2: Set design constraints
 # Uncomment below to set timing, area, power, etc. constraints
-set_max_delay 2 -from "A5/state_reg[1]" -to "A4/CLK_COUNTER/count_out_reg[2]"
+set_max_delay 2 -from "A5/state_reg[0]" -to "A4/CLK_COUNTER/count_out_reg[1]"
 # set_max_area <area>
 # set_max_total_power <power> mW
 $(if $(and $(CLOCK_NAME), $(CLOCK_PERIOD)), create_clock "$(CLOCK_NAME)" -name "$(CLOCK_NAME)" -period $(CLOCK_PERIOD))
