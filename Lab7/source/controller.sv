@@ -46,7 +46,7 @@ module controller (
 
     always_ff @(posedge clk, negedge n_rst) begin: state_reg
         if (n_rst == 1'b0) begin
-            state <= '0;
+            state <= idle;
         end else begin
             state <= next_state;
         end
@@ -277,100 +277,100 @@ module controller (
 
             sort1: begin
                 op = 3'b001;
-                dest = 3'd1;
-                src1 = 3'd2;
+                dest = 4'd1;
+                src1 = 4'd2;
                 cnt_up = 0;
                 // modwait = 1;
             end
 
             sort2: begin
                 op = 3'b001;
-                dest = 3'd2;
-                src1 = 3'd3;
+                dest = 4'd2;
+                src1 = 4'd3;
                 // modwait = 1;
             end
 
             sort3: begin
                 op = 3'b001;
-                dest = 3'd3;
-                src1 = 3'd4;
+                dest = 4'd3;
+                src1 = 4'd4;
                 // modwait = 1;
             end
 
             sort4: begin
                 op = 3'b001;
-                dest = 3'd4;
-                src1 = 3'd5;
+                dest = 4'd4;
+                src1 = 4'd5;
                 // modwait = 1;
             end
 
             mul1: begin
                 op = 3'b110;
-                dest = 3'd10;
-                src1 = 3'd6;
-                src2 = 3'd1;
+                dest = 4'd10;
+                src1 = 4'd6;
+                src2 = 4'd1;
                 // modwait = 1;
             end
 
             sub1: begin
                 op = 3'b101;
-                dest = 3'd0;
-                src1 = 3'd0;
-                src2 = 1010;
+                dest = 4'd0;
+                src1 = 4'd0;
+                src2 = 4'd10;
                 // modwait = 1;
             end
 
             mul2: begin
                 op = 3'b110;
-                dest = 3'd10;
-                src1 = 3'd7;
-                src2 = 3'd2;
+                dest = 4'd10;
+                src1 = 4'd7;
+                src2 = 4'd2;
                 // modwait = 1;
             end
 
             add1: begin
                 op = 3'b100;
-                dest = 3'd0;
-                src1 = 3'd0;
-                src2 = 1010;
+                dest = 4'd0;
+                src1 = 4'd0;
+                src2 = 4'd10;
                 // modwait = 1;
             end
 
             mul3: begin
                 op = 3'b110;
-                dest = 3'd10;
-                src1 = 3'd8;
-                src2 = 3'd3;
+                dest = 4'd10;
+                src1 = 4'd8;
+                src2 = 4'd3;
                 // modwait = 1;
             end
 
             sub2: begin
                 op = 3'b101;
-                dest = 3'd0;
-                src1 = 3'd0;
-                src2 = 1010;
+                dest = 4'd0;
+                src1 = 4'd0;
+                src2 = 4'd10;
                 // modwait = 1;
             end
 
             mul4: begin
                 op = 3'b110;
-                dest = 3'd10;
-                src1 = 3'd9;
-                src2 = 3'd4;
+                dest = 4'd10;
+                src1 = 4'd9;
+                src2 = 4'd4;
                 // modwait = 1;
             end
 
             add2: begin
                 op = 3'b100;
-                dest = 3'd0;
-                src1 = 3'd0;
-                src2 = 1010;
+                dest = 4'd0;
+                src1 = 4'd0;
+                src2 = 4'd10;
                 // modwait = 1;
             end
 
             store_coeff1: begin
                 op = 3'b011;
-                dest = 3'd6;
+                dest = 4'd6;
                 // modwait = 1;
                 clear = 1;
             end
@@ -382,7 +382,7 @@ module controller (
 
             store_coeff2: begin
                 op = 3'b011;
-                dest = 3'd7;
+                dest = 4'd7;
                 // modwait = 1;
             end
 
@@ -392,7 +392,7 @@ module controller (
 
             store_coeff3: begin
                 op = 3'b011;
-                dest = 3'd8;
+                dest = 4'd8;
                 // modwait = 1;
             end
 
@@ -402,7 +402,7 @@ module controller (
 
             store_coeff4: begin
                 op = 3'b011;
-                dest = 3'd9;
+                dest = 4'd9;
                 // modwait = 1;
             end
         endcase
