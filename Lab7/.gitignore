@@ -21,3 +21,5 @@ covhtmlreport/
 #*#
 *.wlf
 do_mapping.tcl
+*/.DS_Store
+
