@@ -65,5 +65,5 @@ module fir_filter (
     magnitude mag (
         .in(outreg_data),
         .out(fir_out)
-    )
+    );
 endmodule
