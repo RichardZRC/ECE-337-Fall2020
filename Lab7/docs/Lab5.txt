@@ -1,0 +1,4 @@
+7.2
+1.	The filtered image is "darker" than the original image. It is like set a threshold of white, and anything below that threshold will become black in the filtered image. The filter feed the four coefficients 0.25 1 1 0.25 into all red, green, and blue value of each pixel. The result of filter_1 is the row dimensional 1-D pass of the original image
+2.	It generates a output header first, then load specific coefficient into the filter then feed each pixel into DUT, at last it dumps the image buffer to file.
+3.	%b %c %d %e %f %g %h %l %m %o %s %t %u %v %z (ignore case)
