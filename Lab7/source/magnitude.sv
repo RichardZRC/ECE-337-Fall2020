@@ -5,7 +5,7 @@ module magnitude (
     reg [16:0] mag;
     reg [16:0] mag_temp;
 
-    always_comb begin: 
+    always_comb begin
         mag = in;
         if (mag[16] == 1'b1) begin
             mag[15:0] = ~in[15:0];
