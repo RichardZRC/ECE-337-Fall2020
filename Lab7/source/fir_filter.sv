@@ -23,7 +23,7 @@ module fir_filter (
     wire [16:0] outreg_data;
 
     sync_low synchronizer1 (.clk(clk), .n_rst(n_reset), .async_in(data_ready), .sync_out(dr));
-    sync_low synchronizer2 (.clk(clk), .n_rst(n_reset), .async_in(fir_coefficient), .sync_out(lc));
+    sync_low synchronizer2 (.clk(clk), .n_rst(n_reset), .async_in(load_coeff), .sync_out(lc));
 
     controller control_unit (
         .clk(clk),
