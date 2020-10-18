@@ -126,6 +126,12 @@ module apb_slave (
                     end else if (paddr == 6) begin
                         data_read = 1;
                         prdata = rx_data;
+                    end else if (paddr == 2) begin
+                        prdata = bit_period[7:0];
+                    end else if (paddr == 3) begin
+                        prdata = {2'b0, bit_period[13:8]};
+                    end else if (paddr == 4) begin
+                        prdata = data_size;
                     end
                 end
             end
