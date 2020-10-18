@@ -30,7 +30,7 @@ module apb_slave (
 
     always_ff @(posedge clk, negedge n_rst) begin
         if (n_rst == 1'b0) begin
-            state <= '0;
+            state <= idle;
         end else begin
             state <= next_state;
         end
