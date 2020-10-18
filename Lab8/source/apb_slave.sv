@@ -28,7 +28,7 @@ module apb_slave (
     reg [3:0] next_data_size;
     reg [13:0] next_bit_period;
 
-    always_ff @(posedge clk, negedge n_rst) begin: 
+    always_ff @(posedge clk, negedge n_rst) begin
         if (n_rst == 1'b0) begin
             state <= '0;
         end else begin
@@ -36,7 +36,7 @@ module apb_slave (
         end
     end
 
-    always_ff @(posedge clk, negedge n_rst) begin: 
+    always_ff @(posedge clk, negedge n_rst) begin
         if (n_rst == 1'b0) begin
             data_size <= '0;
         end else begin
@@ -44,7 +44,7 @@ module apb_slave (
         end
     end
 
-    always_ff @(posedge clk, negedge n_rst) begin: 
+    always_ff @(posedge clk, negedge n_rst) begin
         if (n_rst == 1'b0) begin
             bit_period <= '0;
         end else begin
@@ -52,7 +52,7 @@ module apb_slave (
         end
     end
 
-    always_comb begin: 
+    always_comb begin
         next_state = state;
         case (state)
             idle: begin
@@ -91,7 +91,7 @@ module apb_slave (
         endcase
     end
 
-    always_comb begin: 
+    always_comb begin
         next_bit_period = bit_period;
         next_data_size = data_size;
         prdata = '0;
