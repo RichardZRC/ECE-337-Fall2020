@@ -3,6 +3,8 @@ module rcv_block (
     input wire n_rst,
     input wire serial_in,
     input wire data_read,
+    input wire [3:0] data_size,
+    input wire [13:0] bit_period,
     output reg [7:0] rx_data,
     output reg data_ready,
     output reg overrun_error,
@@ -40,6 +42,7 @@ module rcv_block (
         .n_rst(n_rst),
         .serial_in(serial_in),
         .shift_strobe(shift_strobe),
+        .data_size(data_size),
         .packet_data(packet_data),
         .stop_bit(stop_bit)
     );
@@ -59,6 +62,8 @@ module rcv_block (
         .enable_timer(enable_timer),
         .shift_enable(shift_strobe),
         .packet_done(packet_done)
+        .bit_period(bit_period),
+        .data_size(data_size)
         // .bit_count(bit_count) //test signal
     );
 
