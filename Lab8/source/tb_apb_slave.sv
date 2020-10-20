@@ -88,6 +88,8 @@ logic [13:0] tb_bit_period;
 logic        tb_expected_data_read;
 logic [3:0]  tb_expected_data_size;
 logic [13:0] tb_expected_bit_period;
+logic [7:0]  tb_expected_prdata;
+logic        tb_expected_pslverr;
 
 
 //*****************************************************************************
@@ -204,6 +206,14 @@ begin
   else begin // Check failed
     tb_mismatch = 1'b1;
     $error("Incorrect 'data_size' output %s during %s test case", check_tag, tb_test_case);
+  end
+
+  if(tb_expected_prdata == tb_prdata) begin // Check passed
+    $info("Correct 'prdata' output %s during %s test case", check_tag, tb_test_case);
+  end
+  else begin // Check failed
+    tb_mismatch = 1'b1;
+    $error("Incorrect 'prdata' output %s during %s test case", check_tag, tb_test_case);
   end
 
   // Wait some small amount of time so check pulse timing is visible on waves
@@ -391,6 +401,8 @@ initial begin
 
   // Run the read transactions via the model
   execute_transactions(2);
+
+  tb_expected_data_read = 
 
   // Student TODO: Add more test cases here
   // Update Navigation Info
