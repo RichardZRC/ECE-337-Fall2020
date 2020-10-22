@@ -62,6 +62,7 @@ module apb_slave (
     end
 
     always_comb begin
+        next_prdata = prdata;
         next_state = state;
         case (state)
             idle: begin
@@ -85,6 +86,28 @@ module apb_slave (
             read: begin
                 if (psel && !pwrite) begin
                     next_state = read;
+                    if (penable) begin
+                        if (paddr == 0) begin
+                            next_prdata = data_ready;
+                        end else if (paddr == 1) begin
+                            if (framing_error) begin
+                                next_prdata = 8'd1;
+                            end else if (overrun_error) begin
+                                next_prdata = 8'd2;
+                            end else begin
+                                next_prdata = '0;
+                            end
+                        end else if (paddr == 6) begin
+                            data_read = 1;
+                            next_prdata = rx_data;
+                        end else if (paddr == 2) begin
+                            next_prdata = bit_period[7:0];
+                        end else if (paddr == 3) begin
+                            next_prdata = {2'b0, bit_period[13:8]};
+                        end else if (paddr == 4) begin
+                            next_prdata = data_size;
+                        end
+                    end
                 end else begin
                     next_state = idle;
                 end
@@ -103,7 +126,6 @@ module apb_slave (
     always_comb begin
         next_bit_period = bit_period;
         next_data_size = data_size;
-        next_prdata = prdata;
         pslverr = 0;
         data_read = 0;
 
@@ -121,28 +143,31 @@ module apb_slave (
             end
 
             read: begin
-                if (penable) begin
-                    if (paddr == 0) begin
-                        next_prdata = data_ready;
-                    end else if (paddr == 1) begin
-                        if (framing_error) begin
-                            next_prdata = 8'd1;
-                        end else if (overrun_error) begin
-                            next_prdata = 8'd2;
-                        end else begin
-                            next_prdata = '0;
-                        end
-                    end else if (paddr == 6) begin
-                        data_read = 1;
-                        next_prdata = rx_data;
-                    end else if (paddr == 2) begin
-                        next_prdata = bit_period[7:0];
-                    end else if (paddr == 3) begin
-                        next_prdata = {2'b0, bit_period[13:8]};
-                    end else if (paddr == 4) begin
-                        next_prdata = data_size;
-                    end
+                if (paddr == 6) begin
+                    data_read = 1;
                 end
+                // if (penable) begin
+                //     if (paddr == 0) begin
+                //         next_prdata = data_ready;
+                //     end else if (paddr == 1) begin
+                //         if (framing_error) begin
+                //             next_prdata = 8'd1;
+                //         end else if (overrun_error) begin
+                //             next_prdata = 8'd2;
+                //         end else begin
+                //             next_prdata = '0;
+                //         end
+                //     end else if (paddr == 6) begin
+                //         data_read = 1;
+                //         next_prdata = rx_data;
+                //     end else if (paddr == 2) begin
+                //         next_prdata = bit_period[7:0];
+                //     end else if (paddr == 3) begin
+                //         next_prdata = {2'b0, bit_period[13:8]};
+                //     end else if (paddr == 4) begin
+                //         next_prdata = data_size;
+                //     end
+                // end
             end
 
             eidle: begin
