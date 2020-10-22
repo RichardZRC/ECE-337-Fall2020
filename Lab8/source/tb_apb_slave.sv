@@ -31,8 +31,8 @@ localparam ADDR_RX_DATA  = 3'd6;
 
 // APB-Slave reset value constants
 // Student TODO: Update these based on the reset values for your config registers
-localparam RESET_BIT_PERIOD = '0;
-localparam RESET_DATA_SIZE  = '0;
+localparam RESET_BIT_PERIOD = 4'b1010;
+localparam RESET_DATA_SIZE  = 4'b1010;
 
 //*****************************************************************************
 // Declare TB Signals (Bus Model Controls)
