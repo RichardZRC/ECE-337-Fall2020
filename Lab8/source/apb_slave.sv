@@ -54,13 +54,13 @@ module apb_slave (
         end
     end
 
-    // always_ff @(posedge clk, negedge n_rst) begin
-    //     if (n_rst == 1'b0) begin
-    //         prdata <= '0;
-    //     end else begin
-    //         prdata <= next_prdata;
-    //     end
-    // end
+    always_ff @(posedge clk, negedge n_rst) begin
+        if (n_rst == 1'b0) begin
+            prdata <= '0;
+        end else begin
+            prdata <= next_prdata;
+        end
+    end
 
     always_ff @(posedge clk, negedge n_rst) begin
         if (n_rst == 1'b0) begin
@@ -81,85 +81,85 @@ module apb_slave (
     always_comb begin
         next_bit_period = bit_period;
         next_data_size = data_size;
-        // next_prdata = prdata;
-        prdata = 0;
+        next_prdata = prdata;
+        // prdata = 0;
         next_pslverr = 0;
         next_data_read = 0;
         if (psel) begin
             case (paddr)
                 3'b000: begin
-                    if (penable) begin
+                    // if (penable) begin
                         if (pwrite) begin
                             next_pslverr = 1;
                         end else begin
-                            // next_prdata = data_ready;
-                            prdata = data_ready;
+                            next_prdata = data_ready;
+                            // prdata = data_ready;
                         end
-                    end
+                    // end
                 end
 
                 3'b001: begin
-                    if (penable) begin
+                    // if (penable) begin
                         if (pwrite) begin
                             next_pslverr = 1;
                         end else begin
                             if (framing_error) begin
-                                // next_prdata = 8'd1;
-                                prdata = 8'd1;
+                                next_prdata = 8'd1;
+                                // prdata = 8'd1;
                             end else if (overrun_error) begin
-                                // next_prdata = 8'd2;
-                                prdata = 8'd2;
+                                next_prdata = 8'd2;
+                                // prdata = 8'd2;
                             end else begin
-                                // next_prdata = '0;
-                                prdata = '0;
+                                next_prdata = '0;
+                                // prdata = '0;
                             end
                         end
-                    end
+                    // end
                 end
 
                 3'b010: begin
-                    if (penable) begin
+                    // if (penable) begin
                         if (pwrite) begin
                             next_bit_period[7:0] = pwdata;
                         end else begin
-                            // next_prdata = bit_period[7:0];
-                            prdata = bit_period[7:0];
+                            next_prdata = bit_period[7:0];
+                            // prdata = bit_period[7:0];
                         end
-                    end
+                    // end
                 end
 
                 3'b011: begin
-                    if (penable) begin
+                    // if (penable) begin
                         if (pwrite) begin
                             next_bit_period[13:8] = pwdata[5:0];
                         end else begin
-                            // next_prdata = {2'b0, next_bit_period[13:8]};
-                            prdata = {2'b0, next_bit_period[13:8]};
+                            next_prdata = {2'b0, next_bit_period[13:8]};
+                            // prdata = {2'b0, next_bit_period[13:8]};
                         end
-                    end
+                    // end
                 end
 
                 3'b100: begin
-                    if (penable) begin
+                    // if (penable) begin
                         if (pwrite) begin
                             next_data_size = pwdata;
                         end else begin
-                            // next_prdata = data_size;
-                            prdata = data_size;
+                            next_prdata = data_size;
+                            // prdata = data_size;
                         end
-                    end
+                    // end
                 end
 
                 3'b110: begin
-                    if (penable) begin
+                    // if (penable) begin
                         if (pwrite) begin
                             next_pslverr = 1;
                         end else begin
                             next_data_read = 1;
-                            // next_prdata = rx_data;
-                            prdata = rx_data;
+                            next_prdata = rx_data;
+                            // prdata = rx_data;
                         end
-                    end
+                    // end
                 end
             endcase
         end
