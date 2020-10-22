@@ -82,6 +82,7 @@ module apb_slave (
         next_bit_period = bit_period;
         next_data_size = data_size;
         // next_prdata = prdata;
+        prdata = 0;
         next_pslverr = 0;
         next_data_read = 0;
         if (psel) begin
