@@ -61,7 +61,7 @@ module rcv_block (
         .n_rst(n_rst),
         .enable_timer(enable_timer),
         .shift_enable(shift_strobe),
-        .packet_done(packet_done)
+        .packet_done(packet_done),
         .bit_period(bit_period),
         .data_size(data_size)
         // .bit_count(bit_count) //test signal
