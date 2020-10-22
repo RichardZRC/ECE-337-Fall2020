@@ -81,7 +81,7 @@ module apb_slave (
     always_comb begin
         next_bit_period = bit_period;
         next_data_size = data_size;
-        next_prdata = prdata;
+        // next_prdata = prdata;
         next_pslverr = 0;
         next_data_read = 0;
         if (psel) begin
