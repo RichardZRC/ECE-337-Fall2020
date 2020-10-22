@@ -10,7 +10,7 @@ module timer (
     // output reg [3:0] bit_count
 );
 
-    reg [3:0] clk_count;
+    reg [13:0] clk_count;
     reg [3:0] bit_count;
     reg clk_rollover_flag;
     reg bit_rollover_flag;
@@ -22,7 +22,7 @@ module timer (
     assign shift_enable = (clk_count == (bit_period / 2 - 1));
 
     flex_counter #(.NUM_CNT_BITS(4)) BIT_COUNTER (.clk(clk), .n_rst(n_rst), .clear(timer_clear), .count_enable(shift_enable), 
-    .rollover_val(data_size + 2), .count_out(bit_count), .rollover_flag(bit_rollover_flag));
+    .rollover_val(data_size + 2'b10), .count_out(bit_count), .rollover_flag(bit_rollover_flag));
 
     assign packet_done = bit_rollover_flag;
 
