@@ -15,7 +15,7 @@ module sr_9bit (
     // assign packet_data = parallel_out[7:0];
     assign stop_bit = parallel_out[8];
 
-    always_comb begin: 
+    always_comb begin
         if (data_size == 5) begin
             packet_data = {3'b0, parallel_out[7:3]};
         end else if (data_size == 7) begin
