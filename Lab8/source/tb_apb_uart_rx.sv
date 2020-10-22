@@ -205,7 +205,7 @@ begin
   tb_mismatch = 1'b0;
   tb_check    = 1'b1;
   if(tb_expected_pslverr == tb_pslverr) begin // Check passed
-    $info("Correct 'pslverr' output %s during %s test case", check_tag, tb_test_case);
+    $error("Correct 'pslverr' output %s during %s test case", check_tag, tb_test_case);
   end
   else begin // Check failed
     tb_mismatch = 1'b1;
@@ -213,7 +213,7 @@ begin
   end
 
   if(tb_expected_prdata == tb_prdata) begin // Check passed
-    $info("Correct 'prdata' output %s during %s test case", check_tag, tb_test_case);
+    $error("Correct 'prdata' output %s during %s test case", check_tag, tb_test_case);
   end
   else begin // Check failed
     tb_mismatch = 1'b1;
