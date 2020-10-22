@@ -17,26 +17,26 @@ module apb_slave (
     output reg [13:0] bit_period
 );
 
-    typedef enum logic [1:0] { 
-        idle,
-        eidle,
-        configure,
-        read
-    } state_type;
+    // typedef enum logic [1:0] { 
+    //     idle,
+    //     eidle,
+    //     configure,
+    //     read
+    // } state_type;
 
-    state_type state, next_state;
+    // state_type state, next_state;
     reg next_pslverr, next_data_read;
     reg [3:0] next_data_size;
     reg [7:0] next_prdata;
     reg [13:0] next_bit_period;
 
-    always_ff @(posedge clk, negedge n_rst) begin
-        if (n_rst == 1'b0) begin
-            state <= idle;
-        end else begin
-            state <= next_state;
-        end
-    end
+    // always_ff @(posedge clk, negedge n_rst) begin
+    //     if (n_rst == 1'b0) begin
+    //         state <= idle;
+    //     end else begin
+    //         state <= next_state;
+    //     end
+    // end
 
     always_ff @(posedge clk, negedge n_rst) begin
         if (n_rst == 1'b0) begin
