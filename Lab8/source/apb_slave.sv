@@ -26,6 +26,7 @@ module apb_slave (
 
     state_type state, next_state;
     reg [3:0] next_data_size;
+    reg [7:0] next_prdata;
     reg [13:0] next_bit_period;
 
     always_ff @(posedge clk, negedge n_rst) begin
@@ -38,7 +39,7 @@ module apb_slave (
 
     always_ff @(posedge clk, negedge n_rst) begin
         if (n_rst == 1'b0) begin
-            data_size <= '0;
+            data_size <= 4'b1010;
         end else begin
             data_size <= next_data_size;
         end
@@ -46,9 +47,17 @@ module apb_slave (
 
     always_ff @(posedge clk, negedge n_rst) begin
         if (n_rst == 1'b0) begin
-            bit_period <= '0;
+            bit_period <= 4'b1010;
         end else begin
             bit_period <= next_bit_period;
+        end
+    end
+
+    always_ff @(posedge clk, negedge n_rst) begin: 
+        if (n_rst == 1'b0) begin
+            prdata <= '0;
+        end else begin
+            prdata <= next_prdata;
         end
     end
 
@@ -94,7 +103,7 @@ module apb_slave (
     always_comb begin
         next_bit_period = bit_period;
         next_data_size = data_size;
-        prdata = '0;
+        next_prdata = prdata;
         pslverr = 0;
         data_read = 0;
 
@@ -114,24 +123,24 @@ module apb_slave (
             read: begin
                 if (penable) begin
                     if (paddr == 0) begin
-                        prdata = data_ready;
+                        next_prdata = data_ready;
                     end else if (paddr == 1) begin
                         if (framing_error) begin
-                            prdata = 8'd1;
+                            next_prdata = 8'd1;
                         end else if (overrun_error) begin
-                            prdata = 8'd2;
+                            next_prdata = 8'd2;
                         end else begin
-                            prdata = '0;
+                            next_prdata = '0;
                         end
                     end else if (paddr == 6) begin
                         data_read = 1;
-                        prdata = rx_data;
+                        next_prdata = rx_data;
                     end else if (paddr == 2) begin
-                        prdata = bit_period[7:0];
+                        next_prdata = bit_period[7:0];
                     end else if (paddr == 3) begin
-                        prdata = {2'b0, bit_period[13:8]};
+                        next_prdata = {2'b0, bit_period[13:8]};
                     end else if (paddr == 4) begin
-                        prdata = data_size;
+                        next_prdata = data_size;
                     end
                 end
             end
