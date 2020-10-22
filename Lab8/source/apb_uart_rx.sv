@@ -5,6 +5,7 @@ module apb_uart_rx (
     input wire psel,
     input wire [2:0] paddr,
     input wire penable,
+    input wire pwrite,
     input wire [7:0] pwdata,
     output wire [7:0] prdata,
     output wire pslverr
