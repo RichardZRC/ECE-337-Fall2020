@@ -98,7 +98,6 @@ module apb_slave (
                                 next_prdata = '0;
                             end
                         end else if (paddr == 6) begin
-                            data_read = 1;
                             next_prdata = rx_data;
                         end else if (paddr == 2) begin
                             next_prdata = bit_period[7:0];
