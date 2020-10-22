@@ -222,6 +222,35 @@ begin
 end
 endtask
 
+// Task to cleanly and consistently check DUT prdata and pslverr values
+task check_outputs;
+  input string check_tag;
+begin
+  tb_mismatch = 1'b0;
+  tb_check    = 1'b1;
+  if(tb_expected_prdata == tb_prdata) begin // Check passed
+    $info("Correct 'prdata' output %s during %s test case", check_tag, tb_test_case);
+  end
+  else begin // Check failed
+    tb_mismatch = 1'b1;
+    $error("Incorrect 'prdata' output %s during %s test case", check_tag, tb_test_case);
+  end
+
+  if(tb_expected_pslverr == tb_pslverr) begin // Check passed
+    $info("Correct 'pslverr' output %s during %s test case", check_tag, tb_test_case);
+  end
+  else begin // Check failed
+    tb_mismatch = 1'b1;
+    $error("Incorrect 'pslverr' output %s during %s test case", check_tag, tb_test_case);
+  end
+
+ 
+  // Wait some small amount of time so check pulse timing is visible on waves
+  #(0.1);
+  tb_check =1'b0;
+end
+endtask
+
 //*****************************************************************************
 // Bus Model Usage Related TB Tasks
 //*****************************************************************************
@@ -404,10 +433,20 @@ initial begin
 
   // tb_expected_data_read = 
 
-  // Student TODO: Add more test cases here
-  // Update Navigation Info
-  tb_test_case     = "Need More Tests!";
+  // ************************************************************************
+  // Test Case data_buffer
+  // ************************************************************************
+  
+  tb_test_case = "Read data buffer";
   tb_test_case_num = tb_test_case_num + 1;
+
+  reset_dut();
+
+  tb_rx_data = 8'b10101010;
+  enqueue_transaction(1'b1, 1'b0, ADDR_RX_DATA, tb_rx_data, 1'b0);
+  execute_transactions(1);
+
+  
 
 end
 
