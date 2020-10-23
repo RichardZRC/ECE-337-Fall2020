@@ -161,6 +161,14 @@ module apb_slave (
                         end
                     // end
                 end
+
+                3'b101: begin
+                    next_pslverr = 1'b1;
+                end
+                
+                default: begin
+                    next_pslverr = 1'b1;
+                end
             endcase
         end
     end
