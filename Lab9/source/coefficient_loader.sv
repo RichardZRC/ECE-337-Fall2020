@@ -4,7 +4,7 @@ module coefficient_loader (
     input wire new_coefficient_set,
     input wire modwait,
     output reg load_coeff,
-    output reg coefficient_num[1:0]
+    output reg [1:0] coefficient_num
 );
     typedef enum logic [2:0] { 
         idle,
