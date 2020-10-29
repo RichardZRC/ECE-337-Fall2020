@@ -489,14 +489,14 @@ initial begin
   tb_expected_coeff         = RESET_COEFF;
   check_outputs("MASTER_READ_NEW_SAMPLE2");
 
-  #(CLK_PERIOD * 3);
-  tb_modwait = 1;
-  enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_BUSY, tb_modwait, 1'b0, 1'd0);
-  execute_transactions(1);
+  // #(CLK_PERIOD * 3);
+  // tb_modwait = 1;
+  // enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_BUSY, tb_modwait, 1'b0, 1'd0);
+  // execute_transactions(1);
 
-  tb_modwait = 0;
-  enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_BUSY, tb_modwait, 1'b0, 1'd0);
-  execute_transactions(1);
+  // tb_modwait = 0;
+  // enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_BUSY, tb_modwait, 1'b0, 1'd0);
+  // execute_transactions(1);
 
   #(CLK_PERIOD * 3);
 
