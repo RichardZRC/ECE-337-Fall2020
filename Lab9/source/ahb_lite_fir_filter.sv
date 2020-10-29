@@ -28,7 +28,7 @@ module ahb_lite_fir_filter (
         .hsel(hsel),
         .haddr(haddr),
         .hsize(hsize),
-        .htrnas(htrans),
+        .htrans(htrans),
         .hwrite(hwrite),
         .hwdata(hwdata),
         .hrdata(hrdata),
