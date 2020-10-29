@@ -167,7 +167,7 @@ module ahb_lite_slave (
             end else if (haddr == 7 || haddr == 9 || haddr == 11 || haddr == 13) begin
                 if (hwrite) begin
                     if (hsize == 0) begin
-                        next_data_table[haddr / 2'd2 - 2'd3][15:8] = hwdata[15:8], 8'b0;
+                        next_data_table[haddr / 2'd2 - 2'd3][15:8] = hwdata[15:8];
                     end else begin
                         next_data_table[haddr / 2'd2 - 2'd3] = hwdata[15:0];
                     end
