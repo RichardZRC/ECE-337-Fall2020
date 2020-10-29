@@ -35,7 +35,7 @@ module ahb_lite_fir_filter (
         .hresp(hresp)
     );
 
-    coefficient_loader loader (
+    coefficient_loader load (
         .clk(clk),
         .n_reset(n_rst),
         .new_coefficient_set(new_coefficient_set),
@@ -44,7 +44,7 @@ module ahb_lite_fir_filter (
         .coefficient_num(coefficient_num)
     );
 
-    fir_filter filter (
+    fir_filter fir (
         .clk(clk),
         .n_reset(n_rst),
         .sample_data(sample_data),
