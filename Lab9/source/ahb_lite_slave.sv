@@ -23,12 +23,33 @@ module ahb_lite_slave (
     reg [15:0] next_hrdata, next_sample_data, next_fir_coefficient;
     reg next_data_ready, next_new_coefficient_set, next_hresp;
 
+    always_ff @(posedge clk, negedge n_rst) begin: Reg
+        if (n_rst == 1'b0) begin
+            data_table <= '0;
+            hrdata <= '0;
+            sample_data <= '0;
+            fir_coefficient <= '0;
+            data_ready <= '0;
+            new_coefficient_set <= '0;
+            hresp <= '0;
+        end else begin
+            data_table <= next_data_table;
+            hrdata <= next_hrdata;
+            sample_data <= next_sample_data;
+            fir_coefficient <= next_fir_coefficient;
+            data_ready <= next_data_ready;
+            new_coefficient_set <= next_new_coefficient_set;
+            hresp <= next_hresp;
+        end
+    end
+
     always_comb begin
         next_new_coefficient_set = new_coefficient_set;
         next_hresp = '0;
         next_hrdata = hrdata;
         next_sample_data = data_table[0];
         next_data_table = data_table;
+        next_fir_coefficient = fir_coefficient;
 
         if (hsel && (htrans != 0)) begin
             if (haddr == 4'b0000) begin
@@ -143,14 +164,8 @@ module ahb_lite_slave (
                     end
                 end
             end
-
-
         end
-    end
 
-    always_comb begin: Set_Coeff
-        next_new_coefficient_set = new_coefficient_set;
-        next_fir_coefficient = fir_coefficient;
         if (coefficient_num == 0) begin
             next_fir_coefficient = data_table[1];
         end else if (coefficient_num == 1) begin
@@ -163,6 +178,22 @@ module ahb_lite_slave (
         end
         
     end
+
+    // always_comb begin: Set_Coeff
+    //     next_new_coefficient_set = new_coefficient_set;
+    //     next_fir_coefficient = fir_coefficient;
+    //     if (coefficient_num == 0) begin
+    //         next_fir_coefficient = data_table[1];
+    //     end else if (coefficient_num == 1) begin
+    //         next_fir_coefficient = data_table[2];
+    //     end else if (coefficient_num == 2) begin
+    //         next_fir_coefficient = data_table[3];
+    //     end else if (coefficient_num == 3) begin
+    //         next_fir_coefficient = data_table[4];
+    //         next_new_coefficient_set = 0;
+    //     end
+        
+    // end
 
     always_comb begin: Data_ready
         next_data_ready = 1'b0;
