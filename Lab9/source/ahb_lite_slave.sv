@@ -133,7 +133,7 @@ module ahb_lite_slave (
                 end
 
             end else if (haddr == 15) begin
-                if (hszie == 0) begin
+                if (hsize == 0) begin
                     next_hresp = 1'b1;
                 end else begin
                     if (hwrite) begin
