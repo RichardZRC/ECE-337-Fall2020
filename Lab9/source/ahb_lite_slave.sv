@@ -20,7 +20,7 @@ module ahb_lite_slave (
 );
 
     reg [3:0][15:0] data_table, next_data_table;
-    reg [15:0] next_hrdata, next_sample_data, next_fir_coefficient;
+    reg [15:0] next_sample_data, next_fir_coefficient;
     reg next_data_ready, next_new_coefficient_set, next_hresp, temp_hsize, temp_hwrite;
     reg [3:0] temp_haddr;
     reg[1:0] temp_htrans;
@@ -28,7 +28,7 @@ module ahb_lite_slave (
     always_ff @(posedge clk, negedge n_rst) begin: Reg
         if (n_rst == 1'b0) begin
             data_table <= '0;
-            hrdata <= '0;
+            // hrdata <= '0;
             sample_data <= '0;
             fir_coefficient <= '0;
             data_ready <= '0;
@@ -40,7 +40,7 @@ module ahb_lite_slave (
             temp_hwrite <= '0;
         end else begin
             data_table <= next_data_table;
-            hrdata <= next_hrdata;
+            // hrdata <= next_hrdata;
             sample_data <= next_sample_data;
             fir_coefficient <= next_fir_coefficient;
             data_ready <= next_data_ready;
@@ -56,12 +56,15 @@ module ahb_lite_slave (
     always_comb begin
         next_new_coefficient_set = new_coefficient_set;
         next_hresp = '0;
-        next_hrdata = hrdata;
+        // next_hrdata = hrdata;
         next_data_table = data_table;
         next_fir_coefficient = fir_coefficient;
-        next_data_ready = 1'b0;
+        next_data_ready = data_ready;
         next_sample_data = sample_data;
 
+        if (!modwait) {
+            next_data_ready = 0;
+        }
         if (hsel && (temp_htrans != 0)) begin
             if (temp_haddr == 4'b0000) begin
                 if (temp_hwrite) begin
@@ -69,17 +72,22 @@ module ahb_lite_slave (
                 end else begin
                     if (temp_hsize == 0) begin
                         if (new_coefficient_set || modwait) begin
-                            next_hrdata = 1'b1;
+                            // next_hrdata = 1'b1;
+                            hrdata = 1'b1;
                         end else begin
-                            next_hrdata = 0;
+                            // next_hrdata = 0;
+                            hrdata = 0;
                         end
                     end else begin
                         if (new_coefficient_set || modwait) begin
-                            next_hrdata = 1'b1;
+                            // next_hrdata = 1'b1;
+                            hrdata = 1'b1;
                         end else if (err) begin
-                            next_hrdata = {7'b0, 1'b1, 8'b0};
+                            // next_hrdata = {7'b0, 1'b1, 8'b0};
+                            hrdata = {7'b0, 1'b1, 8'b0};
                         end else begin
-                            next_hrdata = '0;
+                            // next_hrdata = '0;
+                            hrdata = '0;
                         end
                     end
                 end
@@ -90,17 +98,22 @@ module ahb_lite_slave (
                 end else begin
                     if (temp_hsize == 0) begin
                         if (err) begin
-                            next_hrdata = {7'b0, 1'b1, 8'b0};
+                            // next_hrdata = {7'b0, 1'b1, 8'b0};
+                            hrdata = {7'b0, 1'b1, 8'b0};
                         end else begin
-                            next_hrdata = '0;
+                            // next_hrdata = '0;
+                            hrdata = '0;
                         end
                     end else begin
                         if (new_coefficient_set || modwait) begin
-                            next_hrdata = 1'b1;
+                            // next_hrdata = 1'b1;
+                            hrdata = 1'b1;
                         end else if (err) begin
-                            next_hrdata = {7'b0, 1'b1, 8'b0};
+                            // next_hrdata = {7'b0, 1'b1, 8'b0};
+                            hrdata = {7'b0, 1'b1, 8'b0};
                         end else begin
-                            next_hrdata = '0;
+                            // next_hrdata = '0;
+                            hrdata = '0;
                         end
                     end
                 end
@@ -110,9 +123,11 @@ module ahb_lite_slave (
                     next_hresp = 1'b1;
                 end else begin
                     if (temp_hsize == 0) begin
-                        next_hrdata = {8'b0, fir_out[7:0]};
+                        // next_hrdata = {8'b0, fir_out[7:0]};
+                        hrdata = {8'b0, fir_out[7:0]};
                     end else begin
-                        next_hrdata = fir_out;
+                        // next_hrdata = fir_out;
+                        hrdata = fir_out;
                     end
                 end
 
@@ -121,9 +136,11 @@ module ahb_lite_slave (
                     next_hresp = 1'b1;
                 end else begin
                     if (temp_hsize == 0) begin
-                        next_hrdata = {fir_out[15:8], 8'b0};
+                        // next_hrdata = {fir_out[15:8], 8'b0};
+                        hrdata = {fir_out[15:8], 8'b0};
                     end else begin
-                        next_hrdata = fir_out;
+                        // next_hrdata = fir_out;
+                        hrdata = fir_out;
                     end
                 end
 
@@ -137,9 +154,11 @@ module ahb_lite_slave (
                     end
                 end else begin
                     if (temp_hsize == 0) begin
-                        next_hrdata[7:0] = sample_data[7:0];
+                        // next_hrdata[7:0] = sample_data[7:0];
+                        hrdata[7:0] = sample_data[7:0];
                     end else begin
-                        next_hrdata = sample_data;
+                        // next_hrdata = sample_data;
+                        hrdata = sample_data;
                     end
                 end
             
@@ -153,9 +172,11 @@ module ahb_lite_slave (
                     end
                 end else begin
                     if (temp_hsize == 0) begin
-                        next_hrdata[15:8] = sample_data[15:8];
+                        // next_hrdata[15:8] = sample_data[15:8];
+                        hrdata[15:8] = sample_data[15:8];
                     end else begin
-                        next_hrdata = sample_data;
+                        // next_hrdata = sample_data;
+                        hrdata = sample_data;
                     end
                 end 
 
@@ -168,9 +189,11 @@ module ahb_lite_slave (
                     end
                 end else begin
                     if (temp_hsize == 0) begin
-                        next_hrdata = {8'b0, next_data_table[temp_haddr / 2'd2 - 2'd3][7:0]};
+                        // next_hrdata = {8'b0, next_data_table[temp_haddr / 2'd2 - 2'd3][7:0]};
+                        hrdata = {8'b0, next_data_table[temp_haddr / 2'd2 - 2'd3][7:0]};
                     end else begin
-                        next_hrdata = next_data_table[temp_haddr / 2'd2 - 2'd3];
+                        // next_hrdata = next_data_table[temp_haddr / 2'd2 - 2'd3];
+                        hrdata = next_data_table[temp_haddr / 2'd2 - 2'd3];
                     end
                 end
 
@@ -183,9 +206,11 @@ module ahb_lite_slave (
                     end
                 end else begin
                     if (temp_hsize == 0) begin
-                        next_hrdata = {next_data_table[temp_haddr / 2'd2 - 2'd3][15:8], 8'b0};
+                        // next_hrdata = {next_data_table[temp_haddr / 2'd2 - 2'd3][15:8], 8'b0};
+                        hrdata = {next_data_table[temp_haddr / 2'd2 - 2'd3][15:8], 8'b0};
                     end else begin
-                        next_hrdata = next_data_table[temp_haddr / 2'd2 - 2'd3];
+                        // next_hrdata = next_data_table[temp_haddr / 2'd2 - 2'd3];
+                        hrdata = next_data_table[temp_haddr / 2'd2 - 2'd3];
                     end
                 end
                 
@@ -193,7 +218,8 @@ module ahb_lite_slave (
                 if (temp_hwrite) begin
                     next_new_coefficient_set = hwdata[0];
                 end else begin
-                    next_hrdata = new_coefficient_set;
+                    // next_hrdata = new_coefficient_set;
+                    hrdata = new_coefficient_set;
                 end
 
             end else if (temp_haddr == 15) begin
@@ -203,7 +229,8 @@ module ahb_lite_slave (
                     if (temp_hwrite) begin
                         next_new_coefficient_set = hwdata[0];
                     end else begin
-                        next_hrdata = new_coefficient_set;
+                        // next_hrdata = new_coefficient_set;
+                        hrdata = new_coefficient_set;
                     end
                 end
             end
