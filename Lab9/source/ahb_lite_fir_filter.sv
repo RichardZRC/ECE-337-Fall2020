@@ -13,7 +13,7 @@ module ahb_lite_fir_filter (
 
     wire [15:0] fir_out, sample_data, fir_coefficient;
     wire err, data_ready, modwait, load_coeff, new_coefficient_set, one_k_samples;
-    wire [3:0] coefficient_num;
+    wire [1:0] coefficient_num;
 
     ahb_lite_slave slave (
         .clk(clk),
@@ -32,7 +32,8 @@ module ahb_lite_fir_filter (
         .hwrite(hwrite),
         .hwdata(hwdata),
         .hrdata(hrdata),
-        .hresp(hresp)
+        .hresp(hresp),
+        .coefficient_num(coefficient_num)
     );
 
     coefficient_loader load (
