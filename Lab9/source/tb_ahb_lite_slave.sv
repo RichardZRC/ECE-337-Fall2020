@@ -96,7 +96,6 @@ logic [DATA_MAX_BIT:0]  tb_expected_sample;
 logic                   tb_expected_new_coeff_set;
 logic [DATA_MAX_BIT:0]  tb_expected_coeff;
 
-
 //*****************************************************************************
 // Clock Generation Block
 //*****************************************************************************
@@ -346,7 +345,7 @@ initial begin
 
   // Clear the bus model
   reset_model();
-
+  reset_dut();
   //*****************************************************************************
   // Power-on-Reset Test Case
   //*****************************************************************************
@@ -370,6 +369,7 @@ initial begin
   // Give some visual spacing between check and next test case start
   #(CLK_PERIOD * 3);
 
+
   //*****************************************************************************
   // Test Case: Set a new sample value
   //*****************************************************************************
@@ -383,9 +383,9 @@ initial begin
   reset_dut();
 
   // Enqueue the needed transactions (Low Coeff Address => F0, just add 2 x index)
-  tb_test_data = 16'd1000; 
+  tb_test_data = 16'd1000;  //1111101000
   enqueue_transaction(1'b1, 1'b1, ADDR_SAMPLE, tb_test_data, 1'b0, 1'b1);
-  
+
   // Run the transactions via the model
   execute_transactions(1);
 
@@ -433,15 +433,228 @@ initial begin
   #(CLK_PERIOD * 3);
 
 
+
+  //*****************************************************************************
+  // Test Case: MASTER_READ_RESULT
+  //*****************************************************************************
   // Student TODO: Add more test cases here
   // Update Navigation Info
-  tb_test_case     = "Need More Tests!";
+  tb_test_case     = "MASTER_READ_RESULT";
   tb_test_case_num = tb_test_case_num + 1;
   init_fir_side();
   init_expected_outs();
 
   // Reset the DUT to isolate from prior test case
   reset_dut();
+
+  tb_fir_out = 16'b1111010100100101;
+
+  enqueue_transaction(1'b1, 1'b0, ADDR_RESULT, tb_fir_out, 1'b0, 1'd1);
+  execute_transactions(1);
+
+  enqueue_transaction(1'b1, 1'b0, ADDR_RESULT, tb_fir_out[7:0], 1'b0, 1'd0);
+  execute_transactions(1);
+
+  enqueue_transaction(1'b1, 1'b0, ADDR_RESULT, tb_fir_out, 1'b0, 1'd1);
+  enqueue_transaction(1'b1, 1'b0, ADDR_RESULT, tb_fir_out[7:0], 1'b0, 1'd0);
+  execute_transactions(2);
+
+  enqueue_transaction(1'b1, 1'b1, ADDR_RESULT, tb_fir_out, 1'b1, 1'd1);
+  enqueue_transaction(1'b1, 1'b1, ADDR_RESULT, tb_fir_out[7:0], 1'b1, 1'd0);
+  execute_transactions(2);
+  #(CLK_PERIOD * 3);
+
+  //*****************************************************************************
+  // Test Case: MASTER_READ_NEW_SAMPLE
+  //*****************************************************************************
+  tb_test_case     = "MASTER_READ_NEW_SAMPLE";
+  tb_test_case_num = tb_test_case_num + 1;
+  init_fir_side();
+  init_expected_outs();
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  tb_test_data = 16'b1010101011111111;
+
+  enqueue_transaction(1'b1, 1'b1, ADDR_SAMPLE, tb_test_data, 1'b0, 1'd1);
+  execute_transactions(1);
+
+  enqueue_transaction(1'b1, 1'b0, ADDR_SAMPLE, tb_test_data, 1'b0, 1'd1);
+  execute_transactions(1);
+
+  tb_expected_data_ready    = 1'b1;
+  tb_expected_sample        = tb_test_data;
+  tb_expected_new_coeff_set = 1'b0;
+  tb_expected_coeff         = RESET_COEFF;
+  check_outputs("MASTER_READ_NEW_SAMPLE");
+
+  #(CLK_PERIOD * 3);
+  tb_modwait = 1;
+  enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_BUSY, tb_modwait, 1'b0, 1'd0);
+  execute_transactions(1);
+
+  tb_modwait = 0;
+  enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_BUSY, tb_modwait, 1'b0, 1'd0);
+  execute_transactions(1);
+
+  #(CLK_PERIOD * 3);
+
+
+  tb_test_data = 16'b1010101011111111;
+  enqueue_transaction(1'b1, 1'b1, ADDR_SAMPLE, tb_test_data[7:0], 1'b0, 1'd0);
+  execute_transactions(1);
+
+  enqueue_transaction(1'b1, 1'b0, ADDR_SAMPLE, tb_test_data[7:0], 1'b0, 1'd0);
+  execute_transactions(1);
+
+  tb_expected_data_ready    = 1'b1;
+  tb_expected_sample        = {8'b0,tb_test_data[7:0]};
+  tb_expected_new_coeff_set = 1'b0;
+  tb_expected_coeff         = RESET_COEFF;
+  check_outputs("MASTER_READ_NEW_SAMPLE");
+  #(CLK_PERIOD * 3);
+
+  tb_test_data = 16'b1101001100000000;
+  enqueue_transaction(1'b1, 1'b1, (ADDR_SAMPLE + 1), tb_test_data[15:8], 1'b0, 1'd0);
+  execute_transactions(1);
+  enqueue_transaction(1'b1, 1'b0, (ADDR_SAMPLE + 1), tb_test_data[15:8], 1'b0, 1'd0);
+  execute_transactions(1);
+
+  tb_expected_data_ready    = 1'b1;
+  tb_expected_sample        = {tb_test_data[15:8],8'b0};
+  tb_expected_new_coeff_set = 1'b0;
+  tb_expected_coeff         = RESET_COEFF;
+  check_outputs("MASTER_READ_NEW_SAMPLE");
+  #(CLK_PERIOD * 3);
+
+  //*****************************************************************************
+  // Test Case: MASTER_READ_STATUS_REGISTER
+  //*****************************************************************************
+  tb_test_case     = "MASTER_READ_STATUS_REGISTER";
+  tb_test_case_num = tb_test_case_num + 1;
+  init_fir_side();
+  init_expected_outs();
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+  
+  //error & !modwait amd !error & modwait
+ 
+  tb_err = 1;
+  tb_modwait = 0;
+  tb_test_data = 16'b100000000;
+  //ADDR_STATUS_ERR is 1
+  enqueue_transaction(1'b1, 1'b1, ADDR_STATUS_ERR, tb_test_data, 1'b1, 1'd0);
+  enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_ERR, tb_test_data, 1'b0, 1'd0);
+  execute_transactions(1);
+
+  enqueue_transaction(1'b1, 1'b1, ADDR_STATUS_ERR, tb_test_data, 1'b1, 1'd1);
+  enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_ERR, tb_test_data, 1'b0, 1'd1);
+  execute_transactions(1);
+
+//busy & idle, hsize 0 & 1
+  tb_err = 0;
+  tb_modwait = 1;
+  tb_test_data = 16'b0000000000000001;
+  enqueue_transaction(1'b1, 1'b1, ADDR_STATUS_BUSY, tb_test_data, 1'b1, 1'd0);
+  enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_BUSY, tb_test_data, 1'b0, 1'd0);
+  execute_transactions(2);
+
+  tb_err = 0;
+  tb_modwait = 1;
+  tb_test_data = 16'b0000000000000001;
+  enqueue_transaction(1'b1, 1'b1, ADDR_STATUS_BUSY, tb_test_data, 1'b1, 1'd1);
+  enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_BUSY, tb_test_data, 1'b0, 1'd1);
+  execute_transactions(2);
+
+  tb_err = 0;
+  tb_modwait = 0;
+  tb_test_data = 16'b0000000000000000;
+  enqueue_transaction(1'b1, 1'b1, ADDR_STATUS_BUSY, tb_test_data, 1'b1, 1'd1);
+  enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_BUSY, tb_test_data, 1'b0, 1'd1);
+  execute_transactions(2);
+
+  tb_err = 0;
+  tb_modwait = 0;
+  tb_test_data = 16'b0000000000000000;
+  enqueue_transaction(1'b1, 1'b1, ADDR_STATUS_BUSY, tb_test_data, 1'b1, 1'd0);
+  enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_BUSY, tb_test_data, 1'b0, 1'd0);
+  execute_transactions(2);
+
+
+  tb_err = 1;
+  tb_modwait = 1;
+  tb_test_data = 16'b0000000100000001;
+  enqueue_transaction(1'b1, 1'b1, ADDR_STATUS_BUSY, tb_test_data, 1'b1, 1'd1);
+  enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_BUSY, tb_test_data, 1'b0, 1'd1);
+  execute_transactions(2);
+
+  tb_err = 1;
+  tb_modwait = 1;
+  tb_test_data = 16'b0000000000000001;
+  enqueue_transaction(1'b1, 1'b1, ADDR_STATUS_BUSY, tb_test_data, 1'b1, 1'd0);
+  enqueue_transaction(1'b1, 1'b0, ADDR_STATUS_BUSY, tb_test_data, 1'b0, 1'd0);
+  execute_transactions(2);
+
+
+  #(CLK_PERIOD * 3);
+
+  //*****************************************************************************
+  // Test Case: MASTER_READ_WRITE_COEFFICIENT_RELATED_REGISTERS
+  //*****************************************************************************
+  tb_test_case     = "MASTER_READ_WRITE_COEFFICIENT_RELATED_REGISTERS";
+  tb_test_case_num = tb_test_case_num + 1;
+  init_fir_side();
+  init_expected_outs();
+
+  // Reset the DUT to isolate from prior test case
+  reset_dut();
+
+  tb_new_coeff_set = 16'd1;
+  enqueue_transaction(1'b1, 1'b1, ADDR_COEF_SET, tb_new_coeff_set, 1'b0, 1'b0);
+  enqueue_transaction(1'b1, 1'b0, ADDR_COEF_SET, tb_new_coeff_set, 1'b0, 1'b0);
+  execute_transactions(2);
+
+  tb_coeff_num = 0;
+
+  // Enqueue the needed transactions (Low Coeff Address => F0, just add 2 x index)
+  tb_test_data = 16'd10; // Fixed decimal value of 1.0
+  // Enqueue the write
+  enqueue_transaction(1'b1, 1'b1, ADDR_COEF_START, tb_test_data, 1'b0, 1'b1);
+  // Enqueue the 'check' read
+  enqueue_transaction(1'b1, 1'b0, ADDR_COEF_START, tb_test_data, 1'b0, 1'b1);
+
+  // Run the transactions via the model
+  execute_transactions(2);
+
+  tb_coeff_num = 1;
+  tb_test_data = 16'd11; 
+  enqueue_transaction(1'b1, 1'b1, (ADDR_COEF_START + 2), tb_test_data, 1'b0, 1'b1);
+  enqueue_transaction(1'b1, 1'b0, (ADDR_COEF_START + 2), tb_test_data, 1'b0, 1'b1);
+  execute_transactions(2);
+
+  tb_coeff_num = 2;
+  tb_test_data = 16'd12; 
+  enqueue_transaction(1'b1, 1'b1, (ADDR_COEF_START + 4), tb_test_data, 1'b0, 1'b1);
+  enqueue_transaction(1'b1, 1'b0, (ADDR_COEF_START + 4), tb_test_data, 1'b0, 1'b1);
+  execute_transactions(2);
+
+  tb_coeff_num = 3;
+  tb_test_data = 16'd13; 
+  enqueue_transaction(1'b1, 1'b1, (ADDR_COEF_START + 6), tb_test_data, 1'b0, 1'b1);
+  enqueue_transaction(1'b1, 1'b0, (ADDR_COEF_START + 6), tb_test_data, 1'b0, 1'b1);
+  execute_transactions(2);
+
+  // Check the DUT outputs
+  tb_expected_data_ready    = 1'b0;
+  tb_expected_sample        = RESET_SAMPLE;
+  tb_expected_new_coeff_set = 1'b0;
+  tb_expected_coeff         = tb_test_data;
+  check_outputs("MASTER_READ_WRITE_COEFFICIENT_RELATED_REGISTERS");
+
+  // Give some visual spacing between check and next test case start
+  #(CLK_PERIOD * 3);
 
 end
 
