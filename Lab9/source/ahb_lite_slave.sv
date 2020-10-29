@@ -21,7 +21,9 @@ module ahb_lite_slave (
 
     reg [3:0][15:0] data_table, next_data_table;
     reg [15:0] next_hrdata, next_sample_data, next_fir_coefficient;
-    reg next_data_ready, next_new_coefficient_set, next_hresp;
+    reg next_data_ready, next_new_coefficient_set, next_hresp, temp_hsize, temp_hwrite;
+    reg [3:0] temp_haddr;
+    reg[1:0] temp_htrans;
 
     always_ff @(posedge clk, negedge n_rst) begin: Reg
         if (n_rst == 1'b0) begin
@@ -32,6 +34,10 @@ module ahb_lite_slave (
             data_ready <= '0;
             new_coefficient_set <= '0;
             hresp <= '0;
+            temp_haddr <= '0;
+            temp_hsize <= '0;
+            temp_htrans <= '0;
+            temp_hwrite <= '0;
         end else begin
             data_table <= next_data_table;
             hrdata <= next_hrdata;
@@ -40,6 +46,10 @@ module ahb_lite_slave (
             data_ready <= next_data_ready;
             new_coefficient_set <= next_new_coefficient_set;
             hresp <= next_hresp;
+            temp_haddr <= haddr;
+            temp_hsize <= hsize;
+            temp_htrans <= htrans;
+            temp_hwrite <= hwrite;
         end
     end
 
@@ -52,12 +62,12 @@ module ahb_lite_slave (
         next_data_ready = 1'b0;
         next_sample_data = sample_data;
 
-        if (hsel && (htrans != 0)) begin
-            if (haddr == 4'b0000) begin
-                if (hwrite) begin
+        if (hsel && (temp_htrans != 0)) begin
+            if (temp_haddr == 4'b0000) begin
+                if (temp_hwrite) begin
                     next_hresp = 1'b1;
                 end else begin
-                    if (hsize == 0) begin
+                    if (temp_hsize == 0) begin
                         if (new_coefficient_set || modwait) begin
                             next_hrdata = 1'b1;
                         end else begin
@@ -74,11 +84,11 @@ module ahb_lite_slave (
                     end
                 end
 
-            end else if (haddr == 4'b0001) begin
-                if (hwrite) begin
+            end else if (temp_haddr == 4'b0001) begin
+                if (temp_hwrite) begin
                     next_hresp = 1'b1;
                 end else begin
-                    if (hsize == 0) begin
+                    if (temp_hsize == 0) begin
                         if (err) begin
                             next_hrdata = {7'b0, 1'b1, 8'b0};
                         end else begin
@@ -95,102 +105,102 @@ module ahb_lite_slave (
                     end
                 end
 
-            end else if (haddr == 4'b0010) begin
-                if (hwrite) begin
+            end else if (temp_haddr == 4'b0010) begin
+                if (temp_hwrite) begin
                     next_hresp = 1'b1;
                 end else begin
-                    if (hsize == 0) begin
+                    if (temp_hsize == 0) begin
                         next_hrdata = {8'b0, fir_out[7:0]};
                     end else begin
                         next_hrdata = fir_out;
                     end
                 end
 
-            end else if (haddr == 4'b0011) begin
-                if (hwrite) begin
+            end else if (temp_haddr == 4'b0011) begin
+                if (temp_hwrite) begin
                     next_hresp = 1'b1;
                 end else begin
-                    if (hsize == 0) begin
+                    if (temp_hsize == 0) begin
                         next_hrdata = {fir_out[15:8], 8'b0};
                     end else begin
                         next_hrdata = fir_out;
                     end
                 end
 
-            end else if (haddr == 4'b0100) begin
-                if (hwrite) begin
-                    if (hsize == 0) begin
+            end else if (temp_haddr == 4'b0100) begin
+                if (temp_hwrite) begin
+                    if (temp_hsize == 0) begin
                         next_sample_data[7:0] = hwdata[7:0];
                     end else begin
                         next_sample_data = hwdata;
                         next_data_ready = 1'b1;
                     end
                 end else begin
-                    if (hsize == 0) begin
+                    if (temp_hsize == 0) begin
                         next_hrdata[7:0] = sample_data[7:0];
                     end else begin
                         next_hrdata = sample_data;
                     end
                 end
             
-            end else if (haddr == 4'b0101) begin
-                if (hwrite) begin
-                    if (hsize == 0) begin
+            end else if (temp_haddr == 4'b0101) begin
+                if (temp_hwrite) begin
+                    if (temp_hsize == 0) begin
                         next_sample_data[15:8] = hwdata[15:8];
                     end else begin
                         next_sample_data = hwdata;
                         next_data_ready = 1'b1;
                     end
                 end else begin
-                    if (hsize == 0) begin
+                    if (temp_hsize == 0) begin
                         next_hrdata[15:8] = sample_data[15:8];
                     end else begin
                         next_hrdata = sample_data;
                     end
                 end 
 
-            end else if (haddr == 6 || haddr == 8 || haddr == 10 || haddr == 12) begin
-                if (hwrite) begin
-                    if (hsize == 0) begin
-                        next_data_table[haddr / 2'd2 - 2'd3][7:0] = hwdata[7:0];
+            end else if (temp_haddr == 6 || temp_haddr == 8 || temp_haddr == 10 || temp_haddr == 12) begin
+                if (temp_hwrite) begin
+                    if (temp_hsize == 0) begin
+                        next_data_table[temp_haddr / 2'd2 - 2'd3][7:0] = hwdata[7:0];
                     end else begin
-                        next_data_table[haddr / 2'd2 - 2'd3] = hwdata[15:0];
+                        next_data_table[temp_haddr / 2'd2 - 2'd3] = hwdata[15:0];
                     end
                 end else begin
-                    if (hsize == 0) begin
-                        next_hrdata = {8'b0, next_data_table[haddr / 2'd2 - 2'd3][7:0]};
+                    if (temp_hsize == 0) begin
+                        next_hrdata = {8'b0, next_data_table[temp_haddr / 2'd2 - 2'd3][7:0]};
                     end else begin
-                        next_hrdata = next_data_table[haddr / 2'd2 - 2'd3];
+                        next_hrdata = next_data_table[temp_haddr / 2'd2 - 2'd3];
                     end
                 end
 
-            end else if (haddr == 7 || haddr == 9 || haddr == 11 || haddr == 13) begin
-                if (hwrite) begin
-                    if (hsize == 0) begin
-                        next_data_table[haddr / 2'd2 - 2'd3][15:8] = hwdata[15:8];
+            end else if (temp_haddr == 7 || temp_haddr == 9 || temp_haddr == 11 || temp_haddr == 13) begin
+                if (temp_hwrite) begin
+                    if (temp_hsize == 0) begin
+                        next_data_table[temp_haddr / 2'd2 - 2'd3][15:8] = hwdata[15:8];
                     end else begin
-                        next_data_table[haddr / 2'd2 - 2'd3] = hwdata[15:0];
+                        next_data_table[temp_haddr / 2'd2 - 2'd3] = hwdata[15:0];
                     end
                 end else begin
-                    if (hsize == 0) begin
-                        next_hrdata = {next_data_table[haddr / 2'd2 - 2'd3][15:8], 8'b0};
+                    if (temp_hsize == 0) begin
+                        next_hrdata = {next_data_table[temp_haddr / 2'd2 - 2'd3][15:8], 8'b0};
                     end else begin
-                        next_hrdata = next_data_table[haddr / 2'd2 - 2'd3];
+                        next_hrdata = next_data_table[temp_haddr / 2'd2 - 2'd3];
                     end
                 end
                 
-            end else if (haddr == 14) begin
-                if (hwrite) begin
+            end else if (temp_haddr == 14) begin
+                if (temp_hwrite) begin
                     next_new_coefficient_set = hwdata[0];
                 end else begin
                     next_hrdata = new_coefficient_set;
                 end
 
-            end else if (haddr == 15) begin
-                if (hsize == 0) begin
+            end else if (temp_haddr == 15) begin
+                if (temp_hsize == 0) begin
                     next_hresp = 1'b1;
                 end else begin
-                    if (hwrite) begin
+                    if (temp_hwrite) begin
                         next_new_coefficient_set = hwdata[0];
                     end else begin
                         next_hrdata = new_coefficient_set;
