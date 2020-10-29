@@ -23,7 +23,7 @@ module ahb_lite_slave (
     reg [15:0] next_hrdata, next_sample_data, next_fir_coefficient;
     reg next_data_ready, next_new_coefficient_set, next_hresp;
 
-    always_comb begin: 
+    always_comb begin
         next_new_coefficient_set = new_coefficient_set;
         next_hresp = '0;
         next_hrdata = hrdata;
