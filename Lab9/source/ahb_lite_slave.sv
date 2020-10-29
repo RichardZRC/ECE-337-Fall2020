@@ -63,6 +63,7 @@ module ahb_lite_slave (
         sample_data = {data_table[5], data_table[4]};
         next_data_table[2] = fir_out[7:0];
         next_data_table[3] = fir_out[15:8];
+        new_coefficient_set = data_table[14];
         // next_sample_data = sample_data;
 
         if (new_coefficient_set || modwait) begin
