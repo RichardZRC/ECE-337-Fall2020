@@ -17,7 +17,7 @@ module ahb_lite_fir_filter (
 
     ahb_lite_slave slave (
         .clk(clk),
-        .n_rst(.n_rst),
+        .n_rst(n_rst),
         .sample_data(sample_data),
         .data_ready(data_ready),
         .new_coefficient_set(new_coefficient_set),
