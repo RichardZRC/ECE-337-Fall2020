@@ -11,8 +11,6 @@ module fir_filter (
     output wire err
 );
 
-    wire dr;
-    wire lc;
     wire cnt_up;
     wire clear;
     wire [2:0] op;
@@ -22,14 +20,12 @@ module fir_filter (
     wire overflow;
     wire [16:0] outreg_data;
 
-    sync_low synchronizer1 (.clk(clk), .n_rst(n_reset), .async_in(data_ready), .sync_out(dr));
-    sync_low synchronizer2 (.clk(clk), .n_rst(n_reset), .async_in(load_coeff), .sync_out(lc));
 
     controller control_unit (
         .clk(clk),
         .n_rst(n_reset),
-        .dr(dr),
-        .lc(lc),
+        .dr(data_ready),
+        .lc(load_coeff),
         .overflow(overflow),
         .cnt_up(cnt_up),
         .clear(clear),
