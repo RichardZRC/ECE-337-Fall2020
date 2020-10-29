@@ -293,13 +293,13 @@ module ahb_lite_slave (
         // end
 
         if (coefficient_num == 0) begin
-            fir_coefficient = data_table[1];
+            fir_coefficient = {data_table[7], data_table[6]};
         end else if (coefficient_num == 1) begin
-            fir_coefficient = data_table[2];
+            fir_coefficient = {data_table[9], data_table[8]};
         end else if (coefficient_num == 2) begin
-            fir_coefficient = data_table[3];
+            fir_coefficient = {data_table[11], data_table[10]};
         end else if (coefficient_num == 3) begin
-            fir_coefficient = data_table[4];
+            fir_coefficient = {data_table[13], data_table[12]};
             new_coefficient_set = 0;
         end
 
