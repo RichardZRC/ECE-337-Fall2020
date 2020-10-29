@@ -47,7 +47,7 @@ module ahb_lite_slave (
                         end else if (err) begin
                             next_hrdata = {7'b0, 1'b1, 8'b0};
                         end else begin
-                            next_hrdata = '0
+                            next_hrdata = '0;
                         end
                     end
                 end
@@ -68,7 +68,7 @@ module ahb_lite_slave (
                         end else if (err) begin
                             next_hrdata = {7'b0, 1'b1, 8'b0};
                         end else begin
-                            next_hrdata = '0
+                            next_hrdata = '0;
                         end
                     end
                 end
