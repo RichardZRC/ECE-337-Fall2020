@@ -99,7 +99,7 @@ module ahb_lite_slave (
                     end 
                 end
 
-                if ((temp_haddr == 4 || temp_haddr == 5) && temp_hsize == 1) begin
+                if ((temp_haddr == 4 || temp_haddr == 5) && (temp_hsize == 1)) begin
                     next_data_ready = 1'b1;
                 end 
             end else begin
