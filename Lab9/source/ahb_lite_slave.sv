@@ -303,7 +303,7 @@ module ahb_lite_slave (
             new_coefficient_set = 0;
         end
 
-        if (!modwait) begin
+        if (modwait) begin
             next_data_ready = 0;
         end
         
