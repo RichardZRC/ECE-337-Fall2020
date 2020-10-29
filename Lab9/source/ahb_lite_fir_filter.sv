@@ -15,7 +15,7 @@ module ahb_lite_fir_filter (
     wire err, data_ready, modwait, load_coeff, new_coefficient_set, one_k_samples;
     wire [3:0] coefficient_num;
 
-    ahb_lite_slave controller (
+    ahb_lite_slave slave (
         .clk(clk),
         .n_rst(.n_rst),
         .sample_data(sample_data),
