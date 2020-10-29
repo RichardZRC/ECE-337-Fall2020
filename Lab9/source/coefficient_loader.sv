@@ -19,7 +19,7 @@ module coefficient_loader (
 
     state_type state, next_state;
 
-    always_ff @(posedge clk, negedge n_rst) begin: State_Reg
+    always_ff @(posedge clk, negedge n_reset) begin: State_Reg
         if (n_reset == 1'b0) begin
             state <= idle;
         end else begin
