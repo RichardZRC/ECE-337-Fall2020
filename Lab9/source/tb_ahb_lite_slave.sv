@@ -515,6 +515,11 @@ initial begin
   check_outputs("MASTER_READ_NEW_SAMPLE3");
   #(CLK_PERIOD * 3);
 
+  init_fir_side();
+  init_expected_outs();
+
+  reset_dut();
+
   tb_test_data = 16'b1101001100000000;
   enqueue_transaction(1'b1, 1'b1, (ADDR_SAMPLE + 1), tb_test_data[15:8], 1'b0, 1'd0);
   execute_transactions(1);
