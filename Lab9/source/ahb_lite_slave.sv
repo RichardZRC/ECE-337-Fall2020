@@ -62,9 +62,9 @@ module ahb_lite_slave (
         next_data_ready = data_ready;
         next_sample_data = sample_data;
 
-        if (!modwait) {
+        if (!modwait) begin
             next_data_ready = 0;
-        }
+        end
         if (hsel && (temp_htrans != 0)) begin
             if (temp_haddr == 4'b0000) begin
                 if (temp_hwrite) begin
