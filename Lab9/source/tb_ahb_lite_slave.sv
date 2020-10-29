@@ -467,7 +467,7 @@ initial begin
   //*****************************************************************************
   // Test Case: MASTER_READ_NEW_SAMPLE
   //*****************************************************************************
-  tb_test_case     = "MASTER_READ_NEW_SAMPLE";
+  tb_test_case     = "MASTER_READ_NEW_SAMPLE1";
   tb_test_case_num = tb_test_case_num + 1;
   init_fir_side();
   init_expected_outs();
@@ -487,7 +487,7 @@ initial begin
   tb_expected_sample        = tb_test_data;
   tb_expected_new_coeff_set = 1'b0;
   tb_expected_coeff         = RESET_COEFF;
-  check_outputs("MASTER_READ_NEW_SAMPLE");
+  check_outputs("MASTER_READ_NEW_SAMPLE2");
 
   #(CLK_PERIOD * 3);
   tb_modwait = 1;
@@ -512,7 +512,7 @@ initial begin
   tb_expected_sample        = {8'b0,tb_test_data[7:0]};
   tb_expected_new_coeff_set = 1'b0;
   tb_expected_coeff         = RESET_COEFF;
-  check_outputs("MASTER_READ_NEW_SAMPLE");
+  check_outputs("MASTER_READ_NEW_SAMPLE3");
   #(CLK_PERIOD * 3);
 
   tb_test_data = 16'b1101001100000000;
@@ -525,7 +525,7 @@ initial begin
   tb_expected_sample        = {tb_test_data[15:8],8'b0};
   tb_expected_new_coeff_set = 1'b0;
   tb_expected_coeff         = RESET_COEFF;
-  check_outputs("MASTER_READ_NEW_SAMPLE");
+  check_outputs("MASTER_READ_NEW_SAMPLE4");
   #(CLK_PERIOD * 3);
 
   //*****************************************************************************
