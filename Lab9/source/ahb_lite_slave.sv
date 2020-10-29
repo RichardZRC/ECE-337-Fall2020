@@ -1,7 +1,7 @@
 module ahb_lite_slave (
     input wire clk,
     input wire n_rst,
-    output reg sample_data[15:0],
+    output reg [15:0] sample_data,
     output reg data_ready,
     output reg new_coefficient_set,
     input wire [1:0] coefficient_num,
