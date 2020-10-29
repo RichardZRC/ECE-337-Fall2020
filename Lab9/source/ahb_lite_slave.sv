@@ -19,7 +19,7 @@ module ahb_lite_slave (
     output reg hresp 
 );
 
-    reg [15:0][4:0] data_table, next_data_table;
+    reg [4:0][15:0] data_table, next_data_table;
     reg [15:0] next_hrdata, next_sample_data, next_fir_coefficient;
     reg next_data_ready, next_new_coefficient_set, next_hresp;
 
