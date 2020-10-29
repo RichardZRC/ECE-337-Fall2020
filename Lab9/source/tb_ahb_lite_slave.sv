@@ -656,6 +656,6 @@ initial begin
 //   // Give some visual spacing between check and next test case start
 //   #(CLK_PERIOD * 3);
 
-// end
+end
 
 endmodule
