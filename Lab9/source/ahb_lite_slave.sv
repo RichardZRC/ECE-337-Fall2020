@@ -19,7 +19,7 @@ module ahb_lite_slave (
     output reg hresp 
 );
 
-    reg [4:0][15:0] data_table, next_data_table;
+    reg [3:0][15:0] data_table, next_data_table;
     reg [15:0] next_hrdata, next_sample_data, next_fir_coefficient;
     reg next_data_ready, next_new_coefficient_set, next_hresp;
 
@@ -47,9 +47,10 @@ module ahb_lite_slave (
         next_new_coefficient_set = new_coefficient_set;
         next_hresp = '0;
         next_hrdata = hrdata;
-        next_sample_data = data_table[0];
         next_data_table = data_table;
         next_fir_coefficient = fir_coefficient;
+        next_data_ready = 1'b0;
+        next_sample_data = sample_data;
 
         if (hsel && (htrans != 0)) begin
             if (haddr == 4'b0000) begin
@@ -116,33 +117,65 @@ module ahb_lite_slave (
                     end
                 end
 
-            end else if (haddr == 4 || haddr == 6 || haddr == 8 || haddr == 10 || haddr == 12) begin
+            end else if (haddr == 4'b0100) begin
                 if (hwrite) begin
                     if (hsize == 0) begin
-                        next_data_table[haddr / 2'd2 - 2'd2][7:0] = hwdata[7:0];
+                        next_sample_data[7:0] = hwdata[7:0];
                     end else begin
-                        next_data_table[haddr / 2'd2 - 2'd2] = hwdata[15:0];
+                        next_sample_data = hwdata;
+                        next_data_ready = 1'b1;
                     end
                 end else begin
                     if (hsize == 0) begin
-                        next_hrdata = {8'b0, next_data_table[haddr / 2'd2 - 2'd2][7:0]};
+                        hrdata[7:0] = sample_data[7:0];
                     end else begin
-                        next_hrdata = next_data_table[haddr / 2'd2 - 2'd2];
+                        hrdata = sample_data;
+                    end
+                end
+            
+            end else if (haddr == 4'b0101) begin
+                if (hwrite) begin
+                    if (hsize == 0) begin
+                        next_sample_data[15:8] = hwdata[15:8];
+                    end else begin
+                        next_sample_data = hwdata;
+                        next_data_ready = 1'b1;
+                    end
+                end else begin
+                    if (hsize == 0) begin
+                        hrdata[15:8] = sample_data[15:8];
+                    end else begin
+                        hrdata = sample_data;
+                    end
+                end 
+
+            end else if (haddr == 6 || haddr == 8 || haddr == 10 || haddr == 12) begin
+                if (hwrite) begin
+                    if (hsize == 0) begin
+                        next_data_table[haddr / 2'd2 - 2'd3][7:0] = hwdata[7:0];
+                    end else begin
+                        next_data_table[haddr / 2'd2 - 2'd3] = hwdata[15:0];
+                    end
+                end else begin
+                    if (hsize == 0) begin
+                        next_hrdata = {8'b0, next_data_table[haddr / 2'd2 - 2'd3][7:0]};
+                    end else begin
+                        next_hrdata = next_data_table[haddr / 2'd2 - 2'd3];
                     end
                 end
 
-            end else if (haddr == 5 || haddr == 7 || haddr == 9 || haddr == 11 || haddr == 13) begin
+            end else if (haddr == 7 || haddr == 9 || haddr == 11 || haddr == 13) begin
                 if (hwrite) begin
                     if (hsize == 0) begin
-                        next_data_table[haddr / 2'd2 - 2'd2][15:8] = hwdata[15:8];
+                        next_data_table[haddr / 2'd2 - 2'd3][15:8] = hwdata[15:8], 8'b0;
                     end else begin
-                        next_data_table[haddr / 2'd2 - 2'd2] = hwdata[15:0];
+                        next_data_table[haddr / 2'd2 - 2'd3] = hwdata[15:0];
                     end
                 end else begin
                     if (hsize == 0) begin
-                        next_hrdata = {next_data_table[haddr / 2'd2 - 2'd2][15:8], 8'b0};
+                        next_hrdata = {next_data_table[haddr / 2'd2 - 2'd3][15:8], 8'b0};
                     end else begin
-                        next_hrdata = next_data_table[haddr / 2'd2 - 2'd2];
+                        next_hrdata = next_data_table[haddr / 2'd2 - 2'd3];
                     end
                 end
                 
@@ -195,12 +228,6 @@ module ahb_lite_slave (
         
     // end
 
-    always_comb begin: Data_ready
-        next_data_ready = 1'b0;
-        if (hsel && (htrans != 0) && ((haddr == 4) || (haddr == 5)) && (hsize == 1)) begin
-            next_data_ready = 1'b1;
-        end
-    end
 
 
 endmodule
