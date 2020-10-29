@@ -127,9 +127,9 @@ module ahb_lite_slave (
                     end
                 end else begin
                     if (hsize == 0) begin
-                        hrdata[7:0] = sample_data[7:0];
+                        next_hrdata[7:0] = sample_data[7:0];
                     end else begin
-                        hrdata = sample_data;
+                        next_hrdata = sample_data;
                     end
                 end
             
@@ -143,9 +143,9 @@ module ahb_lite_slave (
                     end
                 end else begin
                     if (hsize == 0) begin
-                        hrdata[15:8] = sample_data[15:8];
+                        next_hrdata[15:8] = sample_data[15:8];
                     end else begin
-                        hrdata = sample_data;
+                        next_hrdata = sample_data;
                     end
                 end 
 
