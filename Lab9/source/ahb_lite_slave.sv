@@ -54,6 +54,7 @@ module ahb_lite_slave (
     end
 
     always_comb begin
+        hrdata = '0;
         next_new_coefficient_set = new_coefficient_set;
         next_hresp = '0;
         // next_hrdata = hrdata;
