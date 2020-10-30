@@ -100,7 +100,7 @@ module coefficient_loader (
         load_coeff = 1;
 	coefficient_num = 2'b00;
 
-	case(STATE)
+	case(state)
         idle: begin
             load_coeff = 0;
         end
