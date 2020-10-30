@@ -83,7 +83,7 @@ module ahb_lite_slave (
 
         if (hsel && (temp_htrans != 0)) begin
             if (temp_hwrite) begin
-                if (temp_hsize) begin
+                if (temp_hsize && ((temp_haddr != 0) && (temp_haddr != 1) && (temp_haddr != 2) && (temp_haddr != 3))) begin
                     if (temp_haddr % 2 == 0) begin
                         next_data_table[temp_haddr + 1] = hwdata[15:8];
                         next_data_table[temp_haddr] = hwdata[7:0];
@@ -91,15 +91,15 @@ module ahb_lite_slave (
                         next_data_table[temp_haddr] = hwdata[15:8];
                         next_data_table[temp_haddr - 1] = hwdata[7:0];
                     end
-                end else begin
+                end else if (!temp_hsize && ((temp_haddr != 0) && (temp_haddr != 1) && (temp_haddr != 2) && (temp_haddr != 3))) begin
                     if (temp_haddr % 2 == 0) begin
                         next_data_table[temp_haddr] = hwdata[7:0];
                     end else begin
                         next_data_table[temp_haddr] = hwdata[15:8];
-                    end 
+                    end
                 end
 
-                if ((temp_haddr == 4 || temp_haddr == 5) && (temp_hsize == 1)) begin
+                if ((temp_haddr == 4 || temp_haddr == 5)) begin
                     next_data_ready = 1'b1;
                 end 
             end else begin
@@ -300,7 +300,7 @@ module ahb_lite_slave (
             fir_coefficient = {data_table[11], data_table[10]};
         end else if (coefficient_num == 3) begin
             fir_coefficient = {data_table[13], data_table[12]};
-            new_coefficient_set = 0;
+            next_data_table[14] = 0;
         end
 
         if (modwait) begin
