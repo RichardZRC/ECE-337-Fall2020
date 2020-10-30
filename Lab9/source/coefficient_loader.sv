@@ -97,7 +97,7 @@ module coefficient_loader (
         //         coefficient_num = 2'b11;
         //     end
         // endcase
-        load_coeff = 1;
+    load_coeff = 1;
 	coefficient_num = 2'b00;
 
 	case(state)
