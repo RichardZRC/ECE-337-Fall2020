@@ -300,6 +300,9 @@ module ahb_lite_slave (
             fir_coefficient = {data_table[11], data_table[10]};
         end else if (coefficient_num == 3) begin
             fir_coefficient = {data_table[13], data_table[12]};
+        end
+
+        if (coefficient_num == 3) begin
             next_data_table[14] = 0;
         end
 
