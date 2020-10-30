@@ -73,30 +73,62 @@ module coefficient_loader (
     end
 
     always_comb begin: Output_logic
-        load_coeff = '0;
-        coefficient_num = '0;
+        // load_coeff = '0;
+        // coefficient_num = '0;
 
-        case (state)
-            load1: begin
-                load_coeff = 1'b1;
-                coefficient_num = 2'b00;
-            end
+        // case (state)
+        //     load1: begin
+        //         load_coeff = 1'b1;
+        //         coefficient_num = 2'b00;
+        //     end
 
-            load2: begin
-                load_coeff = 1'b1;
-                coefficient_num = 2'b01;
-            end
+        //     load2: begin
+        //         load_coeff = 1'b1;
+        //         coefficient_num = 2'b01;
+        //     end
 
-            load3: begin
-                load_coeff = 1'b1;
-                coefficient_num = 2'b10;
-            end
+        //     load3: begin
+        //         load_coeff = 1'b1;
+        //         coefficient_num = 2'b10;
+        //     end
 
-            load4: begin
-                load_coeff = 1'b1;
-                coefficient_num = 2'b11;
-            end
-        endcase
+        //     load4: begin
+        //         load_coeff = 1'b1;
+        //         coefficient_num = 2'b11;
+        //     end
+        // endcase
+        load_coeff = 1;
+	coefficient_num = 2'b00;
+
+	case(STATE)
+        IDLE: begin
+            load_coeff = 0;
+        end
+        LOAD1: begin
+            coefficient_num = 2'b00;
+        end
+        WAIT1: begin
+            load_coeff = 0;
+            coefficient_num = 2'b00;
+        end
+        LOAD2: begin
+            coefficient_num = 2'b01;
+        end
+        WAIT2: begin
+            load_coeff = 0;
+            coefficient_num = 2'b01;
+        end
+        LOAD3: begin
+            coefficient_num = 2'b10;
+        end
+        WAIT3: begin
+            load_coeff = 0;
+            coefficient_num = 2'b10;
+        end
+        LOAD4: begin
+            coefficient_num = 2'b11;
+        end 
+	endcase
     end
 
 endmodule
