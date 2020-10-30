@@ -6,7 +6,7 @@ module coefficient_loader (
     output reg load_coeff,
     output reg [1:0] coefficient_num
 );
-    typedef enum logic [2:0] { 
+    typedef enum logic [3:0] { 
         idle,
         load1,
         wait1,
@@ -14,7 +14,8 @@ module coefficient_loader (
         wait2,
         load3,
         wait3,
-        load4
+        load4,
+        wait4
     } state_type;
 
     state_type state, next_state;
@@ -66,69 +67,73 @@ module coefficient_loader (
                 end
             end
 
-            load4:begin
+            load4: begin
+                next_state = wait4;
+            end
+
+            wait4: begin
                 next_state = idle;
             end
         endcase
     end
 
     always_comb begin: Output_logic
-        // load_coeff = '0;
-        // coefficient_num = '0;
+        load_coeff = '0;
+        coefficient_num = '0;
 
-        // case (state)
-        //     load1: begin
-        //         load_coeff = 1'b1;
-        //         coefficient_num = 2'b00;
-        //     end
+        case (state)
+            load1: begin
+                load_coeff = 1'b1;
+                coefficient_num = 2'b00;
+            end
 
-        //     load2: begin
-        //         load_coeff = 1'b1;
-        //         coefficient_num = 2'b01;
-        //     end
+            load2: begin
+                load_coeff = 1'b1;
+                coefficient_num = 2'b01;
+            end
 
-        //     load3: begin
-        //         load_coeff = 1'b1;
-        //         coefficient_num = 2'b10;
-        //     end
+            load3: begin
+                load_coeff = 1'b1;
+                coefficient_num = 2'b10;
+            end
 
-        //     load4: begin
-        //         load_coeff = 1'b1;
-        //         coefficient_num = 2'b11;
-        //     end
-        // endcase
-    load_coeff = 1;
-	coefficient_num = 2'b00;
+            load4: begin
+                load_coeff = 1'b1;
+                coefficient_num = 2'b11;
+            end
+        endcase
+    // load_coeff = 1;
+	// coefficient_num = 2'b00;
 
-	case(state)
-        idle: begin
-            load_coeff = 0;
-        end
-        load1: begin
-            coefficient_num = 2'b00;
-        end
-        wait1: begin
-            load_coeff = 0;
-            coefficient_num = 2'b00;
-        end
-        load2: begin
-            coefficient_num = 2'b01;
-        end
-        wait2: begin
-            load_coeff = 0;
-            coefficient_num = 2'b01;
-        end
-        load3: begin
-            coefficient_num = 2'b10;
-        end
-        wait3: begin
-            load_coeff = 0;
-            coefficient_num = 2'b10;
-        end
-        load4: begin
-            coefficient_num = 2'b11;
-        end 
-	endcase
+	// case(state)
+    //     idle: begin
+    //         load_coeff = 0;
+    //     end
+    //     load1: begin
+    //         coefficient_num = 2'b00;
+    //     end
+    //     wait1: begin
+    //         load_coeff = 0;
+    //         coefficient_num = 2'b00;
+    //     end
+    //     load2: begin
+    //         coefficient_num = 2'b01;
+    //     end
+    //     wait2: begin
+    //         load_coeff = 0;
+    //         coefficient_num = 2'b01;
+    //     end
+    //     load3: begin
+    //         coefficient_num = 2'b10;
+    //     end
+    //     wait3: begin
+    //         load_coeff = 0;
+    //         coefficient_num = 2'b10;
+    //     end
+    //     load4: begin
+    //         coefficient_num = 2'b11;
+    //     end 
+	// endcase
     end
 
 endmodule
