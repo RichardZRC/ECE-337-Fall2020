@@ -101,31 +101,31 @@ module coefficient_loader (
 	coefficient_num = 2'b00;
 
 	case(STATE)
-        IDLE: begin
+        idle: begin
             load_coeff = 0;
         end
-        LOAD1: begin
+        load1: begin
             coefficient_num = 2'b00;
         end
-        WAIT1: begin
+        wait1: begin
             load_coeff = 0;
             coefficient_num = 2'b00;
         end
-        LOAD2: begin
+        load2: begin
             coefficient_num = 2'b01;
         end
-        WAIT2: begin
+        wait2: begin
             load_coeff = 0;
             coefficient_num = 2'b01;
         end
-        LOAD3: begin
+        load3: begin
             coefficient_num = 2'b10;
         end
-        WAIT3: begin
+        wait3: begin
             load_coeff = 0;
             coefficient_num = 2'b10;
         end
-        LOAD4: begin
+        load4: begin
             coefficient_num = 2'b11;
         end 
 	endcase
