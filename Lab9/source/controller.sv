@@ -244,10 +244,10 @@ module controller (
         clear = '0;
         // modwait = '0;
         err = '0;
-        src1 = '0;
-        src2 = '0;
+        src1 = '1;
+        src2 = '1;
         op = '0;
-        dest = '0;
+        dest = '1;
 
         case (state)
             idle: begin
