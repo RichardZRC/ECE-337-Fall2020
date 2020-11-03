@@ -7,7 +7,7 @@
 source init.tcl
 
 # Create Floorplan
-floorplan -r 2.0 0.6 50 50 50 50
+floorplan -r 1.0 0.4 50 50 50 50
 unfixAllIos
 legalizePin
 
