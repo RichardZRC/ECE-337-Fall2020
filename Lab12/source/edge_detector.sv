@@ -23,6 +23,6 @@ module edge_detector (
     end
 
     // Output logic
-    assign edge = old_sample & (~new_sample);
+    assign edge = old_sample ^ new_sample;
 
 endmodule

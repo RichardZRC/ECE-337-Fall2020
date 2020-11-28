@@ -3,7 +3,7 @@ module rcu (
     input wire n_rst,
     input wire shift_enable,
     input wire eop,
-    input wire edge,
+    input wire edge_start,
     input wire one_byte,
     input wire crc5_err,
     input wire crc16_err,
@@ -14,7 +14,8 @@ module rcu (
     output reg w_enable_buffer,
     output reg r_error,
     output reg timer_clear,
-    output reg packet_done
+    output reg packet_done,
+    output reg crc_clear
 );
     typedef enum logic [3:0] { 
         idle,
@@ -64,7 +65,7 @@ module rcu (
         temp_ref_last_bit = ref_last_bit;
         case(state) 
             idle: begin
-                if (edge) begin
+                if (edge_start) begin
                     next_state = load_sync;
                 end
             end
@@ -119,18 +120,27 @@ module rcu (
                         next_state = wait_eop;
                     end
                     if (eop) begin
-                        if (crc5_err) begin
-                            next_state = error_state;
-                        end else begin
-                            next_state = transfer_done;
-                        end
+                        // if (crc5_err) begin
+                        //     next_state = error_state;
+                        // end else begin
+                        //     next_state = transfer_done;
+                        // end
+                        // TODO：CRC5 checking delete for basic testing
+
+                        next_state = transfer_done;
                     end
                 end
             end
 
             data_state: begin
                 if (eop) begin
-                    if (one_byte && !crc16_err) begin
+                    // if (one_byte && !crc16_err) begin
+                    //     next_state = transfer_done;
+                    // end else begin
+                    //     next_state = error_state;
+                    // end
+                    // TODO：CRC16 checking delete for basic testing
+                    if (one_byte) begin
                         next_state = transfer_done;
                     end else begin
                         next_state = error_state;
@@ -139,7 +149,7 @@ module rcu (
             end
 
             error_state: begin
-                if (edge) begin
+                if (edge_start) begin
                     next_state = load_sync;
                 end
             end
@@ -151,7 +161,7 @@ module rcu (
             end
 
             transfer_done: begin
-                if (edge) begin
+                if (edge_start) begin
                     next_state = load_sync;
                 end
             end
@@ -168,6 +178,7 @@ module rcu (
         timer_clear = '0;
         r_error = '0;
         packet_done = '0;
+        crc_clear = '0;
         case (state)
             load_sync: begin
                 receiving = 1'b1;
@@ -203,6 +214,7 @@ module rcu (
 
             transfer_done: begin
                 timer_clear = 1'b1;
+                crc_clear = 1'b1;
                 packet_done = 1'b1;
             end
         endcase
