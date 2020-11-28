@@ -23,17 +23,17 @@ module crc_5bit (
     assign inv = d_orig ^ crc[15];
 
     always_comb begin: NEXT_STATE
-        next_crc = crc;
+        next_crc = crc_data;
         if (clear) begin
             next_crc = '0;
         end else if (reg_enable) begin
             next_crc[4] = crc_data[3];
             next_crc[3] = crc_data[2];
-            next_crc[2] = crc[1] ^ inv;
-            next_crc[1] = crc[0];
+            next_crc[2] = crc_data[1] ^ inv;
+            next_crc[1] = crc_data[0];
         end
     end
 
-    assign err = eop && (crc != 16'h800D);
+    assign err = eop && (crc_data != 16'h800D);
 
 endmodule

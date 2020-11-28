@@ -20,21 +20,21 @@ module crc_16bit (
         end        
     end
 
-    assign inv = d_orig ^ crc[15];
+    assign inv = d_orig ^ crc_data[15];
 
     always_comb begin: NEXT_STATE
-        next_crc = crc;
+        next_crc = crc_data;
         if (clear) begin
             next_crc = '0;
         end else if (reg_enable) begin
             next_crc[15] = crc_data[14] ^ inv;
             next_crc[14:3] = crc_data[13:2];
-            next_crc[2] = crc[1] ^ inv;
-            next_crc[1] = crc[0];
+            next_crc[2] = crc_data[1] ^ inv;
+            next_crc[1] = crc_data[0];
             next_crc[0] = inv;
         end
     end
 
-    assign err = eop && (crc != 16'h800D);
+    assign err = eop && (crc_data != 16'h800D);
 
 endmodule
