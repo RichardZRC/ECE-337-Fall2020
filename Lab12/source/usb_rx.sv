@@ -39,7 +39,9 @@ module usb_rx (
         .clk(clk),
         .n_rst(n_rst),
         .eop(eop),
-        .d_orig(d_orig)
+        .d_orig(d_orig),
+        .shift_enable(shift_enable),
+        .d_plus(d_plus_sync)
     );
 
     eop_detector eop_detector (
