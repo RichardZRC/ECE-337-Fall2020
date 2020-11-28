@@ -35,6 +35,6 @@ module crc_16bit (
         end
     end
 
-    assign err = eop && (crc != 16'h800D)
+    assign err = eop && (crc != 16'h800D);
 
 endmodule
