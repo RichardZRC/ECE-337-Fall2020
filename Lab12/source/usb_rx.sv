@@ -118,6 +118,8 @@ module usb_rx (
     );
 
     rx_buffer rx_buffer (
+        .clk(clk),
+        .n_rst(n_rst),
         .rcv_data(rcv_data),
         .w_enable(w_enable_buffer),
         .r_enable(r_enable),

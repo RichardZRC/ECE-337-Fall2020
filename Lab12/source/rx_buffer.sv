@@ -2,6 +2,8 @@ module rx_buffer (
     input wire [7:0] rcv_data,
     input wire w_enable,
     input wire r_enable,
+    input wire clk,
+    input wire n_rst,
     output reg data_loaded,
     output reg [7:0] rx_packet_data
 );
