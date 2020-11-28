@@ -100,6 +100,8 @@ module tb_usb_rx ();
     task reset_dut;
     begin
         tb_n_rst = 1'b0;
+        tb_next_d_plus = 1'b1;
+        tb_next_d_minus = 1'b0;
         @(posedge tb_clk);
         @(posedge tb_clk);
 
