@@ -26,7 +26,7 @@ module timer (
         .rollover_flag(clk_rollover_flag)
     );
 
-    assign shift = (clk_count == 4'd3);
+    assign shift = (clk_count == 4'd1);
 
     flex_counter #(.NUM_CNT_BITS(4)) BIT_COUNTER (
         .clk(clk),

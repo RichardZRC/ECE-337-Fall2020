@@ -9,7 +9,7 @@ module stuff_bit_detector (
     reg [2:0] bit_count;
     wire enable;
     wire clear;
-    assign enable = (d_orig == 1) && !eop;
+    assign enable = (d_orig == 1) && !eop && shift_enable;
     assign clear = (d_orig == 0) || eop;
     flex_counter #(.NUM_CNT_BITS(3)) BIT_COUNTER (
         .clk(clk),
