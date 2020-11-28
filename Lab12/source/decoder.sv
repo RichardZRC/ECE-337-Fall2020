@@ -2,6 +2,8 @@ module decoder (
     input wire d_plus,
     input wire shift_enable,
     input wire eop,  //do not decode eop???
+    input wire clk,
+    input wire n_rst,
     output reg d_orig
 );
 
