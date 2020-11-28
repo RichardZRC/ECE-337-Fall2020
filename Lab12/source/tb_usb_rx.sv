@@ -29,7 +29,7 @@ module tb_usb_rx ();
     //test signals
     reg [7:0] tb_test_data;
     logic tb_check;
-    logic tb_mismatch
+    logic tb_mismatch;
 
     //expected output
     reg [2:0] tb_expected_rx_packet;
@@ -100,15 +100,15 @@ module tb_usb_rx ();
     task rest_dut;
     begin
         tb_n_rst = 1'b0;
-        @posedge (tb_clk);
-        @posedge (tb_clk);
+        @(posedge tb_clk);
+        @(posedge tb_clk);
 
-        @negedge (tb_clk);
+        @(negedge tb_clk);
 
         tb_n_rst = 1'b1;
 
-        @posedge (tb_clk);
-        @posedge (tb_clk);
+        @(posedge tb_clk);
+        @(posedge tb_clk);
     end
     endtask 
     
