@@ -11,8 +11,8 @@ module usb_rx (
     output reg packet_done,
     output reg data_loaded
 );
-    reg d_plus_sync, d_minus_sync, edge_start, eop, d_orig, shift_enable, stuff_bit, receiving, timer_clear, one_byte, w_enable_buffer, crc_clear
-    reg [7:0] rcv_data
+    reg d_plus_sync, d_minus_sync, edge_start, eop, d_orig, shift_enable, stuff_bit, receiving, timer_clear, one_byte, w_enable_buffer, crc_clear;
+    reg [7:0] rcv_data;
 
     sync_high sync_high (
         .clk(clk),
@@ -91,7 +91,7 @@ module usb_rx (
         .w_enable_buffer(w_enable_buffer),
         .r_error(r_error),
         .timer_clear(timer_clear),
-        .packet_done(packet_done)
+        .packet_done(packet_done),
         .crc_clear(crc_clear)
     );
 
