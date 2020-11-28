@@ -179,7 +179,7 @@ module rcu (
 
             data_state: begin
                 receiving = 1'b1;
-                if (one_byte) begin
+                if (one_byte && !eop) begin
                     w_enable_buffer = 1'b1;
                     next_write_enable_fifo = 1'b1;
                 end
