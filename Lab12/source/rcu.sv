@@ -146,7 +146,7 @@ module rcu (
                     if (one_byte) begin
                         next_state = transfer_done;
                     end else begin
-                        next_state = error_state
+                        next_state = error_state;
                     end
                 end
             end
