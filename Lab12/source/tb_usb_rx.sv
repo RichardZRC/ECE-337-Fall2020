@@ -218,6 +218,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
         send_byte(tb_test_data);
+        #(CLK_PERIOD * 3);
         check_output("sync byte check");
 
         tb_test_data = 8'b11000011;
@@ -227,6 +228,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
         send_byte(tb_test_data);
+        #(CLK_PERIOD * 3);
         check_output("pid byte check");
 
         tb_test_data = 8'b00000000;
@@ -236,6 +238,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
         send_byte(tb_test_data);
+        #(CLK_PERIOD * 3);
         check_output("first byte 00");
 
         tb_test_data = 8'b00000001;
@@ -245,6 +248,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
         send_byte(tb_test_data);
+        #(CLK_PERIOD * 3);
         check_output("second byte 01");
 
         tb_test_data = 8'b00000010;
@@ -254,6 +258,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
         send_byte(tb_test_data);
+        #(CLK_PERIOD * 3);
         check_output("third byte 02");
 
         tb_test_data = 8'b00000011;
@@ -263,6 +268,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
         send_byte(tb_test_data);
+        #(CLK_PERIOD * 3);
         check_output("fourth byte 03");
 
         tb_test_data = 8'b11110111;
@@ -272,6 +278,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
         send_byte(tb_test_data);
+        #(CLK_PERIOD * 3);
         check_output("crc first byte");
 
         tb_test_data = 8'b01011110;
@@ -281,6 +288,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b1;
         tb_expected_r_error                 = 1'b0;
         send_byte(tb_test_data);
+        #(CLK_PERIOD * 3);
         send_eop();
 
         check_output("transfer done");
