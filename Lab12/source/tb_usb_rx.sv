@@ -181,6 +181,7 @@ module tb_usb_rx ();
         tb_n_rst                            = 1'b1; 
         tb_next_d_minus                     = 1'b1;
         tb_next_d_plus                      = 1'b0;
+        tb_r_enable                         = 1'b0;
 
         // ************************************************************************
         // Test Case 1: Power on Reset
@@ -200,6 +201,89 @@ module tb_usb_rx ();
         reset_dut();
         check_output("Reset Check");
         #(CLK_PERIOD * 3);
+
+        // ************************************************************************
+        // Test Case 1: nominal data packet
+        // ************************************************************************
+        tb_test_num += 1;
+        tb_test_case = "Nominal Data Transfet";
+
+        reset_dut();
+        tb_test_data = 8'b10000000;
+        tb_expected_rx_packet               = 3'b0; 
+        tb_expected_rx_packet_data          = 8'b0;
+        tb_expected_store_rx_packet         = 1'b0;
+        tb_expected_packet_done             = 1'b0;
+        tb_expected_r_error                 = 1'b0;
+        send_byte(tb_test_data);
+        check_output("sync byte check");
+
+        tb_test_data = 8'b11000011;
+        tb_expected_rx_packet               = 3'b011; 
+        tb_expected_rx_packet_data          = 8'b0;
+        tb_expected_store_rx_packet         = 1'b0;
+        tb_expected_packet_done             = 1'b0;
+        tb_expected_r_error                 = 1'b0;
+        send_byte(tb_test_data);
+        check_output("pid byte check");
+
+        tb_test_data = 8'b00000000;
+        tb_expected_rx_packet               = 3'b011; 
+        tb_expected_rx_packet_data          = 8'b0;
+        tb_expected_store_rx_packet         = 1'b0;
+        tb_expected_packet_done             = 1'b0;
+        tb_expected_r_error                 = 1'b0;
+        send_byte(tb_test_data);
+        check_output("first byte 00");
+
+        tb_test_data = 8'b00000001;
+        tb_expected_rx_packet               = 3'b011; 
+        tb_expected_rx_packet_data          = 8'b00000001;
+        tb_expected_store_rx_packet         = 1'b1;
+        tb_expected_packet_done             = 1'b0;
+        tb_expected_r_error                 = 1'b0;
+        send_byte(tb_test_data);
+        check_output("second byte 01");
+
+        tb_test_data = 8'b00000010;
+        tb_expected_rx_packet               = 3'b011; 
+        tb_expected_rx_packet_data          = 8'b00000010;
+        tb_expected_store_rx_packet         = 1'b1;
+        tb_expected_packet_done             = 1'b0;
+        tb_expected_r_error                 = 1'b0;
+        send_byte(tb_test_data);
+        check_output("third byte 02");
+
+        tb_test_data = 8'b00000011;
+        tb_expected_rx_packet               = 3'b011; 
+        tb_expected_rx_packet_data          = 8'b00000011;
+        tb_expected_store_rx_packet         = 1'b1;
+        tb_expected_packet_done             = 1'b0;
+        tb_expected_r_error                 = 1'b0;
+        send_byte(tb_test_data);
+        check_output("fourth byte 03");
+
+        tb_test_data = 8'b11110111;
+        tb_expected_rx_packet               = 3'b011; 
+        tb_expected_rx_packet_data          = 8'b0;
+        tb_expected_store_rx_packet         = 1'b0;
+        tb_expected_packet_done             = 1'b0;
+        tb_expected_r_error                 = 1'b0;
+        send_byte(tb_test_data);
+        check_output("crc first byte");
+
+        tb_test_data = 8'b01011110;
+        tb_expected_rx_packet               = 3'b011; 
+        tb_expected_rx_packet_data          = 8'b0;
+        tb_expected_store_rx_packet         = 1'b0;
+        tb_expected_packet_done             = 1'b1;
+        tb_expected_r_error                 = 1'b0;
+        send_byte(tb_test_data);
+        send_eop();
+
+        check_output("transfer done");
+
+
 
     end
 
