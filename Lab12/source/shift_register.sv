@@ -15,6 +15,6 @@ module shift_register (
         .parallel_out(temp_reg)
     );
 
-    assign rcv_data = temp_reg[7:0];
+    assign rcv_data = temp_reg[15:8];
 
 endmodule
