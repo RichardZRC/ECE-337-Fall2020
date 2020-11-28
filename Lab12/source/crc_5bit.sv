@@ -20,7 +20,7 @@ module crc_5bit (
         end        
     end
 
-    assign inv = d_orig ^ crc[15];
+    assign inv = d_orig ^ crc_data[4];
 
     always_comb begin: NEXT_STATE
         next_crc = crc_data;
