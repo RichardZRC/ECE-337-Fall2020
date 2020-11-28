@@ -65,16 +65,17 @@ module usb_rx (
         .stuff_bit(stuff_bit),
         .enable(receiving),
         .clear(timer_clear),
-        .shift(shift_enable),
-        .one_byte(one_byte)
+        .shift(shift_enable)
     );
 
     shift_register shift_register (
         .clk(clk),
         .n_rst(n_rst),
         .shift_enable(shift_enable),
+        .clear(timer_clear),
         .d_orig(d_orig),
-        .rcv_data(rcv_data)
+        .rcv_data(rcv_data),
+        .one_byte(one_byte)
     );
 
     rcu rcu (

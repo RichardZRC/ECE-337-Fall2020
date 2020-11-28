@@ -74,7 +74,7 @@ module rcu (
 
             load_sync: begin
                 if (one_byte_pulse) begin
-                    if (rcv_data == 8'b00000001) begin
+                    if (rcv_data == 8'b10000000) begin
                         next_state = load_pid;
                     end else begin
                         next_state = error_state;
