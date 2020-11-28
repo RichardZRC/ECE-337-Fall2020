@@ -2,7 +2,7 @@ module edge_detector (
     input wire clk,
     input wire n_rst,
     input wire d_sync,
-    output wire edge
+    output wire edge_start
 );
 
     reg old_sample;
@@ -23,6 +23,6 @@ module edge_detector (
     end
 
     // Output logic
-    assign edge = old_sample ^ new_sample;
+    assign edge_start = old_sample ^ new_sample;
 
 endmodule
