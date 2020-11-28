@@ -4,8 +4,9 @@ module shift_register (
     input wire clk,
     input wire n_rst,
     input wire clear,
-    output wire [7:0] rcv_data,
-    output reg one_byte
+    output reg [15:0] rcv_data,
+    output reg one_byte,
+    output reg two_byte
 );
 
     reg [15:0] temp_reg;
@@ -24,10 +25,10 @@ module shift_register (
         .n_rst(n_rst),
         .serial_in(d_orig),
         .shift_enable(shift_reserve2),
-        .parallel_out(temp_reg)
+        .parallel_out(rcv_data)
     );
 
-    flex_counter #(.NUM_CNT_BITS(4)) BIT_COUNTER (
+    flex_counter #(.NUM_CNT_BITS(4)) BIT_COUNTER_ONE_BYTE (
         .clk(clk),
         .n_rst(n_rst),
         .clear(clear),
@@ -37,6 +38,16 @@ module shift_register (
         .rollover_flag(one_byte)
     );
 
-    assign rcv_data = temp_reg[15:8];
+    flex_counter #(.NUM_CNT_BITS(5)) BIT_COUNTER_TWO_BYTE (
+        .clk(clk),
+        .n_rst(n_rst),
+        .clear(clear),
+        .count_enable(shift_reserve2),
+        .rollover_val(5'b10000),
+        .count_out(bit_count),
+        .rollover_flag(two_byte)
+    );
+
+    // assign rcv_data = temp_reg[15:8];
 
 endmodule

@@ -1,5 +1,5 @@
 module rx_buffer (
-    input wire [7:0] rcv_data,
+    input wire [15:0] rcv_data,
     input wire w_enable,
     input wire r_enable,
     input wire clk,
