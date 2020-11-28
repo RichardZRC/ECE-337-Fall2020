@@ -68,10 +68,10 @@ module tb_usb_rx ();
     begin
         if (data == 1'b1) begin
             tb_next_d_plus = tb_d_plus;
-            tb_next_d_plus = tb_d_minus;
+            tb_next_d_minus = tb_d_minus;
         end else begin
             tb_next_d_plus = ~tb_d_plus;
-            tb_next_d_plus = ~tb_d_minus;
+            tb_next_d_minus = ~tb_d_minus;
         end
         tb_d_orig = data;
         #NORM_DATA_PERIOD;

@@ -16,7 +16,7 @@ module rx_buffer (
             data_loaded <= '0;
             rx_data <= '0;
         end else begin
-            rx_data <= next_rx_data;
+            // rx_data <= next_rx_data;
             data_loaded <= next_data_loaded;
             rx_packet_data <= next_rx_packet_data;
         end
@@ -24,17 +24,17 @@ module rx_buffer (
 
     always_comb begin: NEXT_STATE
         next_data_loaded = data_loaded;
-        next_rx_data = rx_data;
+        // next_rx_data = rx_data;
         next_rx_packet_data = rx_packet_data;
         if (w_enable) begin
             next_data_loaded = 1'b1;
-            next_rx_data = rcv_data;
+            next_rx_packet_data = rcv_data;
         end
 
-        if (r_enable) begin
-            next_rx_packet_data = rx_data;
-            next_data_loaded = '0;
-        end
+        // if (r_enable) begin
+        //     next_rx_packet_data = rx_data;
+        //     next_data_loaded = '0;
+        // end
     end
 
 endmodule
