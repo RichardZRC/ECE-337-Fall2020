@@ -89,7 +89,8 @@ module rcu (
                         next_state = token;
                         next_rx_packet = IN;
                     end else if ((rcv_data[3:0] == 4'b0011) || (rcv_data[3:0] == 4'b1011)) begin
-                        next_state = data;
+                        next_state = data_state;
+                        next_rx_packet = DATA;
                     end else if (rcv_data[3:0] == 4'b0010) begin
                         next_state = wait_eop;
                         next_rx_packet = ACK;
