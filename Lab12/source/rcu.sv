@@ -38,8 +38,8 @@ module rcu (
     localparam NAK = 3'b101;
     localparam ERROR = 3'b110;
     reg [2:0] next_rx_packet;
-    reg temp_ref_last_bit, ref_last_bit, write_enable_fifo, next_write_enable_fifo;
-    wire next_store_rx_packet;
+    reg temp_ref_last_bit, ref_last_bit, write_enable_fifo, next_write_enable_fifo, next_one_byte;
+    wire next_store_rx_packet, one_byte_pulse;
 
     always_ff @(posedge clk, negedge n_rst) begin: STATE_REG
         if (n_rst == 1'b0) begin
@@ -48,16 +48,18 @@ module rcu (
             ref_last_bit <= '0;
             write_enable_fifo <= '0;
             store_rx_packet <= '0;
+            next_one_byte <= '0;
         end else begin
             state <= next_state;
             rx_packet <= next_rx_packet;
             ref_last_bit <= temp_ref_last_bit;
             write_enable_fifo <= next_write_enable_fifo;
             store_rx_packet <= next_store_rx_packet;
+            next_one_byte <= one_byte;
         end
     end
 
-    
+    assign one_byte_pulse = one_byte && !next_one_byte;
 
     always_comb begin: NEXT_STATE_LOGIC
         next_state = state;
@@ -71,7 +73,7 @@ module rcu (
             end
 
             load_sync: begin
-                if (one_byte) begin
+                if (one_byte_pulse) begin
                     if (rcv_data == 8'b00000001) begin
                         next_state = load_pid;
                     end else begin
@@ -81,7 +83,7 @@ module rcu (
             end
 
             load_pid: begin
-                if (one_byte) begin
+                if (one_byte_pulse) begin
                     if (rcv_data[3:0] == 4'b0001) begin
                         next_state = token;
                         next_rx_packet = OUT;
@@ -105,7 +107,7 @@ module rcu (
             end
 
             token: begin
-                if (one_byte) begin
+                if (one_byte_pulse) begin
                     if (rcv_data[6:0] != 7'b1110000) begin
                         next_state = wait_eop;
                     end else begin
@@ -116,7 +118,7 @@ module rcu (
             end
 
             token_number: begin
-                if (one_byte) begin
+                if (one_byte_pulse) begin
                     if ({rcv_data[2:0], ref_last_bit} != 4'b0100) begin
                         next_state = wait_eop;
                     end
