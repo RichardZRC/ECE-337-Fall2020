@@ -179,8 +179,8 @@ module tb_usb_rx ();
         tb_expected_r_error                 = 1'b0;
 
         tb_n_rst                            = 1'b1; 
-        tb_d_plus                           = 1'b1;
-        tb_d_minus                          = 1'b0;
+        tb_next_d_minus                     = 1'b1;
+        tb_next_d_plus                      = 1'b0;
 
         // ************************************************************************
         // Test Case 1: Power on Reset
