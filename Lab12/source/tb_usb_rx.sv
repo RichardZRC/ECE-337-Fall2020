@@ -97,7 +97,7 @@ module tb_usb_rx ();
     end
     endtask
 
-    task rest_dut;
+    task reset_dut;
     begin
         tb_n_rst = 1'b0;
         @(posedge tb_clk);
