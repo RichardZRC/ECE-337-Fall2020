@@ -40,7 +40,7 @@ module rcu (
     localparam NAK = 3'b101;
     localparam ERROR = 3'b110;
     reg [2:0] next_rx_packet;
-    reg temp_ref_last_bit, ref_last_bit, write_enable_fifo, next_write_enable_fifo, next_one_byte, next_two_byte;
+    reg temp_ref_last_bit, ref_last_bit, write_enable_fifo, next_write_enable_fifo, next_one_byte, next_two_byte, bit_flag;
     wire next_store_rx_packet, one_byte_pulse, two_byte_pulse;
 
     always_ff @(posedge clk, negedge n_rst) begin: STATE_REG
@@ -174,6 +174,16 @@ module rcu (
 
     assign next_store_rx_packet = !write_enable_fifo && next_write_enable_fifo;
 
+    flex_counter #(.NUM_CNT_BITS(4)) CLK_COUNTER (
+        .clk(clk),
+        .n_rst(n_rst),
+        .clear(one_byte_pulse),
+        .count_enable(one_byte),
+        .rollover_val(4'b0110),
+        .count_out(clk_count),
+        .rollover_flag(bit_flag)
+    );
+
     always_comb begin: OUTPUT_LOGIC
         receiving = '0;
         next_write_enable_fifo = 1'b0;
@@ -201,8 +211,11 @@ module rcu (
 
             data_state: begin
                 receiving = 1'b1;
-                if (one_byte_pulse && !eop) begin
+                if (one_byte && !eop) begin
                     w_enable_buffer = 1'b1;
+                end
+
+                if (bit_flag && !eop) begin
                     next_write_enable_fifo = 1'b1;
                 end
             end

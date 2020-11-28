@@ -28,7 +28,7 @@ module rx_buffer (
         next_rx_packet_data = rx_packet_data;
         if (w_enable) begin
             next_data_loaded = 1'b1;
-            next_rx_packet_data = rcv_data;
+            next_rx_packet_data = rcv_data[7:0];
         end
 
         // if (r_enable) begin
