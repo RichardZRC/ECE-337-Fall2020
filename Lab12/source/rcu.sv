@@ -12,7 +12,9 @@ module rcu (
     output reg [2:0] rx_packet,
     output reg receiving,
     output reg w_enable_buffer,
-    output reg r_error
+    output reg r_error,
+    output reg timer_clear,
+    output reg packet_done
 );
     typedef enum logic [3:0] { 
         idle,
@@ -163,6 +165,9 @@ module rcu (
         receiving = '0;
         next_write_enable_fifo = 1'b0;
         w_enable_buffer = '0;
+        timer_clear = '0;
+        r_error = '0;
+        packet_done = '0;
         case (state)
             load_sync: begin
                 receiving = 1'b1;
@@ -194,6 +199,11 @@ module rcu (
 
             wait_eop: begin
                 receiving = 1'b1;
+            end
+
+            transfer_done: begin
+                timer_clear = 1'b1;
+                packet_done = 1'b1;
             end
         endcase
     end
