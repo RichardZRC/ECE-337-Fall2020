@@ -174,7 +174,7 @@ module tb_usb_rx ();
         tb_test_data                        = 8'b0;
         tb_expected_rx_packet               = 3'b0; 
         tb_expected_rx_packet_data          = 8'b0;
-        tb_expected_store_rx_packet_data    = 1'b0;
+        tb_expected_store_rx_packet         = 1'b0;
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
 
@@ -192,7 +192,7 @@ module tb_usb_rx ();
 
         tb_expected_rx_packet               = 3'b0; 
         tb_expected_rx_packet_data          = 8'b0;
-        tb_expected_store_rx_packet_data    = 1'b0;
+        tb_expected_store_rx_packet         = 1'b0;
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
 
