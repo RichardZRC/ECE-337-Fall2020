@@ -211,7 +211,7 @@ module rcu (
 
             data_state: begin
                 receiving = 1'b1;
-                if (one_byte && !eop) begin
+                if (one_byte_pulse && !eop) begin
                     w_enable_buffer = 1'b1;
                 end
 
