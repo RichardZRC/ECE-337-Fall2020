@@ -5,7 +5,7 @@ module timer (
     input wire enable,
     input wire clear,  // from rcu??? need this???
     output wire shift,
-    output reg one_byte,
+    output reg one_byte
 );
     reg [3:0] clk_count;
     reg [3:0] bit_count;
