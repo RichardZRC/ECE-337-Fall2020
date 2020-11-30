@@ -626,7 +626,7 @@ module tb_usb_rx ();
         tb_test_stage = "sending sync byte";
         send_byte(tb_test_data);
 
-        tb_test_data = 8'b00000000;
+        tb_test_data = 8'b11110000;
         tb_test_stage = "sending pid byte";
         send_byte(tb_test_data);
 
