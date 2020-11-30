@@ -279,7 +279,7 @@ module tb_usb_rx ();
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
 
-        tb_test_data = 8'b00000000;
+        tb_test_data = 8'b00000111;
         tb_expected_rx_packet               = 3'b011; 
         tb_expected_rx_packet_data          = 8'b00000000;
         tb_expected_store_rx_packet         = 1'b0;
@@ -341,7 +341,7 @@ module tb_usb_rx ();
 
         #(NORM_DATA_PERIOD * 6);
 
-        check_fifo(8'b00000000, "nominal data send", 1);
+        check_fifo(8'b00000111, "nominal data send", 1);
         check_fifo(8'b00000001, "nominal data send", 1);
         check_fifo(8'b00000010, "nominal data send", 1);
         check_fifo(8'b00000011, "nominal data send", 1);
