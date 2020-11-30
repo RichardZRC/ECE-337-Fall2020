@@ -82,6 +82,8 @@ module usb_rx (
     rcu rcu (
         .clk(clk),
         .n_rst(n_rst),
+        .d_plus_sync(d_plus_sync),
+        .d_minus_sync(d_minus_sync),
         .shift_enable(shift_enable),
         .eop(eop),
         .edge_start(edge_start),

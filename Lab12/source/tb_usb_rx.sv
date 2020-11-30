@@ -116,6 +116,14 @@ module tb_usb_rx ();
     end
     endtask
 
+    task send_idle;
+    begin
+        tb_next_d_plus = '1;
+        tb_next_d_minus = '0;
+        tb_d_orig = '0;
+        #(NORM_DATA_PERIOD * 2);
+    end
+
     task reset_dut;
     begin
         tb_n_rst = 1'b0;
@@ -219,199 +227,205 @@ module tb_usb_rx ();
         tb_next_d_plus                      = 1'b0;
         tb_r_enable                         = 1'b0;
 
-        // // ************************************************************************
-        // // Test Case 1: Power on Reset
-        // // ************************************************************************
-        // tb_test_num += 1;
-        // tb_test_case = "Power_on_Reset";
+        // ************************************************************************
+        // Test Case 1: Power on Reset
+        // ************************************************************************
+        tb_test_num += 1;
+        tb_test_case = "Power_on_Reset";
 
-        // tb_test_data = 8'b0;
+        tb_test_data = 8'b0;
 
-        // tb_expected_rx_packet               = 3'b0; 
-        // tb_expected_rx_packet_data          = 8'b0;
-        // tb_expected_store_rx_packet         = 1'b0;
-        // tb_expected_packet_done             = 1'b0;
-        // tb_expected_r_error                 = 1'b0;
+        tb_expected_rx_packet               = 3'b0; 
+        tb_expected_rx_packet_data          = 8'b0;
+        tb_expected_store_rx_packet         = 1'b0;
+        tb_expected_packet_done             = 1'b0;
+        tb_expected_r_error                 = 1'b0;
 
-        // send_byte(tb_test_data);
-        // reset_dut();
-        // check_output("Reset Check");
-        // #(CLK_PERIOD * 3);
+        send_byte(tb_test_data);
+        reset_dut();
+        check_output("Reset Check");
+        #(CLK_PERIOD * 3);
 
-        // // ************************************************************************
-        // // Test Case 1: nominal data packet
-        // // ************************************************************************
-        // tb_test_num += 1;
-        // tb_test_case = "Nominal Data Transfer";
+        // ************************************************************************
+        // Test Case 1: nominal data packet
+        // ************************************************************************
+        tb_test_num += 1;
+        tb_test_case = "Nominal Data Transfer";
 
-        // reset_dut();
-        // tb_test_data = 8'b10000000;
-        // tb_test_stage = "sending sync byte";
-        // send_byte(tb_test_data);
+        reset_dut();
+        tb_test_data = 8'b10000000;
+        tb_test_stage = "sending sync byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b11000011;
-        // tb_test_stage = "sending pid byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b11000011;
+        tb_test_stage = "sending pid byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b00000111;
-        // tb_test_stage = "sending first byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b00000111;
+        tb_test_stage = "sending first byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b00000001;
-        // tb_test_stage = "sending second byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b00000001;
+        tb_test_stage = "sending second byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b00000010;
-        // tb_test_stage = "sending third byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b00000010;
+        tb_test_stage = "sending third byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b00000011;
-        // tb_test_stage = "sending fourth byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b00000011;
+        tb_test_stage = "sending fourth byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b11110111;
-        // tb_test_stage = "sending crc first byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b11110111;
+        tb_test_stage = "sending crc first byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b01011110;
-        // tb_test_stage = "sending crc second byte byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b01011110;
+        tb_test_stage = "sending crc second byte byte";
+        send_byte(tb_test_data);
 
-        // send_eop();
-        // tb_expected_rx_packet               = 3'b011; 
-        // tb_expected_packet_done             = 1'b1;
-        // tb_expected_r_error                 = 1'b0;
-        // check_output("nomial data send");
+        send_eop();
+        tb_expected_rx_packet               = 3'b011; 
+        tb_expected_packet_done             = 1'b1;
+        tb_expected_r_error                 = 1'b0;
+        check_output("nomial data send");
+        send_idle();
 
-        // #(NORM_DATA_PERIOD * 6);
+        #(NORM_DATA_PERIOD * 6);
 
-        // check_fifo(8'b00000111, "nominal data send", 1);
-        // check_fifo(8'b00000001, "nominal data send", 2);
-        // check_fifo(8'b00000010, "nominal data send", 3);
-        // check_fifo(8'b00000011, "nominal data send", 4);
+        check_fifo(8'b00000111, "nominal data send", 1);
+        check_fifo(8'b00000001, "nominal data send", 2);
+        check_fifo(8'b00000010, "nominal data send", 3);
+        check_fifo(8'b00000011, "nominal data send", 4);
 
-        // check_fifo_empty("nominal data send");
+        check_fifo_empty("nominal data send");
 
 
-        // // ************************************************************************
-        // // Test Case 2: IN token recognization
-        // // ************************************************************************
-        // #(NORM_DATA_PERIOD * 6);
+        // ************************************************************************
+        // Test Case 2: IN token recognization
+        // ************************************************************************
+        #(NORM_DATA_PERIOD * 6);
         
-        // tb_test_num += 1;
-        // tb_test_case = "Recognize IN token";
+        tb_test_num += 1;
+        tb_test_case = "Recognize IN token";
 
-        // reset_dut();
+        reset_dut();
 
-        // tb_test_data = 8'b10000000;
-        // tb_test_stage = "sending sync byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b10000000;
+        tb_test_stage = "sending sync byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b01101001;
-        // tb_test_stage = "sending pid byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b01101001;
+        tb_test_stage = "sending pid byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b01110000;
-        // tb_test_stage = "sending IN token first byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b01110000;
+        tb_test_stage = "sending IN token first byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b00000010;
-        // tb_test_stage = "sending IN token second byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b00000010;
+        tb_test_stage = "sending IN token second byte";
+        send_byte(tb_test_data);
 
-        // send_eop();
-        // tb_expected_rx_packet               = 3'b001; 
-        // tb_expected_packet_done             = 1'b1;
-        // tb_expected_r_error                 = 1'b0;
-        // check_output("IN token send");
-
-        // // ************************************************************************
-        // // Test Case 3: OUT token recognization
-        // // ************************************************************************
-        // #(NORM_DATA_PERIOD * 6);
+        send_eop();
+        tb_expected_rx_packet               = 3'b001; 
+        tb_expected_packet_done             = 1'b1;
+        tb_expected_r_error                 = 1'b0;
+        check_output("IN token send");
+        send_idle();
         
-        // tb_test_num += 1;
-        // tb_test_case = "Recognize OUT token";
 
-        // reset_dut();
-
-        // tb_test_data = 8'b10000000;
-        // tb_test_stage = "sending sync byte";
-        // send_byte(tb_test_data);
-
-        // tb_test_data = 8'b11100001;
-        // tb_test_stage = "sending pid byte";
-        // send_byte(tb_test_data);
-
-        // tb_test_data = 8'b01110000;
-        // tb_test_stage = "sending OUT token first byte";
-        // send_byte(tb_test_data);
-
-        // tb_test_data = 8'b00000010;
-        // tb_test_stage = "sending OUT token second byte";
-        // send_byte(tb_test_data);
-
-        // send_eop();
-        // tb_expected_rx_packet               = 3'b010; 
-        // tb_expected_packet_done             = 1'b1;
-        // tb_expected_r_error                 = 1'b0;     
-        // check_output("OUT token send");
-
-        // // ************************************************************************
-        // // Test Case 4: ACK recognization
-        // // ************************************************************************
-        // #(NORM_DATA_PERIOD * 6);
+        // ************************************************************************
+        // Test Case 3: OUT token recognization
+        // ************************************************************************
+        #(NORM_DATA_PERIOD * 6);
         
-        // tb_test_num += 1;
-        // tb_test_case = "Recognize ACK";
+        tb_test_num += 1;
+        tb_test_case = "Recognize OUT token";
 
-        // reset_dut();
+        reset_dut();
 
-        // tb_test_data = 8'b10000000;
-        // tb_test_stage = "sending sync byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b10000000;
+        tb_test_stage = "sending sync byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b11010010;
-        // tb_test_stage = "sending pid byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b11100001;
+        tb_test_stage = "sending pid byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b00001111;
-        // tb_test_stage = "sending random byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b01110000;
+        tb_test_stage = "sending OUT token first byte";
+        send_byte(tb_test_data);
 
-        // send_eop();
-        // tb_expected_rx_packet               = 3'b100; 
-        // tb_expected_packet_done             = 1'b1;
-        // tb_expected_r_error                 = 1'b0;     
-        // check_output("ACK send");
+        tb_test_data = 8'b00000010;
+        tb_test_stage = "sending OUT token second byte";
+        send_byte(tb_test_data);
 
-        // // ************************************************************************
-        // // Test Case 5: NACK recognization
-        // // ************************************************************************
-        // #(NORM_DATA_PERIOD * 6);
+        send_eop();
+        tb_expected_rx_packet               = 3'b010; 
+        tb_expected_packet_done             = 1'b1;
+        tb_expected_r_error                 = 1'b0;     
+        check_output("OUT token send");
+        send_idle();
+
+        // ************************************************************************
+        // Test Case 4: ACK recognization
+        // ************************************************************************
+        #(NORM_DATA_PERIOD * 6);
         
-        // tb_test_num += 1;
-        // tb_test_case = "Recognize NACK";
+        tb_test_num += 1;
+        tb_test_case = "Recognize ACK";
 
-        // reset_dut();
+        reset_dut();
 
-        // tb_test_data = 8'b10000000;
-        // tb_test_stage = "sending sync byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b10000000;
+        tb_test_stage = "sending sync byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b01011010;
-        // tb_test_stage = "sending pid byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b11010010;
+        tb_test_stage = "sending pid byte";
+        send_byte(tb_test_data);
 
-        // tb_test_data = 8'b11110000;
-        // tb_test_stage = "sending random byte";
-        // send_byte(tb_test_data);
+        tb_test_data = 8'b00001111;
+        tb_test_stage = "sending random byte";
+        send_byte(tb_test_data);
 
-        // send_eop();
-        // tb_expected_rx_packet               = 3'b101; 
-        // tb_expected_packet_done             = 1'b1;
-        // tb_expected_r_error                 = 1'b0;     
-        // check_output("NACK send");
+        send_eop();
+        tb_expected_rx_packet               = 3'b100; 
+        tb_expected_packet_done             = 1'b1;
+        tb_expected_r_error                 = 1'b0;     
+        check_output("ACK send");
+        send_idle();
+
+        // ************************************************************************
+        // Test Case 5: NACK recognization
+        // ************************************************************************
+        #(NORM_DATA_PERIOD * 6);
+        
+        tb_test_num += 1;
+        tb_test_case = "Recognize NACK";
+
+        reset_dut();
+
+        tb_test_data = 8'b10000000;
+        tb_test_stage = "sending sync byte";
+        send_byte(tb_test_data);
+
+        tb_test_data = 8'b01011010;
+        tb_test_stage = "sending pid byte";
+        send_byte(tb_test_data);
+
+        tb_test_data = 8'b11110000;
+        tb_test_stage = "sending random byte";
+        send_byte(tb_test_data);
+
+        send_eop();
+        tb_expected_rx_packet               = 3'b101; 
+        tb_expected_packet_done             = 1'b1;
+        tb_expected_r_error                 = 1'b0;     
+        check_output("NACK send");
+        send_idle();
 
         // ************************************************************************
         // Test Case 6: Token with invalid address
@@ -444,6 +458,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
         check_output("invalid address IN token send");
+        send_idle();
 
         // ************************************************************************
         // Test Case 7: Token with invalid endpoint number
@@ -476,6 +491,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
         check_output("invalid endpoint number IN token send");
+        send_idle();
 
         // ************************************************************************
         // Test Case 8: Data transfer with too-short data field
@@ -506,6 +522,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b1;
         check_output("too-short data send");
+        send_idle();
 
         // #(NORM_DATA_PERIOD * 6);
 
@@ -545,6 +562,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b1;
         check_output("premature eop send");
+        send_idle();
 
         // #(NORM_DATA_PERIOD * 6);
 
@@ -568,6 +586,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b1;
         check_output("invalid sync send");
+        send_idle();
 
         // ************************************************************************
         // Test Case 11: invaid pid byte
@@ -591,6 +610,7 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b1;
         check_output("invalid pid send");
+        send_idle();
 
         // ************************************************************************
         // Test Case 12: unsupported pid byte
@@ -614,8 +634,9 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
         check_output("unsupported pid send");
+        send_idle();
 
-        
+
 
 
 

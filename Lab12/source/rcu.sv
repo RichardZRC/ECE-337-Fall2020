@@ -1,6 +1,8 @@
 module rcu (
     input wire clk,
     input wire n_rst,
+    input wire d_plus_sync,
+    input wire d_minus_sync,
     input wire shift_enable,
     input wire eop,
     input wire edge_start,
@@ -28,6 +30,7 @@ module rcu (
         token_number,
         error_state,
         wait_eop,
+        wait_idle,
         transfer_done
     } state_type;
     state_type state, next_state;
@@ -163,20 +166,26 @@ module rcu (
             end
 
             error_state: begin
-                if (edge_start) begin
-                    next_state = load_sync;
+                if (d_plus_sync == 1'b1 && d_minus_sync == 1'b0 && eop) begin
+                    next_state = idle;
                 end
             end
 
             wait_eop: begin
                 if (eop) begin
-                    next_state = transfer_done;
+                    next_state = wait_idle;
+                end
+            end
+
+            wait_idle: begin
+                if (d_plus_sync == 1'b1 && d_minus_sync == 1'b0) begin
+                    next_state = idle;
                 end
             end
 
             transfer_done: begin
-                if (edge_start && !eop) begin
-                    next_state = load_sync;
+                if (d_plus_sync == 1'b1 && d_minus_sync == 1'b0) begin
+                    next_state = idle;
                 end
             end
 
