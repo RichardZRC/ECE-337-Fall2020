@@ -123,6 +123,7 @@ module tb_usb_rx ();
         tb_d_orig = '0;
         #(NORM_DATA_PERIOD * 2);
     end
+    endtask
 
     task reset_dut;
     begin
