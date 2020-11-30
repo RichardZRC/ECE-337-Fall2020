@@ -25,6 +25,7 @@ module tb_usb_rx ();
     //test case info
     integer tb_test_num;
     string tb_test_case;
+    string tb_test_stage;
 
     //test signals
     reg [7:0] tb_test_data;
@@ -39,6 +40,12 @@ module tb_usb_rx ();
     reg tb_expected_packet_done;
     reg tb_expected_data_loaded;
 
+    //fifo signal
+    reg tb_fifo_r_enable;
+    reg [7:0] tb_fifo_r_data;
+    reg tb_fifo_empty;
+    reg tb_fifo_full
+
     usb_rx DUT (
         .clk(tb_clk),
         .n_rst(tb_n_rst),
@@ -51,6 +58,18 @@ module tb_usb_rx ();
         .r_error(tb_r_error),
         .packet_done(tb_packet_done),
         .data_loaded(tb_data_loaded)
+    );
+
+    fifo fifo (
+        .r_clk(tb_clk),
+        .w_clk(tb_clk),
+        .n_rst(tb_n_rst),
+        .r_enable(tb_fifo_r_enable),
+        .w_enable(tb_store_rx_packet),
+        .w_data(tb_rx_packet_data),
+        .r_data(read_data),
+        .empty(tb_fifo_empty),
+        .full(tb_fifo_full)
     );
 
     always_ff @(posedge tb_clk, negedge tb_n_rst) begin
@@ -113,6 +132,35 @@ module tb_usb_rx ();
         @(posedge tb_clk);
     end
     endtask 
+
+    task check_fifo;
+        input [7:0] data;
+        input string test_case;
+        input byte_num;
+    begin
+        @(posedge tb_clk);
+        tb_fifo_r_enable = 1'b1;
+        @(posedge tb_clk);
+        tb_fifo_r_enable = 1'b0;
+        assert(tb_fifo_r_data == data)
+            $info("Test %s is correct for %d byte", test_case, byte_num);
+        else begin
+            $error("!!!!!!!!Test %s is INCORRECT for %d byte!!!!!!!", test_case, byte_num);
+        end
+    end
+    endtask 
+
+    task check_fifo_empty;
+        input string test_case;
+    begin
+        @(posedge tb_clk);
+        assert(tb_fifo_empty == 1'b1) begin
+            $info("fifo is empty for %s", test_case);
+        end else begin
+            $error("!!!!!!!fifo is NOT empty for %s!!!!!!!!", test_case);
+        end
+    end
+    endtask
     
     task check_output;
         input string check_tag;
@@ -217,9 +265,9 @@ module tb_usb_rx ();
         tb_expected_store_rx_packet         = 1'b0;
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
+        tb_test_stage = "sending sync byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
-        check_output("sync byte check");
 
         tb_test_data = 8'b11000011;
         tb_expected_rx_packet               = 3'b011; 
@@ -227,9 +275,9 @@ module tb_usb_rx ();
         tb_expected_store_rx_packet         = 1'b0;
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
+        tb_test_stage = "sending pid byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
-        check_output("pid byte check");
 
         tb_test_data = 8'b00000000;
         tb_expected_rx_packet               = 3'b011; 
@@ -237,9 +285,9 @@ module tb_usb_rx ();
         tb_expected_store_rx_packet         = 1'b0;
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
+        tb_test_stage = "sending first byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
-        check_output("first byte 00");
 
         tb_test_data = 8'b00000001;
         tb_expected_rx_packet               = 3'b011; 
@@ -247,9 +295,9 @@ module tb_usb_rx ();
         tb_expected_store_rx_packet         = 1'b1;
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
+        tb_test_stage = "sending second byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
-        check_output("second byte 01");
 
         tb_test_data = 8'b00000010;
         tb_expected_rx_packet               = 3'b011; 
@@ -257,9 +305,9 @@ module tb_usb_rx ();
         tb_expected_store_rx_packet         = 1'b1;
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
+        tb_test_stage = "sending third byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
-        check_output("third byte 02");
 
         tb_test_data = 8'b00000011;
         tb_expected_rx_packet               = 3'b011; 
@@ -267,9 +315,9 @@ module tb_usb_rx ();
         tb_expected_store_rx_packet         = 1'b1;
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
+        tb_test_stage = "sending fourth byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
-        check_output("fourth byte 03");
 
         tb_test_data = 8'b11110111;
         tb_expected_rx_packet               = 3'b011; 
@@ -277,9 +325,9 @@ module tb_usb_rx ();
         tb_expected_store_rx_packet         = 1'b0;
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b0;
+        tb_test_stage = "sending crc first byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
-        check_output("crc first byte");
 
         tb_test_data = 8'b01011110;
         tb_expected_rx_packet               = 3'b011; 
@@ -287,11 +335,19 @@ module tb_usb_rx ();
         tb_expected_store_rx_packet         = 1'b0;
         tb_expected_packet_done             = 1'b1;
         tb_expected_r_error                 = 1'b0;
+        tb_test_stage = "sending crc second byte byte";
         send_byte(tb_test_data);
-        // #(CLK_PERIOD * 3);
         send_eop();
 
-        check_output("transfer done");
+        #(NORM_DATA_PERIOD * 6);
+
+        check_fifo(8'b00000000, "nominal data send", 1);
+        check_fifo(8'b00000001, "nominal data send", 1);
+        check_fifo(8'b00000010, "nominal data send", 1);
+        check_fifo(8'b00000011, "nominal data send", 1);
+
+        check_fifo_empty("nominal data send");
+
 
 
 
