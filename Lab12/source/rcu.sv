@@ -136,6 +136,9 @@ module rcu (
                 //         next_state = error_state;
                 //     end
                 // end
+                if (eop) begin
+                    next_state = error_state;
+                end
                 if (two_byte_pulse) begin
                     next_state = data_state;
                 end
@@ -164,7 +167,7 @@ module rcu (
             end
 
             transfer_done: begin
-                if (edge_start) begin
+                if (edge_start && !eop) begin
                     next_state = load_sync;
                 end
             end

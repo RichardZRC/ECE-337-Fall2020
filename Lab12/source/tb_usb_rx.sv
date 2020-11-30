@@ -168,27 +168,13 @@ module tb_usb_rx ();
         tb_check = 1'b1;
         tb_mismatch = 1'b0;
 
-        assert(tb_expected_rx_packet_data == tb_rx_packet_data)
-            $info("Test case %s correct for 'rx_packet_data', test num %0d", check_tag, tb_test_num);
-        else begin
-            $error("!!!!!!!!Test case %s incorrect for 'rx_packet_data', test num %0d!!!!!!!!!", check_tag, tb_test_num);
-            tb_mismatch = 1'b1;
-        end
-
         assert(tb_expected_rx_packet == tb_rx_packet)
             $info("Test case %s correct for 'rx_packet', test num %0d", check_tag, tb_test_num);
         else begin
             $error("!!!!!!!!Test case %s incorrect for 'rx_packet', test num %0d!!!!!!!!!", check_tag, tb_test_num);
             tb_mismatch = 1'b1;
         end
-
-        assert(tb_expected_store_rx_packet == tb_store_rx_packet)
-            $info("Test case %s correct for 'store_rx_packet', test num %0d", check_tag, tb_test_num);
-        else begin
-            $error("!!!!!!!!Test case %s incorrect for 'store_rx_packet', test num %0d!!!!!!!!!", check_tag, tb_test_num);
-            tb_mismatch = 1'b1;
-        end
-
+        
         assert(tb_expected_r_error == tb_r_error)
             $info("Test case %s correct for 'r_error', test num %0d", check_tag, tb_test_num);
         else begin
@@ -260,79 +246,42 @@ module tb_usb_rx ();
 
         reset_dut();
         tb_test_data = 8'b10000000;
-        tb_expected_rx_packet               = 3'b0; 
-        tb_expected_rx_packet_data          = 8'b0;
-        tb_expected_store_rx_packet         = 1'b0;
-        tb_expected_packet_done             = 1'b0;
-        tb_expected_r_error                 = 1'b0;
         tb_test_stage = "sending sync byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
 
         tb_test_data = 8'b11000011;
-        tb_expected_rx_packet               = 3'b011; 
-        tb_expected_rx_packet_data          = 8'b11000011;
-        tb_expected_store_rx_packet         = 1'b0;
-        tb_expected_packet_done             = 1'b0;
-        tb_expected_r_error                 = 1'b0;
         tb_test_stage = "sending pid byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
 
         tb_test_data = 8'b00000111;
-        tb_expected_rx_packet               = 3'b011; 
-        tb_expected_rx_packet_data          = 8'b00000000;
-        tb_expected_store_rx_packet         = 1'b0;
-        tb_expected_packet_done             = 1'b0;
-        tb_expected_r_error                 = 1'b0;
         tb_test_stage = "sending first byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
 
         tb_test_data = 8'b00000001;
-        tb_expected_rx_packet               = 3'b011; 
-        tb_expected_rx_packet_data          = 8'b00000001;
-        tb_expected_store_rx_packet         = 1'b1;
-        tb_expected_packet_done             = 1'b0;
-        tb_expected_r_error                 = 1'b0;
         tb_test_stage = "sending second byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
 
         tb_test_data = 8'b00000010;
-        tb_expected_rx_packet               = 3'b011; 
-        tb_expected_rx_packet_data          = 8'b00000010;
-        tb_expected_store_rx_packet         = 1'b1;
-        tb_expected_packet_done             = 1'b0;
-        tb_expected_r_error                 = 1'b0;
         tb_test_stage = "sending third byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
 
         tb_test_data = 8'b00000011;
-        tb_expected_rx_packet               = 3'b011; 
-        tb_expected_rx_packet_data          = 8'b00000011;
-        tb_expected_store_rx_packet         = 1'b1;
-        tb_expected_packet_done             = 1'b0;
-        tb_expected_r_error                 = 1'b0;
         tb_test_stage = "sending fourth byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
 
         tb_test_data = 8'b11110111;
-        tb_expected_rx_packet               = 3'b011; 
-        tb_expected_rx_packet_data          = 8'b0;
-        tb_expected_store_rx_packet         = 1'b0;
-        tb_expected_packet_done             = 1'b0;
-        tb_expected_r_error                 = 1'b0;
         tb_test_stage = "sending crc first byte";
         send_byte(tb_test_data);
         // #(CLK_PERIOD * 3);
 
         tb_test_data = 8'b01011110;
         tb_expected_rx_packet               = 3'b011; 
-        tb_expected_rx_packet_data          = 8'b0;
-        tb_expected_store_rx_packet         = 1'b0;
         tb_expected_packet_done             = 1'b1;
         tb_expected_r_error                 = 1'b0;
         tb_test_stage = "sending crc second byte byte";
