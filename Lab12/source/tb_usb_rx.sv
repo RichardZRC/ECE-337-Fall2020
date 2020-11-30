@@ -44,7 +44,7 @@ module tb_usb_rx ();
     reg tb_fifo_r_enable;
     reg [7:0] tb_fifo_r_data;
     reg tb_fifo_empty;
-    reg tb_fifo_full
+    reg tb_fifo_full;
 
     usb_rx DUT (
         .clk(tb_clk),
