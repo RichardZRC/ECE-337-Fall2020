@@ -67,7 +67,7 @@ module tb_usb_rx ();
         .r_enable(tb_fifo_r_enable),
         .w_enable(tb_store_rx_packet),
         .w_data(tb_rx_packet_data),
-        .r_data(read_data),
+        .r_data(tb_fifo_r_data),
         .empty(tb_fifo_empty),
         .full(tb_fifo_full)
     );
