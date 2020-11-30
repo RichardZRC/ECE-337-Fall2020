@@ -38,7 +38,8 @@ module rcu (
     localparam DATA = 3'b011;
     localparam ACK = 3'b100;
     localparam NAK = 3'b101;
-    localparam ERROR = 3'b110;
+    localparam UNSUPPORT = 3'b110;
+    localparam STALL = 3'b111;
     reg [2:0] next_rx_packet;
     reg temp_ref_last_bit, ref_last_bit, write_enable_fifo, next_write_enable_fifo, next_one_byte, next_two_byte, bit_flag;
     wire next_store_rx_packet, one_byte_pulse, two_byte_pulse;
@@ -89,6 +90,10 @@ module rcu (
 
             load_pid: begin
                 if (one_byte_pulse) begin
+                    if (rcv_data[11:8] != ~rcv_data[15:12]) begin
+                        next_state = error_state;
+                    end
+
                     if (rcv_data[11:8] == 4'b0001) begin
                         next_state = token;
                         next_rx_packet = OUT;
@@ -104,9 +109,12 @@ module rcu (
                     end else if (rcv_data[11:8] == 4'b1010) begin
                         next_state = wait_eop;
                         next_rx_packet = NAK;
-                    end else begin
+                    end else if (rcv_data[11:8] == 4'b1110) begin
                         next_state = error_state;
-                        next_rx_packet = ERROR;
+                        next_rx_packet = STALL;
+                    end else begin
+                        next_rx_packet = UNSUPPORT;
+                        next_state = wait_eop;
                     end
                 end
             end
