@@ -112,7 +112,7 @@ module rcu (
             end
 
             token: begin
-                if (two_byte) begin
+                if (two_byte_pulse) begin
                     if ((rcv_data[6:0] != 7'b1110000) || (rcv_data[10:7] != 4'b0100)) begin
                         next_state = wait_eop;
                     end else begin
