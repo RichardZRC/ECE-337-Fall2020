@@ -95,9 +95,7 @@ module rcu (
                 if (one_byte_pulse) begin
                     if (rcv_data[11:8] != ~rcv_data[15:12]) begin
                         next_state = error_state;
-                    end
-
-                    if (rcv_data[11:8] == 4'b0001) begin
+                    end else if (rcv_data[11:8] == 4'b0001) begin
                         next_state = token;
                         next_rx_packet = OUT;
                     end else if (rcv_data[11:8] == 4'b1001) begin
@@ -127,8 +125,8 @@ module rcu (
                     if ((rcv_data[6:0] != 7'b1110000) || (rcv_data[10:7] != 4'b0100)) begin
                         next_state = wait_eop;
                     end else begin
-                        temp_ref_last_bit = rcv_data[7];
-                        next_state = wait_eop;
+                        // temp_ref_last_bit = rcv_data[7];
+                        next_state = transfer_done;
                     end
                 end
             end
