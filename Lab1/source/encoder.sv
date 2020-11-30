@@ -3,8 +3,8 @@ module encoder (
 	output reg [4:0] out
 );
 	integer i;
-	always_comb begin
-		out = '0;
+	always @(*) begin
+		out = 5'b00000;
 		for (i = 30; i >= 0; i = i - 1) begin
 			if (in[i] == 1) begin
 				out = i;
