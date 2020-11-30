@@ -203,10 +203,10 @@ module rcu (
 
             data_state_load: begin
                 receiving = 1'b1;
-                // if (two_byte_pulse) begin
-                //     w_enable_buffer = 1'b1;
-                //     next_write_enable_fifo = 1'b1;
-                // end
+                if (two_byte_pulse) begin
+                    w_enable_buffer = 1'b1;
+                    // next_write_enable_fifo = 1'b1;
+                end
             end
 
             data_state: begin
