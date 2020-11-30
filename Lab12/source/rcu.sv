@@ -136,7 +136,7 @@ module rcu (
                 //         next_state = error_state;
                 //     end
                 // end
-                if (two_byte) begin
+                if (two_byte_pulse) begin
                     next_state = data_state;
                 end
             end
