@@ -11,7 +11,7 @@ module usb_rx (
     output reg packet_done,
     output reg data_loaded
 );
-    reg d_plus_sync, d_minus_sync, edge_start, eop, d_orig, shift_enable, stuff_bit, receiving, timer_clear, one_byte, w_enable_buffer, crc_clear, two_byte;
+    reg d_plus_sync, d_minus_sync, edge_start, eop, d_orig, shift_enable, stuff_bit, receiving, timer_clear, one_byte, w_enable_buffer, crc_clear, two_byte, one_byte_orig;
     reg [15:0] rcv_data;
 
     sync_high sync_high (
@@ -65,7 +65,8 @@ module usb_rx (
         .stuff_bit(stuff_bit),
         .enable(receiving),
         .clear(timer_clear),
-        .shift(shift_enable)
+        .shift(shift_enable),
+        .one_byte_time(one_byte_orig)
     );
 
     shift_register shift_register (
@@ -100,7 +101,8 @@ module usb_rx (
         .timer_clear(timer_clear),
         .packet_done(packet_done),
         .crc_clear(crc_clear),
-        .two_byte(two_byte)
+        .two_byte(two_byte),
+        .one_byte_orig(one_byte_orig)
     );
 
     crc_5bit crc_5bit (

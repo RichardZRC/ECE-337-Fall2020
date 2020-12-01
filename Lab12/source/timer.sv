@@ -4,13 +4,13 @@ module timer (
     input wire stuff_bit,
     input wire enable,
     input wire clear,  // from rcu??? need this???
-    output wire shift
+    output wire shift,
+    output reg one_byte_time 
 );
     reg [3:0] clk_count;
     reg [3:0] bit_count;
     reg clk_rollover_flag;
     reg bit_rollover_flag;
-    reg one_byte_time;
     wire timer_clear;
     wire timer_enable;
     

@@ -11,6 +11,7 @@ module rcu (
     input wire crc5_err,
     input wire crc16_err,
     input wire [15:0] rcv_data,
+    input wire one_byte_orig,
     output reg store_rx_packet,
     output reg [2:0] rx_packet,
     output reg receiving,
@@ -156,7 +157,7 @@ module rcu (
 
             data_state: begin
                 if (eop) begin
-                    if (one_byte) begin
+                    if (one_byte_orig) begin
                         next_state = transfer_done;
                     end else begin
                         next_state = error_state;
