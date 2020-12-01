@@ -11,7 +11,7 @@ module timer (
     reg [3:0] bit_count1, bit_count2;
     reg clk_rollover_flag;
     reg bit_rollover_flag;
-    reg shift2;
+    wire shift2;
     wire timer_clear;
     wire timer_enable;
     
