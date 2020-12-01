@@ -690,8 +690,8 @@ module tb_usb_rx ();
         tb_test_stage = "sending third byte";
         send_byte(tb_test_data);
 
-        send_bit(1'b0);
         tb_test_stage = "sending stuff bit";
+        send_bit(1'b0);
 
         tb_test_data = 8'b10000001;
         tb_test_stage = "sending fourth byte";
