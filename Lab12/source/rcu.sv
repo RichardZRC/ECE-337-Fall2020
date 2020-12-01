@@ -166,7 +166,7 @@ module rcu (
             end
 
             error_state: begin
-                if (d_plus_sync == 1'b1 && d_minus_sync == 1'b0 && ~eop) begin
+                if (d_plus_sync == 1'b1 && d_minus_sync == 1'b0 && eop) begin
                     next_state = idle;
                 end
             end

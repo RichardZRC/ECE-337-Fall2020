@@ -39,7 +39,7 @@ module timer (
         .rollover_flag()
     );
 
-       flex_counter #(.NUM_CNT_BITS(4)) CLK_COUNTER_2 (
+    flex_counter #(.NUM_CNT_BITS(4)) CLK_COUNTER_2 (
         .clk(clk),
         .n_rst(n_rst),
         .clear(clear),
