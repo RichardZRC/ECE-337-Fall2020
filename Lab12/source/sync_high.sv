@@ -12,8 +12,8 @@ module sync_high (
             sync_out <= 1'b1;
         end
         else begin
-            sync_temp <= async_in;
             sync_out <= sync_temp;
+            sync_temp <= async_in;
         end
     end
 
