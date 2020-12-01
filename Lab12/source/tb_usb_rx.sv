@@ -686,11 +686,11 @@ module tb_usb_rx ();
         tb_test_stage = "sending second byte";
         send_byte(tb_test_data);
 
-        tb_test_data = 8'b10111111;
-        tb_test_stage = "sending third byte";
+        tb_test_data = 8'b11111100;
+        tb_test_stage = "sending third byte with stuff bit";
         send_byte(tb_test_data);
 
-        tb_test_stage = "sending stuff bit";
+        tb_test_stage = "sending additional bit to make up";
         send_bit(1'b0);
 
         tb_test_data = 8'b10000001;
