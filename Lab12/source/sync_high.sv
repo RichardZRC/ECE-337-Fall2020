@@ -1,7 +1,7 @@
 module sync_high (
-    input reg clk,
-    input reg n_rst,
-    input reg async_in,
+    input wire clk,
+    input wire n_rst,
+    input wire async_in,
     output reg sync_out
 );
 
