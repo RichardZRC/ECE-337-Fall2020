@@ -8,7 +8,7 @@ module timer (
     output reg one_byte_time 
 );
     reg [3:0] clk_count1, clk_count2;
-    reg [3:0] bit_count1, clk_count2;
+    reg [3:0] bit_count1, bit_count2;
     reg clk_rollover_flag;
     reg bit_rollover_flag;
     reg shift2;
@@ -39,7 +39,7 @@ module timer (
         .rollover_flag()
     );
 
-       flex_counter #(.NUM_CNT_BITS(4)) CLK_COUNTER (
+       flex_counter #(.NUM_CNT_BITS(4)) CLK_COUNTER_2 (
         .clk(clk),
         .n_rst(n_rst),
         .clear(clear),
@@ -51,7 +51,7 @@ module timer (
 
     assign shift2 = (clk_count2 == 4'd1);
 
-    flex_counter #(.NUM_CNT_BITS(4)) BIT_COUNTER (
+    flex_counter #(.NUM_CNT_BITS(4)) BIT_COUNTER_2 (
         .clk(clk),
         .n_rst(n_rst),
         .clear(clear),
