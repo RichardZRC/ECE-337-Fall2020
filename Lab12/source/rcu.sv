@@ -192,12 +192,12 @@ module rcu (
 
     assign next_store_rx_packet = !write_enable_fifo && next_write_enable_fifo;
 
-    flex_counter #(.NUM_CNT_BITS(4)) CLK_COUNTER (
+    flex_counter #(.NUM_CNT_BITS(5)) CLK_COUNTER (
         .clk(clk),
         .n_rst(n_rst),
         .clear(one_byte_pulse),
         .count_enable(one_byte),
-        .rollover_val(4'b0110),
+        .rollover_val(5'b10000),
         .count_out(clk_count),
         .rollover_flag(bit_flag)
     );
