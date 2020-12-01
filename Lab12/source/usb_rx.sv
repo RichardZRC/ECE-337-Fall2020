@@ -76,7 +76,8 @@ module usb_rx (
         .d_orig(d_orig),
         .rcv_data(rcv_data),
         .one_byte(one_byte),
-        .two_byte(two_byte)
+        .two_byte(two_byte),
+        .stuff_bit(stuff_bit)
     );
 
     rcu rcu (
