@@ -14,7 +14,7 @@ module timer (
     wire timer_clear;
     wire timer_enable;
     
-    assign timer_enable = enable && (!stuff_bit);
+    assign timer_enable = enable;
 
     flex_counter #(.NUM_CNT_BITS(4)) CLK_COUNTER (
         .clk(clk),
