@@ -28,15 +28,15 @@ module shift_register (
         case(state)
             idle: begin
                 if (stuff_bit) begin
-                    next_state = stuff_bit_delay1;
-                end
-            end
-
-            stuff_bit_delay1: begin
-                if (shift_enable) begin
                     next_state = stuff_bit_cancel;
                 end
             end
+
+            // stuff_bit_delay1: begin
+            //     if (shift_enable) begin
+            //         next_state = stuff_bit_cancel;
+            //     end
+            // end
 
             stuff_bit_cancel: begin
                 if(shift_enable) begin
