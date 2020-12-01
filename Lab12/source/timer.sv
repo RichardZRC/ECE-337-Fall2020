@@ -64,7 +64,7 @@ module timer (
     );
 
     assign shift2 = (clk_count2 == 4'd1);
-    assign shift3 = shift2 && (~cancel);
+    assign shift3 = shift2 && (~cancel_next);
 
     always_comb begin
         next_state = state;
