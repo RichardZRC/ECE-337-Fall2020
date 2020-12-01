@@ -46,7 +46,7 @@ module rcu (
     localparam STALL = 3'b111;
     reg [2:0] next_rx_packet;
     reg [3:0] clk_count;
-    reg temp_ref_last_bit, ref_last_bit, write_enable_fifo, next_write_enable_fifo, next_one_byte, next_two_byte, bit_flag;
+    reg temp_ref_last_bit, ref_last_bit, write_enable_fifo, next_write_enable_fifo, next_one_byte, next_two_byte, bit_flag, last_eop;
     wire next_store_rx_packet, one_byte_pulse, two_byte_pulse;
 
     always_ff @(posedge clk, negedge n_rst) begin: STATE_REG
@@ -58,6 +58,7 @@ module rcu (
             store_rx_packet <= '0;
             next_one_byte <= '0;
             next_two_byte <= '0;
+            last_eop <= '0;
         end else begin
             state <= next_state;
             rx_packet <= next_rx_packet;
@@ -66,6 +67,7 @@ module rcu (
             store_rx_packet <= next_store_rx_packet;
             next_one_byte <= one_byte;
             next_two_byte <= two_byte;
+            last_eop <= eop;
         end
     end
 
@@ -156,7 +158,7 @@ module rcu (
             end
 
             data_state: begin
-                if (eop) begin
+                if (last_eop) begin
                     if (one_byte_orig) begin
                         next_state = transfer_done;
                     end else begin
@@ -166,7 +168,7 @@ module rcu (
             end
 
             error_state: begin
-                if (d_plus_sync == 1'b1 && d_minus_sync == 1'b0 && eop) begin
+                if (d_plus_sync == 1'b1 && d_minus_sync == 1'b0 && ~eop) begin
                     next_state = idle;
                 end
             end
