@@ -65,9 +65,11 @@ module shift_register (
         if (n_rst == 1'b0) begin
             shift_reserve1 <= '0;
             shift_reserve2 <= '0;
+            state <= idle;
         end else begin
             shift_reserve2 <= shift_reserve1;
             shift_reserve1 <= reg_shift;
+            state <= next_state;
         end
     end
     flex_stp_sr #(.NUM_BITS(16), .SHIFT_MSB(0)) SR (
