@@ -564,11 +564,11 @@ module tb_usb_rx ();
         tb_expected_r_error                 = 1'b1;
         check_output("premature eop send");
 
-        check_fifo(8'b11100111, "nominal data send", 1);
-        check_fifo(8'b00000001, "nominal data send", 2);
-        check_fifo(8'b10000111, "nominal data send", 3);
+        check_fifo(8'b11100111, "premature eop send", 1);
+        check_fifo(8'b00000001, "premature eop send", 2);
+        check_fifo(8'b10000111, "premature eop send", 3);
 
-        check_fifo_empty();
+        check_fifo_empty("premature eop send");
 
         send_idle();
 
@@ -611,7 +611,7 @@ module tb_usb_rx ();
         tb_expected_r_error                 = 1'b1;
         check_output("invalid sync send");
 
-        check_fifo_empty();
+        check_fifo_empty("invalid sync send");
         send_idle();
 
         // ************************************************************************
@@ -705,12 +705,12 @@ module tb_usb_rx ();
         tb_expected_r_error                 = 1'b0;
         check_output("stuff bit case");
 
-        check_fifo(8'b11100111, "nominal data send", 1);
-        check_fifo(8'b00000001, "nominal data send", 2);
-        check_fifo(8'b10111111, "nominal data send", 3);
-        check_fifo(8'b10000001, "nominal data send", 3);
+        check_fifo(8'b11100111, "stuff bit data send", 1);
+        check_fifo(8'b00000001, "stuff bit data send", 2);
+        check_fifo(8'b10111111, "stuff bit data send", 3);
+        check_fifo(8'b10000001, "stuff bit data send", 3);
 
-        check_fifo_empty();
+        check_fifo_empty("stuff bit data send");
 
         send_idle();
 
