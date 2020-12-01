@@ -1,5 +1,5 @@
 module sync_high (
-input reg clk,
+    input reg clk,
     input reg n_rst,
     input reg async_in,
     output reg sync_out
