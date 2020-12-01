@@ -11,8 +11,8 @@ module decoder (
 
     always_ff @(posedge clk, negedge n_rst) begin: BIT_REG
         if (n_rst == 1'b0) begin
-            current_bit = 1'b1;
-            last_bit = 1'b1;
+            current_bit <= 1'b1;
+            last_bit <= 1'b1;
         end else begin
             current_bit <= next_current_bit;
             last_bit <= next_last_bit;
