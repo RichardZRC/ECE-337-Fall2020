@@ -545,7 +545,7 @@ module tb_usb_rx ();
         tb_test_stage = "sending pid byte";
         send_byte(tb_test_data);
 
-        tb_test_data = 8'b00000111;
+        tb_test_data = 8'b11100111;
         tb_test_stage = "sending first byte";
         send_byte(tb_test_data);
 
@@ -553,8 +553,8 @@ module tb_usb_rx ();
         tb_test_stage = "sending second byte";
         send_byte(tb_test_data);
 
-        tb_test_data = 8'b00000111;
-        tb_test_stage = "sending first byte";
+        tb_test_data = 8'b10000111;
+        tb_test_stage = "sending third byte";
         send_byte(tb_test_data);
 
         send_bit(1'b1);
@@ -563,6 +563,13 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b1;
         check_output("premature eop send");
+
+        check_fifo(8'b11100111, "nominal data send", 1);
+        check_fifo(8'b00000001, "nominal data send", 2);
+        check_fifo(8'b10000111, "nominal data send", 3);
+
+        check_fifo_empty();
+
         send_idle();
 
         //TODO: check fifo
@@ -584,6 +591,18 @@ module tb_usb_rx ();
         tb_test_stage = "sending sync byte";
         send_byte(tb_test_data);
 
+        tb_test_data = 8'b11000011;
+        tb_test_stage = "sending pid byte";
+        send_byte(tb_test_data);
+
+        tb_test_data = 8'b00000111;
+        tb_test_stage = "sending first byte";
+        send_byte(tb_test_data);
+
+        tb_test_data = 8'b00000001;
+        tb_test_stage = "sending second byte";
+        send_byte(tb_test_data);
+
         //TODO: check fifo
 
         send_eop();
@@ -591,6 +610,8 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b0;
         tb_expected_r_error                 = 1'b1;
         check_output("invalid sync send");
+
+        check_fifo_empty();
         send_idle();
 
         // ************************************************************************
@@ -641,6 +662,57 @@ module tb_usb_rx ();
         check_output("unsupported pid send");
         send_idle();
 
+        // ************************************************************************
+        // Test Case 13: nominal data transfer with stuff bit
+        // ************************************************************************
+        
+        #(NORM_DATA_PERIOD * 6);
+        tb_test_num += 1;
+        tb_test_case = "stuff bit case";
+
+        reset_dut();
+        tb_test_data = 8'b10000000;
+        tb_test_stage = "sending sync byte";
+        send_byte(tb_test_data);
+
+        tb_test_data = 8'b11000011;
+        tb_test_stage = "sending pid byte";
+        send_byte(tb_test_data);
+
+        tb_test_data = 8'b11100111;
+        tb_test_stage = "sending first byte";
+        send_byte(tb_test_data);
+
+        tb_test_data = 8'b00000001;
+        tb_test_stage = "sending second byte";
+        send_byte(tb_test_data);
+
+        tb_test_data = 8'b10111111;
+        tb_test_stage = "sending third byte";
+        send_byte(tb_test_data);
+
+        send_bit(1'b0);
+        tb_test_stage = "sending stuff bit";
+
+        tb_test_data = 8'b10000001;
+        tb_test_stage = "sending fourth byte";
+        send_byte(tb_test_data);
+
+        send_bit(1'b1);
+        send_eop();
+        tb_expected_rx_packet               = 3'b011; 
+        tb_expected_packet_done             = 1'b1;
+        tb_expected_r_error                 = 1'b0;
+        check_output("stuff bit case");
+
+        check_fifo(8'b11100111, "nominal data send", 1);
+        check_fifo(8'b00000001, "nominal data send", 2);
+        check_fifo(8'b10111111, "nominal data send", 3);
+        check_fifo(8'b10000001, "nominal data send", 3);
+
+        check_fifo_empty();
+
+        send_idle();
 
 
 
