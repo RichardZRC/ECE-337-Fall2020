@@ -1,4 +1,6 @@
 module eop_detector (
+    input wire clk,
+    input wire n_rst,
     input wire d_plus,
     input wire d_minus,
     output reg eop
