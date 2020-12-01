@@ -686,7 +686,7 @@ module tb_usb_rx ();
         tb_test_stage = "sending second byte";
         send_byte(tb_test_data);
 
-        tb_test_data = 8'b11111100;
+        tb_test_data = 8'b00111111;
         tb_test_stage = "sending third byte with stuff bit";
         send_byte(tb_test_data);
 
@@ -716,7 +716,7 @@ module tb_usb_rx ();
 
         check_fifo(8'b11100111, "stuff bit data send", 1);
         check_fifo(8'b00000010, "stuff bit data send", 2);
-        check_fifo(8'b11111101, "stuff bit data send", 3);
+        check_fifo(8'b10111111, "stuff bit data send", 3);
         check_fifo(8'b10000001, "stuff bit data send", 4);
 
         check_fifo_empty("stuff bit data send");
