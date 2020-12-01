@@ -35,7 +35,7 @@ module timer (
         .clear(clear),
         .count_enable(shift),
         .rollover_val(4'b1000),
-        .count_out(bit_count),
+        .count_out(bit_count1),
         .rollover_flag()
     );
 
