@@ -702,6 +702,9 @@ module tb_usb_rx ();
         tb_expected_packet_done             = 1'b1;
         tb_expected_r_error                 = 1'b0;
         check_output("stuff bit case");
+        send_idle();
+
+        #(NORM_DATA_PERIOD * 6);
 
         check_fifo(8'b11100111, "stuff bit data send", 1);
         check_fifo(8'b00000001, "stuff bit data send", 2);
@@ -710,7 +713,7 @@ module tb_usb_rx ();
 
         check_fifo_empty("stuff bit data send");
 
-        send_idle();
+        
 
 
 
