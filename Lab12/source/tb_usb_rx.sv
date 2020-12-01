@@ -554,7 +554,7 @@ module tb_usb_rx ();
         send_byte(tb_test_data);
 
         tb_test_data = 8'b10000111;
-        tb_test_stage = "sending third byte";
+        tb_test_stage = "sending third incomplete byte";
         send_byte(tb_test_data);
 
         send_bit(1'b1);
@@ -566,7 +566,6 @@ module tb_usb_rx ();
 
         check_fifo(8'b11100111, "premature eop send", 1);
         check_fifo(8'b00000001, "premature eop send", 2);
-        check_fifo(8'b10000111, "premature eop send", 3);
 
         check_fifo_empty("premature eop send");
 
@@ -698,7 +697,6 @@ module tb_usb_rx ();
         tb_test_stage = "sending fourth byte";
         send_byte(tb_test_data);
 
-        send_bit(1'b1);
         send_eop();
         tb_expected_rx_packet               = 3'b011; 
         tb_expected_packet_done             = 1'b1;
@@ -708,7 +706,7 @@ module tb_usb_rx ();
         check_fifo(8'b11100111, "stuff bit data send", 1);
         check_fifo(8'b00000001, "stuff bit data send", 2);
         check_fifo(8'b10111111, "stuff bit data send", 3);
-        check_fifo(8'b10000001, "stuff bit data send", 3);
+        check_fifo(8'b10000001, "stuff bit data send", 4);
 
         check_fifo_empty("stuff bit data send");
 
