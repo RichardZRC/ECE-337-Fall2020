@@ -17,7 +17,6 @@ module shift_register (
 
     typedef enum logic [3:0] { 
         idle,
-        stuff_bit,
         stuff_bit_delay1,
         stuff_bit_delay2,
         stuff_bit_cancel
