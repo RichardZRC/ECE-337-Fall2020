@@ -697,6 +697,14 @@ module tb_usb_rx ();
         tb_test_stage = "sending fourth byte";
         send_byte(tb_test_data);
 
+        tb_test_data = 8'b11110111;
+        tb_test_stage = "sending crc first byte";
+        send_byte(tb_test_data);
+
+        tb_test_data = 8'b01011110;
+        tb_test_stage = "sending crc second byte byte";
+        send_byte(tb_test_data);
+
         send_eop();
         tb_expected_rx_packet               = 3'b011; 
         tb_expected_packet_done             = 1'b1;
