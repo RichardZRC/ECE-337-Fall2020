@@ -229,7 +229,7 @@ module tb_usb_rx ();
         tb_r_enable                         = 1'b0;
 
         // ************************************************************************
-        // Test Case 1: Power on Reset
+        // Test Case 0: Power on Reset
         // ************************************************************************
         tb_test_num += 1;
         tb_test_case = "Power_on_Reset";
@@ -565,6 +565,8 @@ module tb_usb_rx ();
         check_output("premature eop send");
         send_idle();
 
+        //TODO: check fifo
+
         // #(NORM_DATA_PERIOD * 6);
 
         // check_fifo_empty("premature eop send");        
@@ -581,6 +583,8 @@ module tb_usb_rx ();
         tb_test_data = 8'b10000001;
         tb_test_stage = "sending sync byte";
         send_byte(tb_test_data);
+
+        //TODO: check fifo
 
         send_eop();
         tb_expected_rx_packet               = 3'b000; 
