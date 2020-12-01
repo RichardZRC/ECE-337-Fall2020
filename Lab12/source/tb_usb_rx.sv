@@ -715,7 +715,7 @@ module tb_usb_rx ();
         #(NORM_DATA_PERIOD * 6);
 
         check_fifo(8'b11100111, "stuff bit data send", 1);
-        check_fifo(8'b00000001, "stuff bit data send", 2);
+        check_fifo(8'b00000010, "stuff bit data send", 2);
         check_fifo(8'b11111101, "stuff bit data send", 3);
         check_fifo(8'b10000001, "stuff bit data send", 4);
 
