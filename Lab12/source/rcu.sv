@@ -196,7 +196,7 @@ module rcu (
         .clk(clk),
         .n_rst(n_rst),
         .clear(one_byte_pulse),
-        .count_enable(one_byte),
+        .count_enable(1'b1),
         .rollover_val(5'b10000),
         .count_out(clk_count),
         .rollover_flag(bit_flag)
