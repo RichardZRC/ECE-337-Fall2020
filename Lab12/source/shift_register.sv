@@ -14,6 +14,8 @@ module shift_register (
     reg shift_reserve1, shift_reserve2;
     reg cancel;
     wire reg_shift;
+    reg [3:0] bit_count1;
+    reg [4:0] bit_count2;
 
     typedef enum logic [3:0] { 
         idle,
@@ -80,7 +82,7 @@ module shift_register (
         .clear(clear),
         .count_enable(shift_reserve2),
         .rollover_val(4'b1000),
-        .count_out(bit_count),
+        .count_out(bit_count1),
         .rollover_flag(one_byte)
     );
 
@@ -90,7 +92,7 @@ module shift_register (
         .clear(clear),
         .count_enable(shift_reserve2),
         .rollover_val(5'b10000),
-        .count_out(bit_count),
+        .count_out(bit_count2),
         .rollover_flag(two_byte)
     );
 
