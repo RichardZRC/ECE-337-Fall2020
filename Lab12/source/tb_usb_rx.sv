@@ -682,7 +682,7 @@ module tb_usb_rx ();
         tb_test_stage = "sending first byte";
         send_byte(tb_test_data);
 
-        tb_test_data = 8'b00000001;
+        tb_test_data = 8'b00000010;
         tb_test_stage = "sending second byte";
         send_byte(tb_test_data);
 
