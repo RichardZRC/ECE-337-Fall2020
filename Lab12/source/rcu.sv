@@ -44,6 +44,7 @@ module rcu (
     localparam UNSUPPORT = 3'b110;
     localparam STALL = 3'b111;
     reg [2:0] next_rx_packet;
+    reg [3:0] clk_count;
     reg temp_ref_last_bit, ref_last_bit, write_enable_fifo, next_write_enable_fifo, next_one_byte, next_two_byte, bit_flag;
     wire next_store_rx_packet, one_byte_pulse, two_byte_pulse;
 
