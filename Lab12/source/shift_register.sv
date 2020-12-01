@@ -34,12 +34,6 @@ module shift_register (
 
             stuff_bit_delay1: begin
                 if (shift_enable) begin
-                    next_state = stuff_bit_delay2;
-                end
-            end
-
-            stuff_bit_delay2: begin
-                if (shift_enable) begin
                     next_state = stuff_bit_cancel;
                 end
             end
