@@ -85,7 +85,7 @@ module timer (
 
     always_comb begin
         cancel_next = 1'b0;
-        if (CANCEL) begin
+        if (state == CANCEL) begin
             cancel_next = 1'b1;
         end
     end
