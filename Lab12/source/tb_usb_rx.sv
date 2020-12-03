@@ -403,7 +403,7 @@ module tb_usb_rx ();
         check_output("ACK send");
         send_idle();
 
-        check_fifo_empty("OUT token send");
+        check_fifo_empty("ACK token send");
 
         // ************************************************************************
         // Test Case 5: ACK recognization
