@@ -769,8 +769,37 @@ module tb_usb_rx ();
 
         check_fifo_empty("stuff bit data send");
 
+        // ************************************************************************
+        // Test Case 14: STALL packet
+        // ************************************************************************
         
+        #(NORM_DATA_PERIOD * 6);
+        
+        tb_test_num += 1;
+        tb_test_case = "Recognize STALL";
 
+        reset_dut();
+
+        tb_test_data = 8'b10000000;
+        tb_test_stage = "sending sync byte";
+        send_byte(tb_test_data);
+
+        tb_test_data = 8'b00011110;
+        tb_test_stage = "sending pid byte";
+        send_byte(tb_test_data);
+
+        tb_test_data = 8'b11110000;
+        tb_test_stage = "sending random byte";
+        send_byte(tb_test_data);
+
+        send_eop();
+        tb_expected_rx_packet               = 3'b111; 
+        tb_expected_packet_done             = 1'b0;
+        tb_expected_r_error                 = 1'b1;     
+        check_output("STALL send");
+        send_idle();
+
+        check_fifo_empty("STALL send");
 
 
 
