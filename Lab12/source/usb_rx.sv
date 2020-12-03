@@ -9,9 +9,10 @@ module usb_rx (
     output reg store_rx_packet,
     output reg r_error,
     output reg packet_done,
-    output reg data_loaded
+    output reg data_loaded,
+    output reg receiving
 );
-    reg d_plus_sync, d_minus_sync, edge_start, eop, d_orig, shift_enable, stuff_bit, receiving, timer_clear, one_byte, w_enable_buffer, crc_clear, two_byte, one_byte_orig;
+    reg d_plus_sync, d_minus_sync, edge_start, eop, d_orig, shift_enable, stuff_bit, timer_clear, one_byte, w_enable_buffer, crc_clear, two_byte, one_byte_orig;
     reg [15:0] rcv_data;
 
     sync_high sync_high (

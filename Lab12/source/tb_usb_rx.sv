@@ -16,6 +16,7 @@ module tb_usb_rx ();
     reg tb_r_error;
     reg tb_packet_done;
     reg tb_data_loaded;
+    reg tb_receiving
 
     reg tb_next_d_plus;
     reg tb_next_d_minus;
@@ -57,7 +58,8 @@ module tb_usb_rx ();
         .store_rx_packet(tb_store_rx_packet),
         .r_error(tb_r_error),
         .packet_done(tb_packet_done),
-        .data_loaded(tb_data_loaded)
+        .data_loaded(tb_data_loaded),
+        .receiving(tb_receiving)
     );
 
     fifo fifo (
@@ -335,6 +337,8 @@ module tb_usb_rx ();
         tb_expected_r_error                 = 1'b0;
         check_output("IN token send");
         send_idle();
+
+        check_fifo_empty("IN token send");
         
 
         // ************************************************************************
@@ -399,8 +403,41 @@ module tb_usb_rx ();
         check_output("ACK send");
         send_idle();
 
+        check_fifo_empty("OUT token send");
+
         // ************************************************************************
-        // Test Case 5: NACK recognization
+        // Test Case 5: ACK recognization
+        // ************************************************************************
+        #(NORM_DATA_PERIOD * 6);
+        
+        tb_test_num += 1;
+        tb_test_case = "Recognize NACK";
+
+        reset_dut();
+
+        tb_test_data = 8'b10000000;
+        tb_test_stage = "sending sync byte";
+        send_byte(tb_test_data);
+
+        tb_test_data = 8'b11010010;
+        tb_test_stage = "sending pid byte";
+        send_byte(tb_test_data);
+
+        tb_test_data = 8'b11110000;
+        tb_test_stage = "sending random byte";
+        send_byte(tb_test_data);
+
+        send_eop();
+        tb_expected_rx_packet               = 3'b100; 
+        tb_expected_packet_done             = 1'b0;
+        tb_expected_r_error                 = 1'b0;     
+        check_output("ACK send");
+        send_idle();
+
+        check_fifo_empty("ACK send");
+
+        // ************************************************************************
+        // Test Case 6: NACK recognization
         // ************************************************************************
         #(NORM_DATA_PERIOD * 6);
         
@@ -428,8 +465,10 @@ module tb_usb_rx ();
         check_output("NACK send");
         send_idle();
 
+        check_fifo_empty("NACK send");
+
         // ************************************************************************
-        // Test Case 6: Token with invalid address
+        // Test Case 7: Token with invalid address
         // ************************************************************************
         #(NORM_DATA_PERIOD * 6);
         
@@ -461,8 +500,10 @@ module tb_usb_rx ();
         check_output("invalid address IN token send");
         send_idle();
 
+        check_fifo_empty("invalid address token");
+
         // ************************************************************************
-        // Test Case 7: Token with invalid endpoint number
+        // Test Case 8: Token with invalid endpoint number
         // ************************************************************************
         #(NORM_DATA_PERIOD * 6);
         
@@ -493,6 +534,8 @@ module tb_usb_rx ();
         tb_expected_r_error                 = 1'b0;
         check_output("invalid endpoint number IN token send");
         send_idle();
+
+        check_fifo_empty("invalid endpoint number IN token send");
 
         // // ************************************************************************
         // // Test Case 8: Data transfer with too-short data field
@@ -613,6 +656,7 @@ module tb_usb_rx ();
         check_fifo_empty("invalid sync send");
         send_idle();
 
+
         // ************************************************************************
         // Test Case 11: invaid pid byte
         // ************************************************************************
@@ -637,6 +681,8 @@ module tb_usb_rx ();
         check_output("invalid pid send");
         send_idle();
 
+        check_fifo_empty("invalid pid byte");
+
         // ************************************************************************
         // Test Case 12: unsupported pid byte
         // ************************************************************************
@@ -660,6 +706,8 @@ module tb_usb_rx ();
         tb_expected_r_error                 = 1'b0;
         check_output("unsupported pid send");
         send_idle();
+
+        check_fifo_empty("unsupported pid byte");
 
         // ************************************************************************
         // Test Case 13: nominal data transfer with stuff bit
