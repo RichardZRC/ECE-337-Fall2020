@@ -16,7 +16,7 @@ module tb_usb_rx ();
     reg tb_r_error;
     reg tb_packet_done;
     reg tb_data_loaded;
-    reg tb_receiving
+    reg tb_receiving;
 
     reg tb_next_d_plus;
     reg tb_next_d_minus;
