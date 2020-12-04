@@ -1,0 +1,134 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : timer
+Version: K-2015.06-SP1
+Date   : Fri Dec  4 08:58:49 2020
+****************************************
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+  Startpoint: CLK_COUNTER_2/count_out_reg[1]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: BIT_COUNTER_2/count_out_reg[1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  CLK_COUNTER_2/count_out_reg[1]/CLK (DFFSR)              0.00       0.00 r
+  CLK_COUNTER_2/count_out_reg[1]/Q (DFFSR)                0.80       0.80 f
+  CLK_COUNTER_2/count_out[1] (flex_counter_NUM_CNT_BITS4_1)
+                                                          0.00       0.80 f
+  U17/Y (INVX2)                                           0.14       0.94 r
+  U12/Y (NAND3X1)                                         0.12       1.07 f
+  U9/Y (NOR2X1)                                           0.11       1.18 r
+  BIT_COUNTER_2/count_enable (flex_counter_NUM_CNT_BITS4_0)
+                                                          0.00       1.18 r
+  BIT_COUNTER_2/U48/Y (NOR2X1)                            0.39       1.56 f
+  BIT_COUNTER_2/U50/Y (INVX2)                             0.25       1.81 r
+  BIT_COUNTER_2/U40/Y (NAND3X1)                           0.14       1.95 f
+  BIT_COUNTER_2/U49/Y (INVX2)                             0.21       2.16 r
+  BIT_COUNTER_2/U37/Y (AOI21X1)                           0.13       2.29 f
+  BIT_COUNTER_2/U35/Y (OAI21X1)                           0.12       2.41 r
+  BIT_COUNTER_2/count_out_reg[1]/D (DFFSR)                0.00       2.41 r
+  data arrival time                                                  2.41
+
+  clock clk (rise edge)                                   9.00       9.00
+  clock network delay (ideal)                             0.00       9.00
+  BIT_COUNTER_2/count_out_reg[1]/CLK (DFFSR)              0.00       9.00 r
+  library setup time                                     -0.22       8.78
+  data required time                                                 8.78
+  --------------------------------------------------------------------------
+  data required time                                                 8.78
+  data arrival time                                                 -2.41
+  --------------------------------------------------------------------------
+  slack (MET)                                                        6.37
+
+
+1
+ 
+****************************************
+Report : area
+Design : timer
+Version: K-2015.06-SP1
+Date   : Fri Dec  4 08:58:49 2020
+****************************************
+
+Library(s) Used:
+
+    osu05_stdcells (File: /package/eda/cells/OSU/v2.7/synopsys/lib/ami05/osu05_stdcells.db)
+
+Number of ports:                           59
+Number of nets:                           302
+Number of cells:                          260
+Number of combinational cells:            212
+Number of sequential cells:                44
+Number of macros/black boxes:               0
+Number of buf/inv:                         57
+Number of references:                      10
+
+Combinational area:              56979.000000
+Buf/Inv area:                     8208.000000
+Noncombinational area:           33264.000000
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                 90243.000000
+Total area:                 undefined
+1
+Loading db file '/package/eda/cells/OSU/v2.7/synopsys/lib/ami05/osu05_stdcells.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -hier
+        -analysis_effort low
+Design : timer
+Version: K-2015.06-SP1
+Date   : Fri Dec  4 08:58:49 2020
+****************************************
+
+
+Library(s) Used:
+
+    osu05_stdcells (File: /package/eda/cells/OSU/v2.7/synopsys/lib/ami05/osu05_stdcells.db)
+
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 5    
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+--------------------------------------------------------------------------------
+                                       Switch   Int      Leak     Total
+Hierarchy                              Power    Power    Power    Power    %
+--------------------------------------------------------------------------------
+timer                                     0.813    5.844   27.360    6.656 100.0
+  BIT_COUNTER_2 (flex_counter_NUM_CNT_BITS4_0)
+                                       9.33e-02    1.223    6.558    1.317  19.8
+  CLK_COUNTER_2 (flex_counter_NUM_CNT_BITS4_1)
+                                          0.264    1.508    6.558    1.772  26.6
+  BIT_COUNTER (flex_counter_NUM_CNT_BITS4_2)
+                                          0.143    1.278    6.558    1.421  21.4
+  CLK_COUNTER (flex_counter_NUM_CNT_BITS4_3)
+                                          0.264    1.508    6.558    1.772  26.6
+1

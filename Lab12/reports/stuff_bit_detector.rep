@@ -1,0 +1,122 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : stuff_bit_detector
+Version: K-2015.06-SP1
+Date   : Fri Dec  4 08:57:57 2020
+****************************************
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+  Startpoint: BIT_COUNTER/count_out_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: BIT_COUNTER/count_out_reg[2]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  BIT_COUNTER/count_out_reg[0]/CLK (DFFSR)                0.00       0.00 r
+  BIT_COUNTER/count_out_reg[0]/Q (DFFSR)                  0.79       0.79 f
+  BIT_COUNTER/U42/Y (XNOR2X1)                             0.30       1.09 f
+  BIT_COUNTER/U11/Y (INVX2)                               0.09       1.18 r
+  BIT_COUNTER/U40/Y (NAND3X1)                             0.10       1.28 f
+  BIT_COUNTER/U36/Y (NAND2X1)                             0.25       1.53 r
+  BIT_COUNTER/U35/Y (OAI21X1)                             0.16       1.69 f
+  BIT_COUNTER/U28/Y (OAI21X1)                             0.16       1.85 r
+  BIT_COUNTER/U27/Y (OAI21X1)                             0.08       1.93 f
+  BIT_COUNTER/count_out_reg[2]/D (DFFSR)                  0.00       1.93 f
+  data arrival time                                                  1.93
+
+  clock clk (rise edge)                                   9.00       9.00
+  clock network delay (ideal)                             0.00       9.00
+  BIT_COUNTER/count_out_reg[2]/CLK (DFFSR)                0.00       9.00 r
+  library setup time                                     -0.10       8.90
+  data required time                                                 8.90
+  --------------------------------------------------------------------------
+  data required time                                                 8.90
+  data arrival time                                                 -1.93
+  --------------------------------------------------------------------------
+  slack (MET)                                                        6.97
+
+
+1
+ 
+****************************************
+Report : area
+Design : stuff_bit_detector
+Version: K-2015.06-SP1
+Date   : Fri Dec  4 08:57:57 2020
+****************************************
+
+Library(s) Used:
+
+    osu05_stdcells (File: /package/eda/cells/OSU/v2.7/synopsys/lib/ami05/osu05_stdcells.db)
+
+Number of ports:                           17
+Number of nets:                            65
+Number of cells:                           53
+Number of combinational cells:             42
+Number of sequential cells:                10
+Number of macros/black boxes:               0
+Number of buf/inv:                         13
+Number of references:                       4
+
+Combinational area:              10557.000000
+Buf/Inv area:                     1872.000000
+Noncombinational area:            6336.000000
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                 16893.000000
+Total area:                 undefined
+1
+Loading db file '/package/eda/cells/OSU/v2.7/synopsys/lib/ami05/osu05_stdcells.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -hier
+        -analysis_effort low
+Design : stuff_bit_detector
+Version: K-2015.06-SP1
+Date   : Fri Dec  4 08:57:58 2020
+****************************************
+
+
+Library(s) Used:
+
+    osu05_stdcells (File: /package/eda/cells/OSU/v2.7/synopsys/lib/ami05/osu05_stdcells.db)
+
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 5    
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+--------------------------------------------------------------------------------
+                                       Switch   Int      Leak     Total
+Hierarchy                              Power    Power    Power    Power    %
+--------------------------------------------------------------------------------
+stuff_bit_detector                        0.182    1.129    5.154    1.311 100.0
+  BIT_COUNTER (flex_counter_NUM_CNT_BITS3)
+                                          0.160    1.111    4.987    1.271  96.9
+1
