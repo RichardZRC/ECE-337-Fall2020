@@ -273,11 +273,11 @@ CLOCK_PERIOD	:= 9
 
 # Set the default value of the source files for sub modules to be an empty string so that
 # it will only be used if overwritten at invocation
-DEP_SUB_FILES := crc_5bit.sv crc_16bit.sv decoder.sv edge_detector.sv eop_detector.sv flex_counter.sv flex_stp_sr.sv rcu.sv rx_buffer.sv shift_register.sv stuff_bit_detector.sv sync_high.sv sync_low.sv timer.sv
+DEP_SUB_FILES := 
 
 # Set the default value of the main source file to an empty string since it will be
 # overwritten by each rule where it is used anyways
-MAIN_FILE := usb_rx.sv
+MAIN_FILE := 
 
 # Set the module's name to always be the same as the basename of the file
 # (a.k.a. the file name without the file extension)
